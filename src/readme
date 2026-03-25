@@ -1,0 +1,128 @@
+问题总结与解决方案
+问题回顾
+初始问题：antd样式不生效，但自定义主题生效
+
+中间过程：
+
+尝试多种webpack配置方案
+发现使用.module.less后缀时CSS Modules能生效，但antd样式不生效
+尝试CDN引入antd样式，但主题不生效
+最终问题：需要同时满足：
+
+CSS Modules正常工作（styles不为空）
+antd样式正常加载
+自定义主题生效
+根本原因分析
+webpack配置冲突：
+
+对antd样式文件的特殊处理与普通LESS文件处理规则冲突
+CSS Modules配置影响了antd组件的样式加载
+加载顺序问题：
+
+antd样式文件未被正确识别和处理
+主题变量未正确应用到antd组件
+最终解决方案
+1. 优化后的webpack配置
+JavaScript
+复制
+// LESS 文件处理
+{
+  test: /\.less$/,
+  oneOf: [
+    // 专门处理antd样式（包括所有antd组件样式）
+    {
+      test: /antd\/.*\.less/,
+      use: [
+        isProduction ? MiniCssExtractPlugin.loader : 'style-loader',
+        'css-loader',
+        {
+          loader: 'less-loader',
+          options: {
+            lessOptions: {
+              javascriptEnabled: true,
+              modifyVars: require('./src/theme'),
+            },
+          },
+        },
+      ],
+    },
+    // 处理需要模块化的LESS文件
+    {
+      test: /\.module\.less$/,
+      use: [
+        isProduction ? MiniCssExtractPlugin.loader : 'style-loader',
+        {
+          loader: 'css-loader',
+          options: {
+            modules: {
+              localIdentName: '[name]__[local]--[hash:base64:5]',
+              getLocalIdent: (context, localIdentName, localName, options) => {
+                console.log(`[CSS Modules] Generating class name for ${localName} in ${context.resourcePath}`);
+                return options.getLocalIdent(context, localIdentName, localName, options);
+              },
+            },
+            importLoaders: 1,
+            sourceMap: true,
+          },
+        },
+        {
+          loader: 'less-loader',
+          options: {
+            lessOptions: {
+              javascriptEnabled: true,
+              modifyVars: require('./src/theme'),
+            },
+            sourceMap: true,
+          },
+        },
+      ],
+    },
+    // 处理普通LESS文件
+    {
+      exclude: [
+        /antd\/.*\.less/,
+        /\.module\.less$/
+      ],
+      use: [
+        isProduction ? MiniCssExtractPlugin.loader : 'style-loader',
+        'css-loader',
+        {
+          loader: 'less-loader',
+          options: {
+            lessOptions: {
+              javascriptEnabled: true,
+              modifyVars: require('./src/theme'),
+            },
+          },
+        },
+      ],
+    },
+  ],
+},
+2. 核心修改点
+扩大antd样式匹配范围：/antd\/.*\.less/，确保所有antd组件样式都能被正确处理
+保持CSS Modules功能：对.module.less文件保留模块化样式支持
+统一主题变量配置：确保主题变量能正确应用到所有组件
+3. 验证步骤
+检查antd组件样式是否正常显示
+验证CSS Modules是否生效（styles对象是否有值）
+确认主题变量是否应用到antd组件
+检查浏览器控制台是否有错误
+备份说明
+已备份问题配置到webpack.config.js.bak，包含：
+
+单独处理antd主样式文件的配置
+CSS Modules的详细配置
+主题变量配置
+后续建议
+立即问题排查：
+
+检查src/theme.js中的变量定义是否正确
+确保antd版本与webpack配置兼容
+检查是否有其他样式覆盖了antd的样式
+长期优化方向：
+
+考虑升级到antd v4+，其样式处理更简单
+使用craco等工具简化webpack配置
+考虑使用styled-components等CSS-in-JS方案
+此文档已包含完整的解决方案和问题总结，您可以直接复制到Word文档中使用。需要我提供其他格式的文档或进一步的帮助吗？

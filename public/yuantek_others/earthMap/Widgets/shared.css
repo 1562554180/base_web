@@ -1,0 +1,117 @@
+.bmgl-svgPath-svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden
+}
+
+.bmgl-button {
+  display: inline-block;
+  position: relative;
+  background: #303336;
+  border: 1px solid #444;
+  color: #edffff;
+  fill: #edffff;
+  border-radius: 4px;
+  padding: 5px 12px;
+  margin: 2px 3px;
+  cursor: pointer;
+  overflow: hidden;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none
+}
+
+.bmgl-button:focus {
+  color: #fff;
+  fill: #fff;
+  border-color: #ea4;
+  outline: 0
+}
+
+.bmgl-button:hover {
+  color: #fff;
+  fill: #fff;
+  background: #48b;
+  border-color: #aef;
+  box-shadow: 0 0 8px #fff
+}
+
+.bmgl-button:active {
+  color: #000;
+  fill: #000;
+  background: #adf;
+  border-color: #fff;
+  box-shadow: 0 0 8px #fff
+}
+
+.bmgl-button-disabled,
+.bmgl-button-disabled:active,
+.bmgl-button-disabled:focus,
+.bmgl-button-disabled:hover,
+.bmgl-button:disabled {
+  background: #303336;
+  border-color: #444;
+  color: #646464;
+  fill: #646464;
+  box-shadow: none;
+  cursor: default
+}
+
+.bmgl-button option {
+  background-color: #000;
+  color: #eee
+}
+
+.bmgl-button option:disabled {
+  color: #777
+}
+
+.bmgl-button input,
+.bmgl-button label {
+  cursor: pointer
+}
+
+.bmgl-button input {
+  vertical-align: sub
+}
+
+.bmgl-toolbar-button {
+  box-sizing: border-box;
+  width: 32px;
+  height: 32px;
+  border-radius: 14%;
+  padding: 0;
+  vertical-align: middle;
+  z-index: 0
+}
+
+.bmgl-performanceDisplay-defaultContainer {
+  position: absolute;
+  top: 50px;
+  right: 10px;
+  text-align: right
+}
+
+.bmgl-performanceDisplay {
+  background-color: rgba(40, 40, 40, .7);
+  padding: 7px;
+  border-radius: 5px;
+  border: 1px solid #444;
+  font: bold 12px sans-serif
+}
+
+.bmgl-performanceDisplay-fps {
+  color: #e52
+}
+
+.bmgl-performanceDisplay-throttled {
+  color: #a42
+}
+
+.bmgl-performanceDisplay-ms {
+  color: #de3
+}

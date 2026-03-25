@@ -1,0 +1,1 @@
+define(["exports","./defined-30a32f90"],function(e,r){"use strict";var n=function(){try{return"x"in Object.defineProperty({},"x",{})}catch(e){return!1}}(),t=Object.defineProperties;n&&r.defined(t)||(t=function(e){return e});var i=t;e.defineProperties=i});

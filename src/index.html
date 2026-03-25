@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+  <title></title>
+  <script>
+    String.prototype.pxWidth = function(font, type) {
+      var canvas = String.prototype.pxWidth.canvas || (String.prototype.pxWidth.canvas = document.createElement('canvas'));
+      var context = canvas.getContext('2d');
+      const t = type || 'Robot';
+      if (font) {
+        context.font = 'normal ' + font +'px ' + t;
+      }
+      var metrics = context.measureText(this);
+      return metrics.width;
+    }
+  </script>
+  <link rel="icon" href="favicon.png" type="image/x-icon">
+  <link rel="stylesheet" href="/yuantek_others/JSONEditor/jsoneditor.min.css?hashTime">
+  <script type="text/javascript" src="./yuantek_others/data-set.min.js?hashTime"></script>
+  <script type="text/javascript" src="./yuantek_others/iconfont.js?hashTime"></script>
+  <script type="text/javascript" src="./yuantek_others/dependency/echarts.min.js?hashTime"></script>
+  <script type="text/javascript" src="./yuantek_others/dependency/ecStat.min.js?hashTime"></script>
+  <script type="text/javascript" src="./yuantek_others/JSONEditor/jsoneditor.min.js?hashTime"></script>
+  <script type="text/javascript" src="./yuantek_others/bj_web_bulid.js?hashTime"></script>
+  <script type="text/javascript" src="./yuantek_others/globalConfig.js?hashTime"></script>
+  <!-- 预编译 DLL，缩短主包构建时间 -->
+  <script src="/dll/vendor.dll.js"></script>
+</head>
+
+<body>
+  <div id="root"></div>
+  <script>/*Fixing iframe window.innerHeight 0 issue in Safari*/document.body.clientHeight;</script>
+</body>
+
+</html>

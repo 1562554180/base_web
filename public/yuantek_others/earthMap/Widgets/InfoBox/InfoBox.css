@@ -1,0 +1,98 @@
+.bmgl-infoBox {
+  display: block;
+  z-index: 101;
+  position: absolute;
+  top: 12px;
+  right: 82px;
+  width: 40%;
+  max-width: 480px;
+  background: rgba(38, 38, 38, .95);
+  color: #edffff;
+  border: 1px solid #444;
+  border-right: none;
+  border-top-left-radius: 7px;
+  border-bottom-left-radius: 7px;
+  box-shadow: 0 0 10px 1px #000;
+  transform: translate(100%, 0);
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s .2s, opacity .2s ease-in, transform .2s ease-in
+}
+
+.bmgl-infoBox-visible {
+  transform: translate(0, 0);
+  visibility: visible;
+  opacity: 1;
+  transition: opacity .2s ease-out, transform .2s ease-out
+}
+
+.bmgl-infoBox-title {
+  display: block;
+  padding: 5px 30px 5px 25px;
+  background: rgba(84, 84, 84, 1);
+  border-top-left-radius: 7px;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  box-sizing: content-box
+}
+
+.bmgl-infoBox-bodyless .bmgl-infoBox-title {
+  border-radius: 7px
+}
+
+button.bmgl-infoBox-camera {
+  display: block;
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  width: 22px;
+  height: 22px;
+  background: 0 0;
+  border-color: transparent;
+  border-radius: 3px;
+  padding: 0 5px;
+  margin: 0
+}
+
+button.bmgl-infoBox-close {
+  display: block;
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  height: 20px;
+  background: 0 0;
+  border: none;
+  border-radius: 2px;
+  font-weight: 700;
+  font-size: 16px;
+  padding: 0 5px;
+  margin: 0;
+  color: #edffff
+}
+
+button.bmgl-infoBox-close:focus {
+  background: rgba(238, 136, 0, .44);
+  outline: 0
+}
+
+button.bmgl-infoBox-close:hover {
+  background: #888;
+  color: #000
+}
+
+button.bmgl-infoBox-close:active {
+  background: #a00;
+  color: #000
+}
+
+.bmgl-infoBox-bodyless .bmgl-infoBox-iframe {
+  display: none
+}
+
+.bmgl-infoBox-iframe {
+  border: none;
+  width: 100%;
+  width: calc(100% - 2px)
+}

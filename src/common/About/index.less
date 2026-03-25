@@ -1,0 +1,34 @@
+@import '~theme/variables.less';
+
+
+.aboutImg{
+  display: flex;
+  align-items: center;
+  padding-left: 18px;
+  :global {
+    .ant-tag:hover {
+      opacity: 1;
+    }
+  }
+}
+.modalStyle {
+  background: #fff;
+  color: #20437b;
+  margin: 0;
+  padding:6px 20px;
+  border-radius: 6px;
+  margin:5px;
+  p>span {
+    width: 80px;
+    display: inline-block;
+  }
+  :global {
+    .ant-modal-header{
+      background: '#142a4f';
+    }
+    .ant-tag{
+      border:none !important;
+      cursor: default;
+    }
+  }
+}

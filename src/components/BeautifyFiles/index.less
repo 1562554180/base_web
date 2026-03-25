@@ -1,0 +1,27 @@
+@import '~theme/variables.less';
+
+
+.aceEditor {
+  :global{
+    .react-resizable{
+      .react-resizable-handle{
+        background-image: url('.//resizable.png');
+        background-size: 10px 10px;
+      }
+    }
+  }
+}
+
+.timeOptionStyle {
+  :global{
+    .ant-select-dropdown-menu{
+      max-height: 600px !important;
+
+      .ant-select-dropdown-menu-item {
+        padding: 3px 8px;
+        line-height: 14px;
+        font-size: 12px;
+      }
+    }
+  }
+}

@@ -1,0 +1,21 @@
+.elementAdd, .elementDel {
+    position: relative;
+    // padding-right: 3px;
+    // font-size: 18px;
+}
+
+.elementAdd::after {
+    content: '+';
+    position: absolute;
+    top: -6px;
+    right: -6px;
+    font-size: 12px;
+}
+
+.elementDel::after {
+    content: '-';
+    position: absolute;
+    top: -10px;
+    right: -6px;
+    font-size: 18px;
+}
