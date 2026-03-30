@@ -11,14 +11,14 @@
     {
       "ch_name": "连接类型",
       "en_name": "sock_type",
-      "hidden": "0",
+      "hidden": "1",
       "id": "1",
       "is_sorter": "0"
     },
     {
       "ch_name": "对端地址",
       "en_name": "remote_ip",
-      "hidden": "0",
+      "hidden": "1",
       "id": "2",
       "is_search": "1",
       "is_sorter": "1"

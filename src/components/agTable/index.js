@@ -235,6 +235,12 @@ class AgTable extends PureComponent {
     themeName: 'dark',
     rowHeight: 25,       // 行高
     headerHeight: 40,    // 表头高度
+    params: {},          // fetchData 的基础参数
+    fetchData: null,     // 外部传入的数据获取方法
+    isUpdate: false,     // 当改变时触发 fetchData 重新请求
+    dataField: '',       // 回调数据中取数据的字段名，如 'list' 则取 res['list']
+    getData: null,       // 获取数据后的回调，将数据回传给使用者 (data) => void
+  };
   };
 
   constructor(props) {
@@ -249,12 +255,16 @@ class AgTable extends PureComponent {
     this.detailRowHeights = {}; // 存储每个详情行的高度
     this.state = {
       pageSize: props.pageSize,
+      currentPage: 1, // 当前页码
       rowData: this.parseData(props.data),
       localSearchObj: props.searchObj,
       columns: this.initColumns(props.columns),
       boxWidth: 0,
       adjustColumnsVisible: false,
       tempCheckedKeys: null,
+      // 内部排序和搜索状态（用于 fetchData 模式）
+      internalSorter: null, // { field, order } order: 'asc' | 'desc'
+      internalFilters: {}, // 搜索过滤条件
     };
   }
 
@@ -269,7 +279,54 @@ class AgTable extends PureComponent {
   componentDidMount() {
     // 初始化主题名称
     this.prevThemeName = this.props.themeName;
+    // 如果有 fetchData 方法，在组件挂载时调用获取数据
+    const { fetchData } = this.props;
+    if (fetchData && _.isFunction(fetchData)) {
+      this.doFetchData();
+    }
   }
+
+  // 执行 fetchData，合并基础参数和操作参数
+  doFetchData = () => {
+    const { fetchData, params, dataField, getData } = this.props;
+    const { internalSorter, internalFilters, currentPage, pageSize } = this.state;
+
+    if (!fetchData || !_.isFunction(fetchData)) return;
+
+    // 合并参数：基础 params + 搜索条件 + 分页 + 排序（字段名固定）
+    const requestParams = {
+      ...params,
+      ...internalFilters,
+      currentPage,
+      pageSize,
+    };
+
+    // 排序参数（字段名固定，让使用者自己适配）
+    if (internalSorter) {
+      requestParams.order = internalSorter.order;   // 'asc' | 'desc'
+      requestParams.sorter = internalSorter.field;  // 排序字段
+    }
+
+    // fetchData 回调函数，接收接口返回数据
+    fetchData(requestParams, (res) => {
+      if (this._isUnmounted) return;
+
+      // 解析数据：只考虑 res[dataField]，如果 dataField 为空则直接使用 res
+      let newRowData = [];
+      if (dataField && res && res[dataField]) {
+        newRowData = Array.isArray(res[dataField]) ? res[dataField] : [];
+      } else if (Array.isArray(res)) {
+        newRowData = res;
+      }
+
+      this.setState({ rowData: newRowData });
+
+      // 如果有 getData 回调，将数据回传给使用者
+      if (getData && _.isFunction(getData)) {
+        getData(newRowData);
+      }
+    });
+  };
 
   // 根据主题名称获取 AG Grid 主题样式 (v32 使用 CSS 变量)
   getThemeStyle = () => {
@@ -507,6 +564,7 @@ class AgTable extends PureComponent {
     if (this._isUnmounted) return;
 
     const { columns, pageSize, boxWidth } = this.state;
+    const { fetchData } = this.props;
     let newColumns = columns.map((col) => {
       if (col.dataIndex === colId) {
         return { ...col, ...config };
@@ -522,6 +580,19 @@ class AgTable extends PureComponent {
         }
         return col;
       });
+
+      // fetchData 模式：触发排序请求
+      if (fetchData && _.isFunction(fetchData)) {
+        const internalSorter = config.sort ? {
+          field: colId,
+          order: config.sort,
+        } : null;
+
+        this.setState({ internalSorter, columns: newColumns }, () => {
+          this.doFetchData();
+        });
+        return;
+      }
     }
 
     // 如果是隐藏操作，检查是否需要重新计算列宽
@@ -1060,9 +1131,33 @@ class AgTable extends PureComponent {
   // 分页变化
   onPaginationChanged = (event) => {
     if (!event.api) return;
-    const { pageSize } = this.state;
+    const { pageSize, currentPage } = this.state;
+    const { fetchData } = this.props;
     const newPageSize = event.api.paginationGetPageSize();
+    const newCurrentPage = event.api.paginationGetCurrentPage() + 1; // AG Grid 页码从 0 开始
+
+    let pageSizeChanged = false;
+    let pageChanged = false;
+
     if (newPageSize !== pageSize) {
+      pageSizeChanged = true;
+    }
+    if (newCurrentPage !== currentPage) {
+      pageChanged = true;
+    }
+
+    // fetchData 模式：分页变化时重新请求数据
+    if (fetchData && _.isFunction(fetchData) && (pageSizeChanged || pageChanged)) {
+      this.setState({
+        pageSize: newPageSize,
+        currentPage: newCurrentPage,
+      }, () => {
+        this.doFetchData();
+      });
+      return;
+    }
+
+    if (pageSizeChanged) {
       this.setState({ pageSize: newPageSize }); // eslint-disable-line react/no-did-update-set-state
     }
   };
@@ -1078,16 +1173,42 @@ class AgTable extends PureComponent {
   };
 
   handleSearch = () => {
-    const { onSearch } = this.props;
+    const { onSearch, fetchData } = this.props;
     const { localSearchObj } = this.state;
+
+    if (fetchData && _.isFunction(fetchData)) {
+      // fetchData 模式：更新内部搜索状态并重新请求数据
+      this.setState({
+        internalFilters: localSearchObj,
+        currentPage: 1, // 搜索时重置到第一页
+      }, () => {
+        this.doFetchData();
+      });
+    }
+
+    // 同时触发外部回调（兼容旧模式）
     if (onSearch) {
       onSearch(localSearchObj);
     }
   };
 
   handleReset = () => {
-    const { onReset } = this.props;
-    this.setState({ localSearchObj: {} }); // eslint-disable-line react/no-did-update-set-state
+    const { onReset, fetchData } = this.props;
+
+    if (fetchData && _.isFunction(fetchData)) {
+      // fetchData 模式：清空内部搜索状态并重新请求数据
+      this.setState({
+        localSearchObj: {},
+        internalFilters: {},
+        currentPage: 1,
+      }, () => {
+        this.doFetchData();
+      });
+    } else {
+      this.setState({ localSearchObj: {} });
+    }
+
+    // 同时触发外部回调（兼容旧模式）
     if (onReset) {
       onReset();
     }
@@ -1320,11 +1441,17 @@ class AgTable extends PureComponent {
   // 生命周期
   static getDerivedStateFromProps(nextProps, prevState) {
     const newState = {};
-    // 兼容 data 可能是 { list: [] } 格式
-    const newRowData = nextProps.data?.list || nextProps.data || [];
-    if (newRowData !== prevState.rowData && !_.isEqual(newRowData, prevState.rowData)) {
-      newState.rowData = newRowData;
+
+    // 如果有 fetchData，则使用内部数据管理模式，不使用外部 data prop
+    // 只有在没有 fetchData 时，才从 props.data 获取数据
+    if (!nextProps.fetchData) {
+      // 兼容 data 可能是 { list: [] } 格式
+      const newRowData = nextProps.data?.list || nextProps.data || [];
+      if (newRowData !== prevState.rowData && !_.isEqual(newRowData, prevState.rowData)) {
+        newState.rowData = newRowData;
+      }
     }
+
     if (nextProps.searchObj !== prevState.prevSearchObj) {
       newState.localSearchObj = nextProps.searchObj;
       newState.prevSearchObj = nextProps.searchObj;
@@ -1332,16 +1459,34 @@ class AgTable extends PureComponent {
     // columns 变化时重新初始化
     if (nextProps.columns !== prevState.prevPropsColumns) {
       newState.prevPropsColumns = nextProps.columns;
-      // 只有在没有 boxWidth 时才重新初始化（首次加载）
-      if (!prevState.boxWidth) {
-        newState.columns = AgTable.initColumnsStatic(nextProps.columns);
-      }
+      newState.columns = AgTable.initColumnsStatic(nextProps.columns);
+      newState.columnsChanged = true; // 标记 columns 变化，用于 componentDidUpdate 中重新计算列宽
     }
     return Object.keys(newState).length > 0 ? newState : null;
   }
 
-  componentDidUpdate(prevProps) {
-    const { selectedRowKeys, rowKey } = this.props;
+  componentDidUpdate(prevProps, prevState) {
+    const { selectedRowKeys, rowKey, fetchData, isUpdate, params } = this.props;
+    const { columnsChanged, boxWidth, columns } = this.state;
+
+    // columns 变化时重新计算列宽
+    if (columnsChanged && boxWidth) {
+      const newColumns = this.recalculateColumnWidths(columns, boxWidth);
+      this.setState({ columns: newColumns, columnsChanged: false });
+      return; // 等 setState 完成后再处理其他逻辑
+    }
+
+    // isUpdate 变化时触发 fetchData（用于外部触发刷新）
+    if (fetchData && _.isFunction(fetchData) && prevProps.isUpdate !== isUpdate) {
+      this.doFetchData();
+      return;
+    }
+
+    // params 变化时触发 fetchData（用于外部参数变化时刷新）
+    if (fetchData && _.isFunction(fetchData) && !_.isEqual(prevProps.params, params)) {
+      this.doFetchData();
+      return;
+    }
 
     // 同步选中状态（外部传入的 selectedRowKeys 变化时）
     if (prevProps.selectedRowKeys !== selectedRowKeys) {

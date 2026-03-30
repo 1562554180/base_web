@@ -1830,13 +1830,57 @@ export function checkMatrixInnerLink(params, cb) {
 }
 
 const pythonService = 'http://localhost:5000/api'
+
+// 获取 UDP 数据（支持分页、排序、搜索）
 export function getUdpData(params, cb) {
-  const url =`${pythonService}/get_udp_data`;
   return requestWithCallBack({
-    url,
-    method: 'get',
-    // json: true,
-    // body: params,
+    url: `${pythonService}/get_udp_data`,
+    method: 'post',
+    json: true,
+    body: params || {},
+    credentials: 'same-origin',
+  }, null, cb)
+}
+
+// 新增 UDP 数据
+export function addUdpData(params, cb) {
+  return requestWithCallBack({
+    url: `${pythonService}/udp_data`,
+    method: 'post',
+    json: true,
+    body: params || {},
+    credentials: 'same-origin',
+  }, null, cb)
+}
+
+// 更新 UDP 数据
+export function updateUdpData(id, params, cb) {
+  return requestWithCallBack({
+    url: `${pythonService}/udp_data/${id}`,
+    method: 'put',
+    json: true,
+    body: params || {},
+    credentials: 'same-origin',
+  }, null, cb)
+}
+
+// 删除 UDP 数据
+export function deleteUdpData(id, cb) {
+  return requestWithCallBack({
+    url: `${pythonService}/udp_data/${id}`,
+    method: 'delete',
+    json: true,
+    credentials: 'same-origin',
+  }, null, cb)
+}
+
+// 批量删除 UDP 数据
+export function batchDeleteUdpData(ids, cb) {
+  return requestWithCallBack({
+    url: `${pythonService}/udp_data/batch_delete`,
+    method: 'post',
+    json: true,
+    body: { ids },
     credentials: 'same-origin',
   }, null, cb)
 }

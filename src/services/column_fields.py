@@ -10,6 +10,8 @@ CORS(app, resources={r"/api/*": {"origins": "http://localhost:8080"}})
 
 # 配置文件路径
 COLUMNS_CONFIG_FILE = os.path.join(os.path.dirname(__file__), 'columns_config.json')
+# UDP 数据存储文件路径
+UDP_DATA_FILE = os.path.join(os.path.dirname(__file__), 'udp_data.json')
 
 def load_columns_config():
     """加载配置文件"""
@@ -22,6 +24,61 @@ def save_columns_config(config):
     """保存配置文件"""
     with open(COLUMNS_CONFIG_FILE, 'w', encoding='utf-8') as f:
         json.dump(config, f, ensure_ascii=False, indent=2)
+
+def load_udp_data():
+    """加载 UDP 数据"""
+    if os.path.exists(UDP_DATA_FILE):
+        with open(UDP_DATA_FILE, 'r', encoding='utf-8') as f:
+            return json.load(f)
+    return None
+
+def save_udp_data(data):
+    """保存 UDP 数据"""
+    with open(UDP_DATA_FILE, 'w', encoding='utf-8') as f:
+        json.dump(data, f, ensure_ascii=False, indent=2)
+
+def generate_udp_data():
+    """生成模拟 UDP 数据（2000条）"""
+    data_types = ["UDP", "TCP"]
+    sock_types = ["TCP", "UDP"]
+    task_statuses = ["运行中", "已完成", "暂停", "等待中"]
+    other_statuses = ["已启用", "未启用"]
+
+    def generate_random_ip():
+        return f"{random.randint(1, 255)}.{random.randint(0, 255)}.{random.randint(0, 255)}.{random.randint(1, 254)}"
+
+    def generate_random_time(base_time, offset_seconds):
+        new_time = base_time + timedelta(seconds=offset_seconds)
+        return new_time.strftime("%Y-%m-%d %H:%M:%S")
+
+    base_time = datetime.now() - timedelta(minutes=2000)
+
+    generated_data = []
+    for i in range(2000):
+        generated_data.append({
+            "id": i + 1,
+            "data_type": random.choice(data_types),
+            "sock_type": random.choice(sock_types),
+            "remote_ip": generate_random_ip(),
+            "remote_port": str(random.randint(1024, 65535)),
+            "send_ok_pkts": random.randint(100, 10000),
+            "send_fl_pkts": random.randint(0, 50),
+            "send_ok_bytes": random.randint(10000, 5000000),
+            "send_fl_bytes": random.randint(0, 1000),
+            "task_status": random.choice(task_statuses),
+            "update_time": generate_random_time(base_time, i * 30),
+            "other": random.choice(other_statuses),
+            "oper": ""
+        })
+    return generated_data
+
+def get_or_create_udp_data():
+    """获取或创建 UDP 数据"""
+    data = load_udp_data()
+    if data is None:
+        data = generate_udp_data()
+        save_udp_data(data)
+    return data
 
 # 表头配置
 COLUMNS_CONFIG = [
@@ -69,125 +126,263 @@ def get_columns():
     })
 
 
-# 模拟UDP数据
-UDP_DATA = [
-    {
-        "data_type": "UDP",
-        "sock_type": "TCP",
-        "remote_ip": "192.168.1.100",
-        "remote_port": "8080",
-        "send_ok_pkts": 1250,
-        "send_fl_pkts": 3,
-        "send_ok_bytes": 512000,
-        "send_fl_bytes": 128,
-        "task_status": "运行中",
-        "update_time": "2024-03-18 10:30:00",
-        "other": "已启用",
-        "oper": ""
-    },
-    {
-        "data_type": "TCP",
-        "sock_type": "UDP",
-        "remote_ip": "10.0.0.55",
-        "remote_port": "443",
-        "send_ok_pkts": 3580,
-        "send_fl_pkts": 12,
-        "send_ok_bytes": 1024000,
-        "send_fl_bytes": 512,
-        "task_status": "运行中",
-        "update_time": "2024-03-18 10:28:45",
-        "other": "已启用",
-        "oper": ""
-    },
-    {
-        "data_type": "UDP",
-        "sock_type": "TCP",
-        "remote_ip": "172.16.0.20",
-        "remote_port": "9090",
-        "send_ok_pkts": 890,
-        "send_fl_pkts": 0,
-        "send_ok_bytes": 256000,
-        "send_fl_bytes": 0,
-        "task_status": "已完成",
-        "update_time": "2024-03-18 09:15:30",
-        "other": "未启用",
-        "oper": ""
-    },
-    {
-        "data_type": "TCP",
-        "sock_type": "TCP",
-        "remote_ip": "192.168.2.200",
-        "remote_port": "3306",
-        "send_ok_pkts": 5670,
-        "send_fl_pkts": 8,
-        "send_ok_bytes": 2048000,
-        "send_fl_bytes": 256,
-        "task_status": "运行中",
-        "update_time": "2024-03-18 10:31:12",
-        "other": "已启用",
-        "oper": ""
-    },
-    {
-        "data_type": "UDP",
-        "sock_type": "UDP",
-        "remote_ip": "10.10.10.1",
-        "remote_port": "53",
-        "send_ok_pkts": 2400,
-        "send_fl_pkts": 5,
-        "send_ok_bytes": 76800,
-        "send_fl_bytes": 64,
-        "task_status": "暂停",
-        "update_time": "2024-03-18 08:45:00",
-        "other": "已启用",
-        "oper": ""
-    }
-]
-
-
-@app.route('/api/get_udp_data', methods=['GET'])
+@app.route('/api/get_udp_data', methods=['GET', 'POST'])
 def get_udp_data():
     """
-    获取UDP数据接口
-    返回模拟的UDP数据列表
+    获取UDP数据接口（支持分页、排序、搜索）
+
+    GET/POST 参数:
+    - page: 页码（默认1）
+    - pageSize: 每页条数（默认100）
+    - sortField: 排序字段
+    - sortOrder: 排序方向 asc/desc
+    - remote_ip: 搜索条件-对端地址（模糊匹配）
+    - data_type: 搜索条件-数据类型
+    - task_status: 搜索条件-任务状态
     """
-    # 生成2000条模拟数据
-    data_types = ["UDP", "TCP"]
-    sock_types = ["TCP", "UDP"]
-    task_statuses = ["运行中", "已完成", "暂停", "等待中"]
-    other_statuses = ["已启用", "未启用"]
+    # 支持 GET 和 POST 两种方式获取参数
+    if request.method == 'POST':
+        params = request.get_json() or {}
+    else:
+        params = request.args.to_dict()
 
-    def generate_random_ip():
-        return f"{random.randint(1, 255)}.{random.randint(0, 255)}.{random.randint(0, 255)}.{random.randint(1, 254)}"
+    # 分页参数
+    page = int(params.get('page', 1))
+    page_size = int(params.get('pageSize', 100))
 
-    def generate_random_time(base_time, offset_seconds):
-        new_time = base_time + timedelta(seconds=offset_seconds)
-        return new_time.strftime("%Y-%m-%d %H:%M:%S")
+    # 排序参数
+    sort_field = params.get('sortField')
+    sort_order = params.get('sortOrder')  # 'asc' or 'desc'
 
-    base_time = datetime.now() - timedelta(minutes=2000)
+    # 搜索参数
+    search_remote_ip = params.get('remote_ip', '').strip()
+    search_data_type = params.get('data_type', '').strip()
+    search_task_status = params.get('task_status', '').strip()
 
-    generated_data = []
-    for i in range(2000):
-        generated_data.append({
-            "id": i + 1,
-            "data_type": random.choice(data_types),
-            "sock_type": random.choice(sock_types),
-            "remote_ip": generate_random_ip(),
-            "remote_port": str(random.randint(1024, 65535)),
-            "send_ok_pkts": random.randint(100, 10000),
-            "send_fl_pkts": random.randint(0, 50),
-            "send_ok_bytes": random.randint(10000, 5000000),
-            "send_fl_bytes": random.randint(0, 1000),
-            "task_status": random.choice(task_statuses),
-            "update_time": generate_random_time(base_time, i * 30),
-            "other": random.choice(other_statuses),
-            "oper": ""
-        })
+    # 获取数据
+    all_data = get_or_create_udp_data()
+
+    # 搜索过滤
+    filtered_data = all_data
+    if search_remote_ip:
+        filtered_data = [d for d in filtered_data if search_remote_ip in d.get('remote_ip', '')]
+    if search_data_type:
+        filtered_data = [d for d in filtered_data if d.get('data_type') == search_data_type]
+    if search_task_status:
+        filtered_data = [d for d in filtered_data if d.get('task_status') == search_task_status]
+
+    # 排序
+    if sort_field and sort_order:
+        reverse = sort_order == 'desc'
+        # 处理数值类型字段
+        numeric_fields = ['send_ok_pkts', 'send_fl_pkts', 'send_ok_bytes', 'send_fl_bytes', 'remote_port']
+        if sort_field in numeric_fields:
+            filtered_data.sort(key=lambda x: float(x.get(sort_field, 0) or 0), reverse=reverse)
+        else:
+            filtered_data.sort(key=lambda x: str(x.get(sort_field, '') or ''), reverse=reverse)
+
+    # 计算总数
+    total = len(filtered_data)
+
+    # 分页
+    start_idx = (page - 1) * page_size
+    end_idx = start_idx + page_size
+    paged_data = filtered_data[start_idx:end_idx]
 
     return jsonify({
         "code": 0,
         "message": "success",
-        "data": generated_data
+        "data": {
+            "list": paged_data,
+            "total": total,
+            "page": page,
+            "pageSize": page_size
+        }
     })
+
+
+@app.route('/api/udp_data', methods=['POST'])
+def add_udp_data():
+    """
+    新增 UDP 数据
+
+    POST body:
+    - data_type: 数据类型
+    - sock_type: 连接类型
+    - remote_ip: 对端地址
+    - remote_port: 对端端口
+    - send_ok_pkts: 发送成功帧数
+    - send_fl_pkts: 发送失败帧数
+    - send_ok_bytes: 发送成功字节数
+    - send_fl_bytes: 发送失败字节数
+    - task_status: 任务执行状态
+    - other: 空包过滤
+    """
+    try:
+        new_item = request.get_json()
+
+        # 获取现有数据
+        all_data = get_or_create_udp_data()
+
+        # 生成新 ID
+        max_id = max([d['id'] for d in all_data]) if all_data else 0
+        new_item['id'] = max_id + 1
+
+        # 设置更新时间
+        new_item['update_time'] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        new_item['oper'] = ""
+
+        # 添加到数据列表
+        all_data.append(new_item)
+        save_udp_data(all_data)
+
+        return jsonify({
+            "code": 0,
+            "message": "success",
+            "data": new_item
+        })
+    except Exception as e:
+        return jsonify({
+            "code": -1,
+            "message": str(e),
+            "data": None
+        })
+
+
+@app.route('/api/udp_data/<int:item_id>', methods=['PUT'])
+def update_udp_data(item_id):
+    """
+    更新 UDP 数据
+
+    URL 参数:
+    - item_id: 数据项 ID
+
+    POST body: 要更新的字段
+    """
+    try:
+        update_data = request.get_json()
+
+        # 获取现有数据
+        all_data = get_or_create_udp_data()
+
+        # 查找要更新的项
+        item_index = None
+        for i, item in enumerate(all_data):
+            if item['id'] == item_id:
+                item_index = i
+                break
+
+        if item_index is None:
+            return jsonify({
+                "code": -1,
+                "message": f"未找到 ID 为 {item_id} 的数据",
+                "data": None
+            })
+
+        # 更新数据（保留 id 和不可修改的字段）
+        updated_item = {**all_data[item_index], **update_data}
+        updated_item['id'] = item_id  # 确保 ID 不被修改
+        updated_item['update_time'] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+        all_data[item_index] = updated_item
+        save_udp_data(all_data)
+
+        return jsonify({
+            "code": 0,
+            "message": "success",
+            "data": updated_item
+        })
+    except Exception as e:
+        return jsonify({
+            "code": -1,
+            "message": str(e),
+            "data": None
+        })
+
+
+@app.route('/api/udp_data/<int:item_id>', methods=['DELETE'])
+def delete_udp_data(item_id):
+    """
+    删除 UDP 数据
+
+    URL 参数:
+    - item_id: 数据项 ID
+    """
+    try:
+        # 获取现有数据
+        all_data = get_or_create_udp_data()
+
+        # 查找要删除的项
+        item_index = None
+        for i, item in enumerate(all_data):
+            if item['id'] == item_id:
+                item_index = i
+                break
+
+        if item_index is None:
+            return jsonify({
+                "code": -1,
+                "message": f"未找到 ID 为 {item_id} 的数据",
+                "data": None
+            })
+
+        # 删除数据
+        deleted_item = all_data.pop(item_index)
+        save_udp_data(all_data)
+
+        return jsonify({
+            "code": 0,
+            "message": "success",
+            "data": deleted_item
+        })
+    except Exception as e:
+        return jsonify({
+            "code": -1,
+            "message": str(e),
+            "data": None
+        })
+
+
+@app.route('/api/udp_data/batch_delete', methods=['POST'])
+def batch_delete_udp_data():
+    """
+    批量删除 UDP 数据
+
+    POST body:
+    - ids: 要删除的 ID 列表
+    """
+    try:
+        params = request.get_json()
+        ids_to_delete = params.get('ids', [])
+
+        if not ids_to_delete:
+            return jsonify({
+                "code": -1,
+                "message": "请提供要删除的 ID 列表",
+                "data": None
+            })
+
+        # 获取现有数据
+        all_data = get_or_create_udp_data()
+
+        # 过滤掉要删除的数据
+        ids_set = set(ids_to_delete)
+        new_data = [d for d in all_data if d['id'] not in ids_set]
+        deleted_count = len(all_data) - len(new_data)
+
+        save_udp_data(new_data)
+
+        return jsonify({
+            "code": 0,
+            "message": f"成功删除 {deleted_count} 条数据",
+            "data": {"deleted_count": deleted_count}
+        })
+    except Exception as e:
+        return jsonify({
+            "code": -1,
+            "message": str(e),
+            "data": None
+        })
 
 
 @app.route('/api/column_config', methods=['POST'])
