@@ -27,3 +27,6 @@ jsconfig.json
 
 # webpack cache
 .webpack_cache/
+
+# Claude 聊天记录
+.chats/
