@@ -1,6 +1,6 @@
-const qs = require('query-string');
-const _ = require('lodash');
-const config = require('./config');
+import qs from 'query-string';
+import _ from 'lodash';
+import config from './config';
 
 let lastWindowHash = 0;
 let lastPathName = 0;

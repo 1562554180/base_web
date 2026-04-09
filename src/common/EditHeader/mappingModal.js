@@ -15,7 +15,6 @@ class MappingModal extends Component {
       visible: false,
       data: props.data || [],
       ...this.initState(props),
-      showRowKeys: props?.allData?.map(i => i?.key) || [],
       showRows: props?.allData || [],
     };
 
@@ -118,12 +117,8 @@ class MappingModal extends Component {
   }
 
   renderContent = () => {
-    const { isCheckNetControl, allVsatOptions, record, checkSiginalType, siginalList, checkDecType } = this.props;
-    const { data, dataField, showRowKeys=[] } = this.state;
-    const rowSelectionObj = {
-      selectedRowKeys: showRowKeys,
-      onChange: this.onSelectRow,
-    }
+    const { checkSiginalType, checkDecType } = this.props;
+    const { data, dataField } = this.state;
 
     let tableColumns = [];
     if (dataField != "range_relevance") {
@@ -132,34 +127,7 @@ class MappingModal extends Component {
       tableColumns = this.relevanceColumns;
     }
     let commonBoxWidth = 760;
-    if (isCheckNetControl) {
-      const isHaveNetControl = (tableColumns.filter((core) => core.dataIndex === 'isNetControl')).length > 0;
-      if (!isHaveNetControl) {
-        const netControlItem = {
-          title: '是否网控',
-          dataIndex: 'isNetControl',
-          width: 100,
-          render: (t, r, i) => this.renderIsNetControl(t, r, i),
-        }
-        tableColumns.splice(2, 0, netControlItem);
-      }
-      commonBoxWidth = 850;
-    }
-    if (checkSiginalType && !_.isEmpty(checkSiginalType)) {
-      if (checkSiginalType.includes(record.en_name)) {
-        const isHaveRelateSiginal = (tableColumns.filter((core) => core.dataIndex === 'relate_siginal')).length > 0;
-        if (!isHaveRelateSiginal) {
-          const siginalSelectItem = {
-            title: '关联类型',
-            dataIndex: 'relate_siginal',
-            width: 200,
-            render: (t, r, i) => this.renderRelateSiginalSelect(t, r, i, siginalList),
-          }
-          tableColumns.splice(2, 0, siginalSelectItem);
-        }
-        commonBoxWidth = 850;
-      }
-    }
+
     if (checkDecType && !_.isEmpty(checkDecType)) {
       const isHaveCheckDecType = (tableColumns.filter((core) => core.dataIndex === 'relate_dec_type')).length > 0;
       if (!isHaveCheckDecType) {
@@ -177,54 +145,29 @@ class MappingModal extends Component {
       }
       commonBoxWidth = 950;
     }
-    if(!allVsatOptions) {
-      return (
-        <div style={{ padding: '4px 0', width: commonBoxWidth }}>
-          <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 8, padding: '8px 1px' }}>
-            <Button size='small' onClick={this.add}>添加</Button>
-            <Button size='small' onClick={this.onSubmit}>保存</Button>
-          </div>
-          <div style={{margin: '8px 0px'}}>
-            <Table
-              dataSource={data}
-              rowSelection={false}
-              columns={tableColumns}
-              // style={{ height: '680px', width: commonBoxWidth }}
-              height={300}
-              noPager
-            />
-          </div>
+    return (
+      <div style={{ padding: '4px 0', width: commonBoxWidth }}>
+        <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 8, padding: '8px 1px' }}>
+          <Button size='small' onClick={this.add}>添加</Button>
+          <Button size='small' onClick={this.onSubmit}>保存</Button>
         </div>
-      )
-    } else {
-      return (
-        <div style={{ padding: '4px 0', width: commonBoxWidth }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', padding: '8px 1px' }}>
-            {/* <Button size='small' onClick={this.add}>添加</Button> */}
-            <div>勾选显示， 不勾选不显示</div>
-            <Button size='small' onClick={this.onSubmit}>保存</Button>
-          </div>
-          <div style={{margin: '8px 0px'}}>
-            <StandardTable
-              defaultData={allVsatOptions}
-              columns={tableColumns?.filter(i => i.dataIndex !== 'icon' && i.dataIndex !== 'font' && i.dataIndex !== 'color'&& i.dataIndex !== 'id')}
-              // style={{ height: '680px', width: commonBoxWidth }}
-              height={300}
-              // rowSelection={rowSelectionObj}
-              onSelectRow={this.onSelectRow}
-              selectedRowKeys={showRowKeys}
-              rowKey='key'
-              noPager
-            />
-          </div>
+        <div style={{margin: '8px 0px'}}>
+          <Table
+            dataSource={data}
+            rowSelection={false}
+            rowKey='id'
+            columns={tableColumns}
+            // style={{ height: '680px', width: commonBoxWidth }}
+            height={300}
+            noPager
+          />
         </div>
-      )
-    }
-
+      </div>
+    )
   }
 
   onSelectRow = (rowKeys, rows) => {
-    this.setState({showRows: rows, showRowKeys: rowKeys})
+    this.setState({showRows: rows})
   }
 
   updateCheckedStatus = (e) => {
@@ -245,7 +188,8 @@ class MappingModal extends Component {
           <span>
             <Checkbox size='small' onChange={this.updateCheckedStatus} checked={checked} />
             &nbsp;&nbsp;&nbsp;
-          </span>)}
+          </span>
+        )}
         <Popover
           title={title || '映射内容'}
           trigger='click'

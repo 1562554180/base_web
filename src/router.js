@@ -4,6 +4,9 @@ import config from 'utils/config';
 
 let routerDataCache;
 
+// Eager-loaded models for synchronous dynamic loading (exclude .min.js)
+const modelsGlob = import.meta.glob('./models/**/!(*.min).js', { eager: true });
+
 config.productType = 'sat';
 config.isThemeEnabled = true;
 config.isMevilMode = false;
@@ -56,7 +59,7 @@ const dynamicWrapper = (app, models, component) => {
         }
         // eslint-disable-next-line
         if (!_.isUndefined(p) && !_.isUndefined(m))
-        app.model(require(`./models/${p}${m}`).default);
+        app.model(modelsGlob[`./models/${p}${m}.js`].default);
       }
     });
     return props => {
@@ -111,6 +114,7 @@ export const getRouterData = app => {
   const routerConfig = {
     '/': { component: dynamicWrapper(app, [], () => import('./apps/layout')) },
     '/home': { component: dynamicWrapper(app, ['main'], () => import('./apps/home')) },
+    '/form_demo': { component: dynamicWrapper(app, [], () => import('./apps/form_demo')) },
   };
   routerConfig.$ = Object.keys(routerConfig);
   routerConfig.$.sort();

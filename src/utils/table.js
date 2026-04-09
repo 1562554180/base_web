@@ -1,8 +1,13 @@
 import React from 'react';
-import FormItemCreator from 'components/Helper/FormItemCreator';
+import { Input, Checkbox, Select } from 'antd';
 import _ from 'lodash';
 import { l } from './localization';
 import config from './config';
+import { validateValue } from 'utils/form';
+import * as keyboardFilters from 'utils/keyboard';
+import classNames from 'classnames';
+
+const Option = Select.Option;
 
 // [dataIndex, title, width, sort, render, className, editable, fieldType, domHtml]
 function createColumn(item, colOptions, context, formRules, totalWidth) {
@@ -27,16 +32,30 @@ function createColumn(item, colOptions, context, formRules, totalWidth) {
     else col.sorter = true;
   }
   if (editable) {
-    col.render = (t, r) => (
-      <FormItemCreator
-        formRules={formRules}
-        data={r}
-        context={context}
-        defaultValue={t}
-        fieldName={dataIndex || item[4]}
-        item={editable}
-        fieldType={item[7]}
-      />);
+    col.render = (t, r) => {
+      const fieldName = dataIndex || item[4];
+      const disabled = r[fieldName + '_disabled'] === true;
+      const onChange = (v) => {
+        const nv = _.isObject(v) && v.target ? v.target.value : v;
+        if (!formRules) {
+          r[fieldName] = nv;
+          return;
+        }
+        validateValue(nv, r, fieldName, formRules);
+      };
+      if (_.isString(editable) && editable === 'select') {
+        const items = _.isFunction(window[item.items]) ? window[item.items]() : item.items;
+        return (
+          <Select defaultValue={t} onChange={onChange} size="default" style={{ width: '100%' }} disabled={disabled}>
+            {items.map((i) => <Option key={i[0]} value={i[0]}>{i[1]}</Option>)}
+          </Select>
+        );
+      }
+      if (_.isString(editable) && editable === 'checkbox') {
+        return <Checkbox defaultValue={t} onChange={onChange} size="default" disabled={disabled} />;
+      }
+      return <Input defaultValue={t} onChange={onChange} size={config.smallSize ? 'small' : 'default'} disabled={disabled} />;
+    };
   } else if (colOptions) {
     if (colOptions.render) {
       if (colOptions.render[dataIndex] || colOptions.render[item[4]]) {

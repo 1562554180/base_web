@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   // 机器类型 dvb配置
   dvbConfig: {
     // DVB详细状态

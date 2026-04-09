@@ -12,7 +12,8 @@ import qs from 'qs';
 import { isArray, isEmpty, isUndefined } from 'lodash';
 import { importFormRules, mergeFormRules, setValidators } from 'utils/form';
 import { changeTheme } from 'utils/utils';
-import { defaultUserMenu } from 'utils/default_config';
+import defaultConfig from 'utils/default_config';
+const { defaultUserMenu } = defaultConfig;
 
 const { l } = localization;
 
@@ -20,6 +21,7 @@ function addExceptionRouter(acls) {
   acls['/passport/logout'] = { name: 'passport', page: 'true' };
   acls['/exception'] = { name: 'exception', page: 'true' };
   acls['/home'] = { name: 'home', page: 'true' };
+  acls['/form_demo'] = { name: 'form_demo', page: 'true' };
   acls['/companyMode'] = { name: 'companyMode', page: 'true' };
   // acls['/version'] = { name: 'version', page: 'true' };
   acls['/exception/403'] = { name: 'exception', page: 'true' };

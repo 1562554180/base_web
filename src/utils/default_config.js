@@ -1,5 +1,5 @@
 // 页面一些可配置模块的默认配置项，添加是记得加上相关模块的名称
-module.exports = {
+export default {
   // 输出配置模块默认配置项
     defaultOutputMenus: [
         {hidden:'0',id:'1',key:'udpOutPut',label:'UDP输出配置'},

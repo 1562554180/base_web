@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   // 通信网态势默认配置
   "isShowNetStateBtn": "1", // 是否打开态势功能
   "isSendSwitchSiginalToOtherGroup": "0", // 切换网时是否给第三方发送指令

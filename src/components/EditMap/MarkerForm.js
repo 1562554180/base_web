@@ -1,184 +1,158 @@
-import React, { PureComponent } from 'react';
-import { PlusOutlined } from '@ant-design/icons';
-import { Form } from '@ant-design/compatible';
-
-// import '@ant-design/compatible/assets/index.css';
-
-
-import { Row, Col, Button } from 'antd';
+import React, { useState, useEffect, useRef, forwardRef, useImperativeHandle } from 'react';
+import { EditOutlined, SaveOutlined, PlusOutlined } from '@ant-design/icons';
+import { Form, Row, Col, Table, DatePicker, Checkbox, Button } from 'antd';
 import _ from 'lodash';
-import moment from 'moment';
+import dayjs from 'dayjs';
 import AutoSizeDialog from 'components/Dialog';
 import FromItemCreator from 'components/FromItemCreator';
-import { parseJson } from 'utils/utils';
 import { connect } from 'dva';
 import { createSubmitHandler } from 'utils/form';
 
-function getattribute(value) {
-  if(!value) return [];
-  let custom = value.custom;
-  if(_.isString(value.custom)) {
-    custom = parseJson(value.custom, {})
-  }
-  const list = _.keys(custom);
-  const newList = [];
-  list.forEach(item => {
-    if(_.startsWith(item, 'attribute')) {
-      newList.push(item.split('attribute')[1])
-    }
-  });
-  return newList;
+if (!window.polyline_id) {
+  window.polyline_id = dayjs().format('X') * 1;
 }
 
-if(!window.target_id) {
-  window.target_id = moment().format('X') * 1;
-}
+const Targetattrdialog = forwardRef((props, ref) => {
+  const { modaleVisible, handleModalVisible, values = {}, isEdit, updateDrawPolyline, witData, loading, targetConfig } = props;
 
+  const [form] = Form.useForm();
+  const [timeStatus, setTimeStatus] = useState({});
+  const [selectedItem, setSelectedItem] = useState({});
+  const [dataSource] = useState([{ time: '2020-01-21 10:35:46', lng: '114.356', lat: '28.144', id: 36454 }]);
+  const [customFields, setCustomFields] = useState([]);
+  const fieldIdsRef = useRef(0);
 
-@Form.create()
-@connect(({ witData, targetConfig, loading }) => ({
-  witData,
-  loading,
-  targetConfig,
-}))
-export default class Targetattrdialog extends PureComponent {
-  constructor(props) {
-    super(props);
-    const customFields = getattribute(props.values);
-    this.state = {
-      customFields,
-    };
-    this.fieldIds = customFields.length;
-    this.Items = [
-      {label: '名称', field_name: 'name', type: 'input', usedValue: 'name'},
-      {label: '英文名称', field_name: 'ename', type: 'input', usedValue: 'ename'},
-      {label: '经度', field_name: 'lng', type: 'input', usedValue: 'lng', props: {disabled: true}},
-      {label: '纬度', field_name: 'lat', type: 'input', usedValue: 'lat', props: {disabled: true}},
-    ]
-  }
-  
-  usedGetRelationData = (fields, props) => {
-    const { getRelationData, updateRelationData, values } = props;
-    const relationData = getRelationData() || {};
-    const { id, name, notes, type, ...nodeProps } = fields.f;
-    const custom = {};
-    const otherProps = {};
-    let sourceTarget = {};
-    for(const i in nodeProps) {
-      if(i.startsWith('attribute')) {
-        const num = i.split('attribute')[1]
-        custom[i] = nodeProps[i];
-        custom[`value${num}`] = nodeProps[`value${num}`];
-      } else if(!i.startsWith('value')) {
-        otherProps[i] = nodeProps[i]
-      };
-    }
+  const markerItems = [
+    { label: '名称', field_name: 'marker_name', type: 'input', usedValue: 'marker_name' },
+    { label: '英文名称', field_name: 'ename', type: 'input', usedValue: 'ename' },
+    { label: '经度', field_name: 'lng', type: 'input', usedValue: 'lng', props: { disabled: true } },
+    { label: '纬度', field_name: 'lat', type: 'input', usedValue: 'lat', props: { disabled: true } },
+  ];
 
-    (relationData.nodes || []).forEach(item => {
-      if(item.id === values.id) {
-        item.label = name;
-        item.notes = notes;
-        item.custom = custom;
-        item.targetType = type;
-        for(const i in otherProps) {
-          item[i] = otherProps[i];
-        }
-        sourceTarget = item;
+  const Items = [
+    { label: '名称', field_name: 'name', type: 'input', usedValue: 'name' },
+    { label: '颜色', field_name: 'color', type: 'input', usedValue: 'color' },
+    { label: '备注', field_name: 'tags', type: 'textarea', usedValue: 'tags', span: 24 },
+  ];
+
+  const updateTimeStatus = (r, value) => {
+    const id = r.id;
+    setTimeStatus((prev) => {
+      const o = { ...prev };
+      if (value) {
+        o[id] = true;
+      } else {
+        delete o[id];
       }
-    })
-    if(updateRelationData) updateRelationData(relationData, {SerialNumber: sourceTarget.SerialNumber, source_target: sourceTarget})
-  }
-  
-  onOk = (err, fields) => {
-    if(err) return;
-    // const { id, name, notes, type, ...nodeProps } = fields.f;
-    const f = fields.f;
-    const custom = {};
-    const otherProps = {};
-    for(const i in f) {
-      if(i.startsWith('attribute')) {
-        const num = i.split('attribute')[1]
-        custom[i] = f[i];
-        custom[`value${num}`] = f[`value${num}`];
-      } else if(!i.startsWith('value')) {
-        otherProps[i] = f[i]
-      };
+      return o;
+    });
+    setSelectedItem(value ? r : {});
+  };
+
+  const timeRender = (t, r) => {
+    const id = r.id;
+    const edit = timeStatus[id];
+    if (edit) {
+      return (
+        <span>
+          <DatePicker format="YYYY-MM-DD HH:mm:ss" showTime size="small" value={dayjs(selectedItem.time)} onChange={pickerChange} />
+          &nbsp;&nbsp;&nbsp;
+          <SaveOutlined onClick={() => updateTimeStatus(r, false)} />
+        </span>
+      );
     }
-    if(this.props.createMarker) {
-      this.props.handleModalVisible(false)
-      this.props.createMarker({...otherProps, custom, target_id: window.target_id})
-      window.target_id += 1;
+    return (
+      <span>
+        <span>{t}</span>&nbsp;&nbsp;&nbsp;
+        <EditOutlined onClick={() => updateTimeStatus(r, true)} />
+      </span>
+    );
+  };
+
+  const pickerChange = (time) => {
+    setSelectedItem((prev) => ({
+      ...prev,
+      time: dayjs(time).format('YYYY-MM-DD HH:mm:ss'),
+    }));
+  };
+
+  const columns = [
+    { title: '时间', key: 'time', dataIndex: 'time', render: timeRender, width: 200 },
+    { title: '经度', key: 'lng', dataIndex: 'lng', width: 100 },
+    { title: '纬度', key: 'lat', dataIndex: 'lat', width: 100 },
+  ];
+
+  const onOk = (err, fields) => {
+    if (err) return;
+    if (updateDrawPolyline) {
+      updateDrawPolyline(fields.f);
+      handleModalVisible(false);
     }
   };
 
-  addField = () => {
-    this.fieldIds += 1;
-    const { customFields } = this.state;
-    const customs = _.cloneDeep(customFields);
-    customs.push(this.fieldIds)
-    this.setState({
-      customFields: customs,
-    })
-  }
+  const addField = () => {
+    fieldIdsRef.current += 1;
+    setCustomFields((prev) => [...prev, fieldIdsRef.current]);
+  };
 
-  render() {
-    const { customFields } = this.state;
-    const { form, modaleVisible, handleModalVisible, values = {}, isEdit } = this.props;
-    if (!this.submitHandler) {
-      this.submitHandler = createSubmitHandler({
-        form,
-        onSubmit: this.onOk.bind(this),
+  const handleSubmit = () => {
+    form
+      .validateFields()
+      .then((formValues) => {
+        onOk(null, { f: formValues });
       })
-    }
-    let customValue = values.custom || {};
-    if(_.isString(values.custom)) {
-      customValue = parseJson(values.custom, {})
-    }
-    return (
-      <AutoSizeDialog
-        title={isEdit ? '编辑目标' : '创建目标'}
-        visible={modaleVisible}
-        height={800}
-        width={600}
-        maxHeight={800}
-        bodyStyle={{width: 600, height: 700}}
-        onOk={this.submitHandler}
-        onCancel={() => handleModalVisible(false)}
-      >
-        <Form style={{height: 640, overflow: 'auto'}}>
-          <Row type='flex' justify='space-between'>
-            {
-              this.Items.map(item => {
+      .catch((errInfo) => {
+        onOk(errInfo, null);
+      });
+  };
+
+  return (
+    <AutoSizeDialog
+      title={isEdit ? '编辑目标' : '创建目标'}
+      visible={modaleVisible}
+      height={800}
+      width={1200}
+      maxHeight={800}
+      bodyStyle={{ width: 1200, height: 700 }}
+      onOk={handleSubmit}
+      onCancel={() => handleModalVisible(false)}
+    >
+      <span>
+        <Checkbox>作为辅助线</Checkbox>
+        <Checkbox>作为目标轨迹</Checkbox>
+      </span>
+      <Row>
+        <Col span={12}>
+          <Form form={form} style={{ height: 640, overflow: 'auto' }}>
+            <Row type="flex" justify="space-between">
+              {Items.map((item) => {
                 return (
-                  <Col key={item.field_name} span={12}>
-                    <FromItemCreator item={{...item, value: values[item.usedValue], style: {width: 265}}} form={form} />
+                  <Col key={item.field_name} span={item.span || 12}>
+                    <FromItemCreator
+                      item={{
+                        ...item,
+                        value: values[item.usedValue],
+                        style: { width: item.field_name === 'tags' ? 558 : 265 },
+                      }}
+                    />
                   </Col>
-                )
-              })
-            }
-            
-          </Row>
-          {
-            customFields && customFields.map(item => {
-              return (
-                <Row type='flex' justify='space-between' key={item}>
-                  <Col span={12}>
-                    <FromItemCreator item={{field_name: `attribute${item}`, type: 'input', label: `自定义属性${item}`, value: customValue[`attribute${item}`], style: {width: 265}}} form={form} />
-                  </Col>
-                  <Col span={12}>
-                    <FromItemCreator item={{field_name: `value${item}`, type: 'input', label: `自定义值${item}`, value: customValue[`value${item}`], style: {width: 265}}} form={form} />
-                  </Col>
-                </Row>
-              )
-            })
-          }
-          <div span={24} style={{textAlign:'center'}}>
-            <Button type='dashed' style={{width: '80%', margin:'auto'}} onClick={this.addField}>
-              <PlusOutlined /> 自定义属性
-            </Button>
-          </div>
-        </Form>
-      </AutoSizeDialog>
-    );
-  }
-}
+                );
+              })}
+            </Row>
+          </Form>
+        </Col>
+        <Col span={12}>
+          <Table columns={columns} dataSource={dataSource} />
+        </Col>
+      </Row>
+    </AutoSizeDialog>
+  );
+});
+
+Targetattrdialog.displayName = 'Targetattrdialog';
+
+export default connect(({ witData, targetConfig, loading }) => ({
+  witData,
+  loading,
+  targetConfig,
+}))(Targetattrdialog);

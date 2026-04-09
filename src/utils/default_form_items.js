@@ -1,5 +1,5 @@
 // 默认表单配置
-module.exports = {
+export default {
   // DVB参数配置
   defaultDVBConfigParam: [{
     "ch_name": "私人流量(K)",

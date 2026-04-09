@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import { connect } from 'dva';
 import { parseJson, exportDownFileByWeb } from 'utils/utils';
-import { initFormItems } from 'common/utils';
 import { Button, Input, Select, Popconfirm, Checkbox, Tooltip, Upload, message } from 'antd';
 import { v4 as uuidv4 } from 'uuid';
 import _ from 'lodash';
@@ -12,12 +10,9 @@ import DraggableTable from 'components/agTable';
 import AutoSizeDialog from 'components/Dialog';
 import MappingModal from './mappingModal';
 import RelevanceConfigModal from './relevanceConfigModal';
+import VisibleWhenConfigModal from './visibleWhenConfigModal';
 
 
-@connect(({ main }) => ({
-  DVBFormConfig: main.DVBFormConfig || [],
-  TDMAFormConfig: main.TDMAFormConfig || [],
-}))
 class EditHeader extends Component {
   constructor(props) {
     super(props);
@@ -28,8 +23,6 @@ class EditHeader extends Component {
 
       selectedRows: [],
       selectedRowKeys: [],
-      skylinkOptions: [],
-      // vsatName: '1'
     };
     this.numberOptions = [
       { value: 'format', label: '千分位'},
@@ -98,6 +91,7 @@ class EditHeader extends Component {
       { title: 'Options', dataIndex: 'options', width: 150, render: this.renderOptions },
       { title: '默认值', dataIndex: 'default_value', width: 130, render: (t, r, i) => this.renderInput(t, r, i, 'default_value') },
       { title: '依赖字段', dataIndex: 'relevance_field', width: 210, render: this.relevanceConfig },
+      { title: '条件显示', dataIndex: 'visible_when_config', width: 150, render: this.renderVisibleWhenConfig },
       { title: '单位', dataIndex: 'unit', width: 120, render: (t, r, i) => this.renderInput(t, r, i, 'unit') },
       { title: '操作', dataIndex: 'id', width: 100, render: this.renderDeleteBtn, disabled: true},
     ];
@@ -202,170 +196,8 @@ class EditHeader extends Component {
     return result
   }
 
-  getVsatNameHeaders = () => {
-    const { type, updateHeaders } = this.props;
-    const params = {
-      net_id: 1,
-      session_id: 1,
-      Command: "get_column_type_params",
-      params: {
-        type,
-      },
-    }
-    rqHome.dealColumnConfig(params, (res) => {
-      const response = parseJson(res, {})
-      if (response?.code === 0) {
-        const data = parseJson(response.data[type], {});
-        if (_.isUndefined(data.default_field)) {
-          data.default_field = {data: []};
-        }
-        localStorage.setItem(this.props.type, JSON.stringify(data))
-
-        let defaultData = []
-
-
-        // if (data.hasOwnProperty('default_field')) {
-        //   //如果有默认项，初始化就展示默认
-        //   defaultData = data?.default_field?.data || []
-        //   this.setState({ vsatName: '默认' })
-        // } else {
-        //   //过虑先得到有data得，默认展示第一条
-        //   const filterObj = this.filterObjectArray(data)
-        //   const keys = Object.keys(filterObj)
-        //   if (keys.length > 0) {
-        //     defaultData = filterObj?.[`${keys?.[0]}`]?.data || []
-        //     //设置vsat下拉
-        //     this.setState({ vsatName: keys[0] })
-        //   } else {
-        //     const keysAll = Object.keys(data)
-        //     defaultData = filterObj?.[`${keysAll?.[0]}`]?.data || []
-        //     this.setState({ vsatName: keysAll[0] })
-        //   }
-        // }
-
-        if (!_.isUndefined(data.default_field) && (!data[`${this.props.vsatName}`] || data[`${this.props.vsatName}`]?.data?.length < 1)) {
-          // 如果有默认项，初始化就展示默认
-          defaultData = data?.default_field?.data || []
-          this.setState({ vsatName: '默认' })
-        } else {
-          // 过虑先得到有data得，默认展示第一条
-          const filterObj = this.filterObjectArray(data)
-          const keys = Object.keys(filterObj)
-          if (keys.length > 0 && !keys.includes(this.props.vsatName)) {
-            defaultData = filterObj?.[`${keys?.[0]}`]?.data || []
-            // 设置vsat下拉
-            this.setState({ vsatName: keys[0] })
-          } else if(keys.length > 0 && keys.includes(this.props.vsatName)) {
-            defaultData = filterObj?.[`${this.props.vsatName}`]?.data || []
-            // 设置vsat下拉
-            this.setState({ vsatName:this.props.vsatName })
-          } else {
-            const keysAll = Object.keys(data)
-            defaultData = filterObj?.[`${keysAll?.[0]}`]?.data || []
-            this.setState({ vsatName: keysAll[0] })
-          }
-        }
-        const udata = this.initHeaders(defaultData);
-        if (updateHeaders) updateHeaders(udata);
-        this.setState({ data: udata, allVsatData: data });
-      }
-    })
-  }
-
-  renderFilterGainOther = () => {
-    const { DVBFormConfig, TDMAFormConfig } = this.props
-    let dvbFormItems = [];
-    let tdmaFormItems = [];
-    if (!_.isEmpty(DVBFormConfig)) {
-      dvbFormItems = initFormItems(DVBFormConfig)
-    }
-    if (!_.isEmpty(TDMAFormConfig)) {
-      tdmaFormItems = initFormItems(TDMAFormConfig)
-    }
-    const dvbItems = dvbFormItems?.items || []
-    const tdmaItems = tdmaFormItems?.items || []
-    const dvbOptions = dvbItems?.find(i => i.field_name === 'vsat_name')?.options || []
-    const tdmaOptions = tdmaItems?.find(i => i.field_name === 'vsat_name')?.options || []
-    return [...new Set([...dvbOptions, ...tdmaOptions])]
-  }
-
-  getOptionsConfig = () => {
-    const params = {
-      net_id: 1,
-      session_id: 1,
-      Command: "get_column_type_params",
-      params: {
-        type: 'dvb_config_param',
-      },
-    }
-    rqHome.dealColumnConfig(params, (res) => {
-      const data = parseJson(res?.data?.['dvb_config_param'], []);
-      const vsatOptions = parseJson(data?.find(i => i?.en_name === 'vsat_name')?.options, []);
-      if (Array.isArray(vsatOptions)) {
-        const dvbOPtions = vsatOptions?.map(i => i.value)
-        dvbOPtions.push('默认')
-        this.setState({ dvbOPtions })
-      }
-    })
-  }
-
-  getOptionsTdmaConfig = () => {
-    const params = {
-      net_id: 1,
-      session_id: 1,
-      Command: "get_column_type_params",
-      params: {
-        type: 'tdma_config_param',
-      },
-    }
-    rqHome.dealColumnConfig(params, (res) => {
-      const data = res?.data?.['tdma_config_param'] || []
-      const vsatOptions = parseJson(data?.find(i => i?.en_name === 'vsat_name')?.options, []);
-      if (Array.isArray(vsatOptions)) {
-        const tdmaOPtions = vsatOptions?.map(i => i.value)
-        tdmaOPtions.push('默认')
-        this.setState({ tdmaOPtions })
-      }
-    })
-  }
-
-  getOptionsSkylinkConfig = () => {
-    const params = {
-      net_id: 1,
-      session_id: 1,
-      Command: "get_column_type_params",
-      params: {type: 'skylinx_config_param'},
-    }
-    rqHome.dealColumnConfig(params, (res) => {
-      const data = res?.data?.['skylinx_config_param'] || []
-      const vsatOptions = parseJson(data?.find(i => i?.en_name === 'vsat_name')?.options, []);
-      if (Array.isArray(vsatOptions)) {
-        const skylinkOptions = vsatOptions?.map(i => i.value)
-        skylinkOptions.push('默认')
-        this.setState({ skylinkOptions })
-      }
-    })
-  }
-
   componentDidMount() {
-    const { isVsat } = this.props
-    if (!isVsat) {
-      this.getheaders()
-    } else {
-      this.getOptionsConfig()
-      this.getOptionsTdmaConfig()
-      this.getVsatNameHeaders()
-      this.getOptionsSkylinkConfig()
-    }
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    if (!this.props.isVsat) return
-    const { vsatName } = this.props;
-    const { allVsatData } = this.state;
-    if ((prevProps.vsatName !== vsatName) || !_.isEqual(allVsatData, prevState?.allVsatData)) {
-      this.getVsatNameHeaders()
-    }
+    this.getheaders()
   }
 
   renderToFixed = (t, r, i) => {
@@ -388,7 +220,33 @@ class EditHeader extends Component {
   renderRelevanceConfig = (t, r, i, data) => {
     const currentNode = data.filter(j => j.en_name === t)[0] || {};
     const selectedData = parseJson(currentNode.options, [])
-    return <RelevanceConfigModal relevanceNode={currentNode} selectedData={selectedData} disabled={!t} dataField='relevance_config' updateData={(v, type, record) => this.onDefaultValueChange(v, i, record, type)} record={r} />
+    // 获取完整的数据数组，用于级联模式查找依赖链
+    const allFields = this.defaultData || this.state.data || [];
+    return (
+      <RelevanceConfigModal
+        relevanceNode={currentNode}
+        selectedData={selectedData}
+        disabled={!t}
+        dataField='relevance_config'
+        updateData={(v, type, record) => this.onDefaultValueChange(v, i, record, type)}
+        record={r}
+        allFields={allFields}
+      />
+)
+  }
+
+  renderVisibleWhenConfig = (t, r, i) => {
+    const data = this.defaultData || this.state.data || [];
+    // 获取所有可选的字段（排除当前字段）
+    const allFields = data.filter(j => j.en_name !== r.en_name);
+    return (
+      <VisibleWhenConfigModal
+        allFields={allFields}
+        currentField={r.en_name}
+        config={t}
+        updateData={(v) => this.onDefaultValueChange(v, i, r, 'visible_when_config')}
+      />
+    );
   }
 
   getheaders = () => {
@@ -642,8 +500,7 @@ class EditHeader extends Component {
   }
 
   onSubmit = () => {
-    const { isVsat, type, updateHeaders } = this.props
-    const { vsatName } = this.state
+    const { type, updateHeaders } = this.props
     // 使用 defaultData 获取最新的编辑数据
     const data = this.defaultData || this.state.data || [];
     // , propsVsatName, tdmaOPtions = []
@@ -662,99 +519,31 @@ class EditHeader extends Component {
       }
       if (isHasCalc === 1) return message.warning(`${item.ch_name}运算值输入错误`);
     }
-    if (!isVsat) {
-      const cansubmit = this.getEmptyNameIndexes(data)
-      if (cansubmit && cansubmit >= 0) return message.error(`第${cansubmit + 1}有空的中文名或英文名`)
-      const params = {
-        net_id: 1,
-        session_id: 1,
-        Command: "set_column_type_params",
-        params: {
-          type,
-          config: JSON.stringify(data),
-        },
-      }
-      this.handleModalVisible(false)
-      rqHome.dealColumnConfig(params, (res) => {
-        const response = parseJson(res, {})
-        if (response?.code === 0) {
-          message.success("配置存储成功")
-          if (type) {
-            localStorage.removeItem(`pelican-${type}`);
-          }
-          if (updateHeaders) updateHeaders(data)
-        } else {
-          message.error(response?.message || "配置存储失败")
-        }
-      })
-    } else {
-      if (vsatName) {
-        // 保存之前先合并当前编辑页
-        if (vsatName !== '默认') {
-          // lSourceData[`${vsatName}`].data = data
-          const defaultObj = {
-            [`${vsatName}`]: {
-              data,
-            },
-          }
-          Object.assign(lSourceData, defaultObj)
-        } else {
-          // lSourceData[`default_field`].data = data
-          const defaultObj = {
-            default_field: {
-              data,
-            },
-          }
-          Object.assign(lSourceData, defaultObj)
-        }
-      } else {
-        // 走原先默认
-        const defaultObj = {
-          default_field: {
-            data,
-          },
-        }
-        Object.assign(lSourceData, defaultObj)
-        // lSourceData[`default_field`].data = data
-        this.setState({ vsatName: '默认' })
-      }
-      // const noInclude = !tdmaOPtions.includes(this.props.vsatName) || !dvbOPtions.includes(this.props.vsatName)
-      // const noInclude = !tdmaOPtions.includes(this.props.vsatName)
-      // const isEmpty = lSourceData?.[`${this.props.vsatName}`]?.data?.length > 0
-      // const columns = []
-      // if (vsatName !== '默认' && propsVsatName && propsVsatName !== '' && !noInclude && isEmpty) {
-      //   columns = lSourceData?.[`${propsVsatName}`]?.data || []
-      // } else if (vsatName === '默认' && propsVsatName && propsVsatName !== '' && !noInclude && isEmpty) {
-      //   columns = lSourceData?.[`${propsVsatName}`]?.data || []
-      // } else {
-      //   columns = lSourceData?.[`default_field`]?.data || []
-      // }
-      // const middleColumns = this.combineColumns(columns, data);
+    const cansubmit = this.getEmptyNameIndexes(data)
+    if (cansubmit && cansubmit >= 0) return message.error(`第${cansubmit + 1}有空的中文名或英文名`)
 
-      // if (updateHeaders) updateHeaders(middleColumns)
-      const params = {
-        net_id: 1,
-        session_id: 1,
-        Command: "set_column_type_params",
-        params: {
-          type,
-          config: JSON.stringify(lSourceData),
-        },
-      }
-      rqHome.dealColumnConfig(params, (res) => {
-        const response = parseJson(res, {})
-        if (response?.code === 0) {
-          message.success("配置存储成功")
-          if (type) {
-            localStorage.removeItem(`pelican-${type}`);
-          }
-          if (updateHeaders) updateHeaders(data)
-          this.handleModalVisible(false)
-        } else {
-          message.error(response?.message || "配置存储失败")
-        }
-      })
+    const params = {
+      net_id: 1,
+      session_id: 1,
+      Command: "set_column_type_params",
+      params: {
+        type,
+        config: JSON.stringify(lSourceData),
+      },
     }
+    rqHome.dealColumnConfig(params, (res) => {
+      const response = parseJson(res, {})
+      if (response?.code === 0) {
+        message.success("配置存储成功")
+        if (type) {
+          localStorage.removeItem(`pelican-${type}`);
+        }
+        if (updateHeaders) updateHeaders(data)
+        this.handleModalVisible(false)
+      } else {
+        message.error(response?.message || "配置存储失败")
+      }
+    })
   }
 
   moveRow = (list) => {
@@ -839,8 +628,8 @@ class EditHeader extends Component {
   }
 
   renderDialog = () => {
-    const { data, modalVisible, vsatName, tdmaOPtions = [], dvbOPtions = [], skylinkOptions } = this.state;
-    const { modalTitle, title, isVsat, currentNet, hideAdd } = this.props;
+    const { data, modalVisible } = this.state;
+    const { modalTitle, title, hideAdd, columnsType = 'header' } = this.props;
     const uploadProps = {
       name: 'file',
       accept: '.json,application/json',
@@ -850,27 +639,6 @@ class EditHeader extends Component {
       action: rqHome.getUploadJsonFileUrl(),
     };
 
-    // let dvbFormItems = [];
-    // let tdmaFormItems = [];
-    // if (!_.isEmpty(DVBFormConfig)) {
-    //   dvbFormItems = initFormItems(DVBFormConfig)
-    // }
-    // if (!_.isEmpty(TDMAFormConfig)) {
-    //   tdmaFormItems = initFormItems(TDMAFormConfig)
-    // }
-    // const dvbItems = dvbFormItems?.items || []
-    // const tdmaItems = tdmaFormItems?.items || []
-    const wkType = currentNet?.wk_type
-    // const dvbOptions = dvbItems?.find(i => i.field_name === 'vsat_name')?.options?.map(item => item.value) || []
-    // const tdmaOptions = tdmaItems?.find(i => i.field_name === 'vsat_name')?.options?.map(item => item.value) || []
-    let options = []
-    if (wkType === 0) {
-      options = dvbOPtions
-    } else if (String(wkType) === '4') {
-      options = skylinkOptions;
-    } else {
-      options = tdmaOPtions
-    };
     return (
       <AutoSizeDialog
         title={modalTitle || title || ''}
@@ -896,29 +664,13 @@ class EditHeader extends Component {
             &nbsp;&nbsp;&nbsp;
             <Button size='small' onClick={this.getDownLoad}>下载</Button>
           </div>
-          {
-            isVsat && (
-              <div style={{ display: 'flex', alignItems: 'center', marginLeft: '15px' }}>
-                体量：
-                <Select size='small' style={{ width: '150px' }} onChange={this.changeVsat} value={vsatName}>
-                  {
-                    // vsatOptions
-                    options?.map(item => {
-                      // return <Select.Option key={item}>{item}</Select.Option>
-                      return <Select.Option key={item}>{item}</Select.Option>
-                    })
-                  }
-                </Select>
-              </div>
-            )
-          }
         </div>
         <DraggableTable
           data={data}
           columns={this.columns}
           rowKey='id'
           noPager
-          tableKey='custom_edit_table_header'
+          tableKey={'custom_edit_table_header' + columnsType}
           onRowMove={this.moveRow}
           onSelectRow={this.onSelectRow}
           // height='calc(80vh - 44px)'

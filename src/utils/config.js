@@ -16,7 +16,7 @@ const ip = '172.16.10.26';
 
 // const ip = '172.16.10.171';
 
-module.exports = {
+export default {
   prefix: 'pelican',
   publicPath: '/',
   inDebug: true,

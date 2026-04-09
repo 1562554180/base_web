@@ -1,5 +1,5 @@
 
-module.exports = {
+export default {
 	dark: {
     name: 'dark',
     cssVar: true,

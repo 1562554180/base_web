@@ -324,39 +324,153 @@ function getIcon(style, icon) {
   return <Icon style={style} type={icon} />
 }
 
+/**
+ * 将旧格式 relevance_config 的 data 转换为 FormSubmit 需要的 options 格式
+ * 旧格式: {key, value} -> 新格式: {value: key, label: value}
+ */
+function transformRelevanceDataToOptions(data) {
+  if (!Array.isArray(data)) return [];
+  return data.map(item => ({
+    key: item.key,
+    value: item.value || item.label,
+  }));
+}
+
+/**
+ * 解析 visible_when_config 并生成 FormSubmit 的 visibleWhen 条件
+ */
+function parseVisibleWhenConfig(configStr) {
+  if (!configStr) return null;
+  const cfg = parseJson(configStr);
+  if (!cfg || !cfg.dependOn) return null;
+
+  const { dependOn, operator = 'equals', value } = cfg;
+
+  // 根据 operator 生成对应的条件对象
+  switch (operator) {
+    case 'equals':
+      return { field: dependOn, equals: value };
+    case 'notEquals':
+      return { field: dependOn, notEquals: value };
+    case 'in':
+      return { field: dependOn, in: Array.isArray(value) ? value : [value] };
+    case 'notIn':
+      return { field: dependOn, notIn: Array.isArray(value) ? value : [value] };
+    default:
+      return { field: dependOn, equals: value };
+  }
+}
+
+/**
+ * 初始化表单项配置，生成 items 和 linkageConfig
+ * @param {Array} list - 表单项配置列表
+ * @param {Object} formData - 当前表单数据（用于 range_relevance 判断）
+ * @param {Boolean} noFormData - 是否包含隐藏字段
+ * @returns {Object} { items, linkageConfig }
+ */
 export function initFormItems(list, formData, noFormData) {
-  if (!list) return [];
+  if (!list) return { items: [], linkageConfig: { visibleWhen: {}, optionsLinkage: {} } };
+
   const items = [];
+  const linkageConfig = {
+    visibleWhen: {},
+    optionsLinkage: {},
+  };
+
+  // 用于存储依赖关系，构建 optionsLinkage
   const relevanceMapping = {};
   const values = {};
-  const relevanceFields = [];
-  const relationMapping = {};
 
-  const selectItems = list?.filter(i => i.field_type === 'select' && i.relevance_field).sort((a, b) => (a.useCascader || '0').localeCompare(b.useCascader || '0'));
+  // 处理有依赖关系的 select 字段，构建 relevanceMapping 和 linkageConfig.optionsLinkage
+  const selectItems = list?.filter(i => i.field_type === 'select' && i.relevance_field)
+    .sort((a, b) => (a.useCascader || '0').localeCompare(b.useCascader || '0'));
+
   for (const i of selectItems) {
     const field = i.relevance_field;
+    const relevance = parseJson(i.relevance_config);
+
     if (i.useCascader !== '1') {
-      const relevance = parseJson(i.relevance_config)
-      values[field] = _.keys(relevance)[0] || ''
+      // 单级联动
+      values[field] = _.keys(relevance)[0] || '';
       relevanceMapping[i.en_name] = { relevance, relevancefield: field };
+
+      // 构建 optionsLinkage
+      const map = {};
+      for (const key in relevance) {
+        if (relevance[key]?.data) {
+          map[key] = transformRelevanceDataToOptions(relevance[key].data);
+        }
+      }
+
+      linkageConfig.optionsLinkage[i.en_name] = {
+        dependOn: field,
+        separator: '.',
+        clearOnDepChange: true,
+        map,
+      };
     } else {
-      const relevance = parseJson(i.relevance_config)
+      // 多级联动（cascader 模式）
+      // 检查依赖字段是否已经被处理过
       if (relevanceMapping[field]) {
-        const oldfield = relevanceMapping[field].relevancefield
-        const dv = values[oldfield]
+        const oldfield = relevanceMapping[field].relevancefield;
+        const dv = values[oldfield];
         for (const j in relevance) {
           if (j.startsWith(`${dv}&&`)) {
-            values[field] = j.split('&&')[1]
+            values[field] = j.split('&&')[1];
             break;
           }
         }
         relevanceMapping[i.en_name] = { relevance, relevancefield: [oldfield, field] };
+
+        // 构建 optionsLinkage（多级联动使用数组 dependOn）
+        const map = {};
+        for (const key in relevance) {
+          if (relevance[key]?.data) {
+            // 将 && 分隔符转换为 . 分隔符
+            const newKey = key.replace(/&&/g, '.');
+            map[newKey] = transformRelevanceDataToOptions(relevance[key].data);
+          }
+        }
+
+        linkageConfig.optionsLinkage[i.en_name] = {
+          dependOn: [oldfield, field],
+          separator: '.',
+          clearOnDepChange: true,
+          map,
+        };
+      } else {
+        // 如果依赖字段还没处理，可能是数据顺序问题
+        // 尝试从 list 中直接获取依赖字段的配置
+        const depField = list?.find(item => item.en_name === field);
+        if (depField && depField.relevance_field) {
+          // 二级联动：依赖字段本身也有依赖
+          const oldfield = depField.relevance_field;
+          relevanceMapping[i.en_name] = { relevance, relevancefield: [oldfield, field] };
+
+          const map = {};
+          for (const key in relevance) {
+            if (relevance[key]?.data) {
+              const newKey = key.replace(/&&/g, '.');
+              map[newKey] = transformRelevanceDataToOptions(relevance[key].data);
+            }
+          }
+
+          linkageConfig.optionsLinkage[i.en_name] = {
+            dependOn: [oldfield, field],
+            separator: '.',
+            clearOnDepChange: true,
+            map,
+          };
+        }
       }
     }
-    if (!relevanceFields.includes(field)) relevanceFields.push(field)
   }
+
+  // 处理所有表单项
   for (const i of list) {
     if (!i.ch_name || !i.en_name) continue;
+
+    // 处理 range_relevance（旧格式条件显示）
     if (i.range_relevance && i.range_relevance !== '[]') {
       if (!_.isEmpty(formData)) {
         const rangeRelevance = JSON.parse(i.range_relevance);
@@ -371,10 +485,13 @@ export function initFormItems(list, formData, noFormData) {
         i.hidden = '1';
       }
     }
+
     if (i.hidden === '1' && !noFormData) continue;
+
     let _type = 'input';
     if (i.options) _type = 'select';
     if (i.field_type) _type = i.field_type;
+
     const c = {
       label: i.unit ? `${i.ch_name}(${i.unit})` : i.ch_name,
       field_name: i.en_name,
@@ -386,12 +503,13 @@ export function initFormItems(list, formData, noFormData) {
       value: i.default_value || '',
       options: initOptions(i.options, []),
       defaultValue: i.default_value || '',
-    }
+    };
 
     if (_.isUndefined(values[i.en_name]) && i.default_value) {
       values[i.en_name] = i.default_value;
     }
 
+    // text 类型特殊处理（渲染映射）
     if (i.field_type === 'text' && c.options.length > 0) {
       const mapping = {};
       for (const j of c.options) {
@@ -400,61 +518,68 @@ export function initFormItems(list, formData, noFormData) {
           const style = {};
           if (j.color) style.color = j.color;
           if (j.font) style.fontSize = Number(j.font) || 12;
-          mapping[j.key] = getIcon(style, j.icon)
+          mapping[j.key] = getIcon(style, j.icon);
         } else if (j.color) {
-          mapping[j.key] = <span style={{ color: j.color }}>{j.value}</span>
+          mapping[j.key] = <span style={{ color: j.color }}>{j.value}</span>;
         }
       }
-      c.render = (t) => {
-        return mapping[t] || t
-      };
+      c.render = (t) => mapping[t] || t;
     }
 
-    const ulabel = c.label
+    const ulabel = c.label;
     const pxWidth = Math.ceil(ulabel.pxWidth(14));
     c.pxWidth = pxWidth;
+
     if (i.span) {
       c.span = Number(i.span);
     }
+
+    // 处理 visible_when_config（新格式条件显示）
+    if (i.visible_when_config) {
+      const visibleCondition = parseVisibleWhenConfig(i.visible_when_config);
+      if (visibleCondition) {
+        linkageConfig.visibleWhen[i.en_name] = visibleCondition;
+      }
+    }
+
+    // 兼容旧格式 is_relation
     if (i.is_relation === '1') {
       c.is_relation = '1';
-      c.relation = parseJson(i.relation, []);
-      const relation = c.relation;
+      const relation = parseJson(i.relation, []);
       for (const r of relation) {
-        if (!relationMapping[r.key]) {
-          c.hidden = r.value !== values[r.key]
-          relationMapping[r.key] = { [i.en_name]: r.value };
-        } else {
-          c.hidden = r.value !== values[r.key]
-          relationMapping[r.key][i.en_name] = r.value;
-        }
-      };
+        // 将旧格式 relation 转换为 visibleWhen
+        linkageConfig.visibleWhen[i.en_name] = {
+          field: r.key,
+          equals: r.value,
+        };
+        c.hidden = r.value !== values[r.key];
+      }
     }
 
     if (values[i.en_name]) {
       c.value = values[i.en_name];
     }
+
+    // 处理联动字段的 options（从 relevance_config 获取）
     if (i.relevance_field && i.useCascader !== '1') {
       const relevance = relevanceMapping[i.en_name]?.relevance;
       const v = values[i.relevance_field];
-      c.options = relevance && v ? relevance[v].data : [];
+      c.options = relevance && v && relevance[v] ? relevance[v].data : [];
     } else if (i.relevance_field && i.useCascader === '1') {
       const relevance = relevanceMapping[i.en_name]?.relevance;
       const relevancefield = relevanceMapping[i.en_name]?.relevancefield || [];
       const v = relevancefield.map(j => values[j]).join('&&');
-      c.options = relevance && v ? relevance[v]?.data : [];
-      // c.value = c?.options && c?.options[0] ? c?.options[0].key : ''
+      c.options = relevance && v && relevance[v] ? relevance[v].data : [];
     }
+
     if (i.default_value) {
       c.value = i.default_value;
     }
-    if (c.type === 'select' && !c.value) {
-      // c.value = c?.options && c?.options[0] ? c.options[0].key : ''
-    }
+
     items.push(c);
   }
 
-  return { relevanceFields, relevanceMapping, relationMapping, items };
+  return { items, linkageConfig };
 }
 
 export function initFormItemValues(item, columns) {

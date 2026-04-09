@@ -241,7 +241,6 @@ class AgTable extends PureComponent {
     dataField: '',       // 回调数据中取数据的字段名，如 'list' 则取 res['list']
     getData: null,       // 获取数据后的回调，将数据回传给使用者 (data) => void
   };
-  };
 
   constructor(props) {
     super(props);

@@ -1,5 +1,5 @@
 // 主题配置
-module.exports = {
+export default {
   token: {
     'borderRadiusLG': 'none',
     'colorBgLayout': '#19325a',
