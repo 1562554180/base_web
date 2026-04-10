@@ -10,6 +10,16 @@
     border: none !important;
     outline: none !important;
   }
+
+  // 列调整分隔线 - 默认状态显示浅色，hover 时高亮
+  .ag-header-cell-resize::after {
+    background-color: rgba(0, 0, 0, 0.15);
+  }
+
+  .ag-header-cell:hover .ag-header-cell-resize::after,
+  .ag-header-cell-resize:hover::after {
+    background-color: @primary-color;
+  }
 }
 
 // .ag-table-wrapper {
