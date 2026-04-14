@@ -1,11 +1,14 @@
-import { createElement } from 'react';
-import dynamic from 'dva/dynamic';
+import React, { createElement, Suspense } from 'react';
+import { Spin } from 'antd';
 import config from 'utils/config';
 
 let routerDataCache;
 
 // Eager-loaded models for synchronous dynamic loading (exclude .min.js)
 const modelsGlob = import.meta.glob('./models/**/!(*.min).js', { eager: true });
+
+// Lazy-loaded app components (avoid circular dependency with config.js)
+const appsGlob = import.meta.glob('./apps/**/*.js');
 
 config.productType = 'sat';
 config.isThemeEnabled = true;
@@ -37,86 +40,47 @@ const modelNotExisted = (app, model) =>
     return namespace === m.substring(m.lastIndexOf('/') + 1);
   });
 
-// wrapper of dynamic
-const dynamicWrapper = (app, models, component) => {
-  // () => require('module')
-  // transformed by babel-plugin-dynamic-import-node-sync
-  if (component.toString().indexOf('.then(') < 0) {
-    models.forEach(model => {
-      if (modelNotExisted(app, model)) {
-        let p;
-        let m;
+const registerModels = (app, models) => {
+  models.forEach(model => {
+    if (modelNotExisted(app, model)) {
+      let p;
+      let m;
 
-        if (model.substring) {
-          p = 'sat/';
-          m = model;
-        } else if (model[0]) {
-          p = model[0] + '/';
-          m = model[1];
-        } else {
-          p = '';
-          m = model[1];
-        }
-        // eslint-disable-next-line
-        if (!_.isUndefined(p) && !_.isUndefined(m))
+      if (model.substring) {
+        p = 'sat/';
+        m = model;
+      } else if (model[0]) {
+        p = model[0] + '/';
+        m = model[1];
+      } else {
+        p = '';
+        m = model[1];
+      }
+      // eslint-disable-next-line
+      if (!_.isUndefined(p) && !_.isUndefined(m))
         app.model(modelsGlob[`./models/${p}${m}.js`].default);
-      }
-    });
-    return props => {
-      if (!routerDataCache) {
-        routerDataCache = getRouterData(app);
-      }
-      return createElement(component().default, {
-        ...props,
-        routerData: routerDataCache,
-      });
-    };
-  }
-  // () => import('module')
-  return dynamic({
-    app,
-    models: () =>
-      models.filter(model => modelNotExisted(app, model)).map(model => {
-        let p;
-        let m;
-
-        if (model.substring) {
-          p = 'sat/';
-          m = model;
-        } else if (model[0]) {
-          p = model[0] + '/';
-          m = model[1];
-        } else {
-          p = '';
-          m = model[1];
-        }
-
-        return import(`./models/${p}${m}.js`);
-      }),
-    // add routerData prop
-    component: () => {
-      if (!routerDataCache) {
-        routerDataCache = getRouterData(app);
-      }
-      return component().then(raw => {
-        const Component = raw.default || raw;
-        return props =>
-          createElement(Component, {
-            ...props,
-            routerData: routerDataCache,
-          });
-      });
-    },
+    }
   });
+};
+
+const Loading = () => createElement(Spin, { size: 'large', style: { display: 'block', margin: '100px auto' } });
+
+const dynamicWrapper = (app, models, componentLoader) => {
+  registerModels(app, models);
+  const LazyComponent = React.lazy(componentLoader);
+  return props => createElement(Suspense, { fallback: createElement(Loading) },
+    createElement(LazyComponent, { ...props, routerData: routerDataCache })
+  );
 };
 
 export const getRouterData = app => {
   const routerConfig = {
-    '/': { component: dynamicWrapper(app, [], () => import('./apps/layout')) },
-    '/home': { component: dynamicWrapper(app, ['main'], () => import('./apps/home')) },
-    '/form_demo': { component: dynamicWrapper(app, [], () => import('./apps/form_demo')) },
+    '/': { component: dynamicWrapper(app, [], appsGlob['./apps/layout.js']) },
+    '/home': { component: dynamicWrapper(app, ['main'], appsGlob['./apps/home/index.js']) },
+    '/form_demo': { component: dynamicWrapper(app, [], appsGlob['./apps/form_demo/index.js']) },
   };
   routerConfig.$ = Object.keys(routerConfig);
   routerConfig.$.sort();
+  routerDataCache = routerConfig;
   return routerConfig;
 };

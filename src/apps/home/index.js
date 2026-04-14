@@ -28,26 +28,33 @@ export default class HomeIndex extends PureComponent {
   }
 
   componentDidMount() {
-    this.updateHeaders([]);
+    // this.updateHeaders([]);
   }
 
   updateHeaders = (list) => {
     const columns = initColumns(list);
     // 添加操作列
-    const operColumn = columns.find(c => c.dataIndex === 'oper');
-    if (operColumn) {
-      operColumn.render = (text, record) => (
-        <span>
-          <a onClick={() => this.handleEdit(record)}>编辑</a>
-          &nbsp;|&nbsp;
-          <a onClick={() => this.handleDelete(record.id)} style={{ color: '#ff4d4f' }}>删除</a>
-        </span>
-      );
-      operColumn.is_disabled = true;
-      operColumn.fixed = 'right';
-      operColumn.width = 120;
-    }
-    this.setState({ columns });
+    // const operColumn = columns.find(c => c.dataIndex === 'oper');
+    // if (operColumn) {
+    //   operColumn.render = (text, record) => (
+    //     <span>
+    //       <a onClick={() => this.handleEdit(record)}>编辑</a>
+    //       &nbsp;|&nbsp;
+    //       <a onClick={() => this.handleDelete(record.id)} style={{ color: '#ff4d4f' }}>删除</a>
+    //     </span>
+    //   );
+    //   operColumn.is_disabled = true;
+    //   operColumn.fixed = 'right';
+    //   operColumn.width = 120;
+    // }
+    const item = {title: '操作', dataIndex: 'oper', fixed: 'right', width: 120, is_disabled: true, render:  (text, record) => (
+      <span>
+        <a onClick={() => this.handleEdit(record)}>编辑</a>
+        &nbsp;|&nbsp;
+        <a onClick={() => this.handleDelete(record.id)} style={{ color: '#ff4d4f' }}>删除</a>
+      </span>
+    ) }
+    this.setState({ columns: [...columns, item] });
   }
 
   // fetchData 方法 - 供 AgTable 自动调用
@@ -182,12 +189,13 @@ export default class HomeIndex extends PureComponent {
 
   render() {
     const { columns, refreshFlag } = this.state;
+    console.log(columns, 'columns')
     return (
       <Fragment>
         <Card title="UDP数据 (AG Grid)" extra={this.renderExtra()}>
           <AgTable
             height={500}
-            tableKey='udp_show_config'
+            // tableKey='udp_show_config'
             columns={columns}
             fetchData={this.fetchData}
             dataField="list"

@@ -6,7 +6,7 @@ import random
 from datetime import datetime, timedelta
 
 app = Flask(__name__)
-CORS(app, resources={r"/api/*": {"origins": "http://localhost:8080"}})
+CORS(app, resources={r"/api/*": {"origins": ["http://localhost:8080", "http://localhost:8000"]}})
 
 # 配置文件路径
 COLUMNS_CONFIG_FILE = os.path.join(os.path.dirname(__file__), 'columns_config.json')
