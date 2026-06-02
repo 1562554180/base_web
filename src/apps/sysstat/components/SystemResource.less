@@ -1,0 +1,263 @@
+/* 总体概览 */
+.resource-overview {
+  display: flex;
+  gap: var(--spacing-md);
+  margin-bottom: 4px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.overview-block {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.overview-header {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.overview-icon {
+  font-size: 9px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 3px;
+  letter-spacing: 0.5px;
+  font-family: var(--font-mono);
+}
+
+.cpu-icon {
+  background: rgba(59, 130, 246, 0.2);
+  color: #60a5fa;
+  border: 1px solid rgba(59, 130, 246, 0.3);
+}
+
+.mem-icon {
+  background: rgba(34, 197, 94, 0.2);
+  color: #4ade80;
+  border: 1px solid rgba(34, 197, 94, 0.3);
+}
+
+.overview-stat {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.overview-detail {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+}
+
+.overview-label {
+  font-size: 11px;
+  color: var(--text-secondary);
+  font-family: var(--font-system);
+}
+
+.overview-value {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.overview-percent {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.resource-overview .progress-bar {
+  width: 60px;
+  height: 5px;
+}
+
+.overview-divider {
+  width: 1px;
+  background: var(--border-color);
+  margin: 0 2px;
+}
+
+/* 8组件网格 */
+.resource-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 4px;
+}
+
+.resource-cell {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 3px;
+  padding: 3px 4px;
+}
+
+.cell-name {
+  font-size: 10px;
+  color: var(--text-secondary);
+  font-family: var(--font-system);
+  margin-bottom: 2px;
+  text-align: center;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 2px;
+}
+
+.cell-metrics {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.cell-metric {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.metric-label {
+  font-size: 9px;
+  font-weight: 600;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  width: 22px;
+  text-align: center;
+  letter-spacing: 0.3px;
+}
+
+.metric-bar-track {
+  flex: 1;
+  height: 3px;
+  background-color: var(--bg-primary);
+  border-radius: 2px;
+  overflow: hidden;
+  min-width: 0;
+}
+
+.metric-bar-fill {
+  height: 100%;
+  border-radius: 2px;
+  transition: width 0.3s ease;
+}
+
+.metric-bar-fill.cpu-fill {
+  background-color: #60a5fa;
+}
+
+.metric-bar-fill.mem-fill {
+  background-color: #4ade80;
+}
+
+.metric-value {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-primary);
+  width: 32px;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+/* 覆盖全局进度条颜色 */
+.metric-bar-fill.low {
+  opacity: 1;
+}
+.metric-bar-fill.medium {
+  opacity: 1;
+}
+.metric-bar-fill.high {
+  opacity: 1;
+}
+
+/* 数值显示 */
+.value-normal {
+  color: var(--text-primary);
+}
+
+.value-good {
+  color: var(--status-normal);
+}
+
+.value-warning {
+  color: var(--status-warning);
+}
+
+.value-error {
+  color: var(--status-error);
+}
+
+/* 进度条 */
+.progress-bar {
+  width: 100px;
+  height: 6px;
+  background-color: var(--bg-secondary);
+  border-radius: 3px;
+  overflow: hidden;
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: var(--spacing-sm);
+}
+
+.progress-bar-fill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.3s ease;
+}
+
+.progress-bar-fill.low {
+  background-color: var(--status-normal);
+}
+
+.progress-bar-fill.medium {
+  background-color: var(--status-warning);
+}
+
+.progress-bar-fill.high {
+  background-color: var(--status-error);
+}
+
+/* 模块卡片 */
+.module-section {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+}
+
+.module-header {
+  background-color: var(--bg-secondary);
+  padding: 2px 6px;
+  border-bottom: 1px solid var(--border-color);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.module-content {
+  padding: 4px;
+}
+
+/* 响应式 */
+@media (max-width: 1200px) {
+  .resource-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .resource-overview {
+    flex-direction: column;
+    gap: var(--spacing-sm);
+  }
+  .overview-divider {
+    display: none;
+  }
+  .resource-grid {
+    grid-template-columns: 1fr;
+  }
+}
