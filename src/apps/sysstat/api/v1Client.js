@@ -1,33 +1,46 @@
-const BASE_URL = '/api/v1'
+const BASE_URL = '/api/v1';
 
 async function request(path) {
-  const response = await fetch(`${BASE_URL}${path}`)
+  let response;
+  try {
+    response = await fetch(`${BASE_URL}${path}`);
+  } catch (networkErr) {
+    throw new Error(`Network error: ${networkErr.message}`);
+  }
+
   if (!response.ok) {
-    throw new Error(`HTTP ${response.status}: ${response.statusText}`)
+    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
   }
-  const result = await response.json()
+
+  let result;
+  try {
+    result = await response.json();
+  } catch (parseErr) {
+    throw new Error(`Invalid JSON response: ${parseErr.message}`);
+  }
+
   if (!result.success) {
-    throw new Error(result.error || 'Request failed')
+    throw new Error(result.error || 'Request failed');
   }
-  return result.data
+  return result.data;
 }
 
 export function getSystemStatus() {
-  return request('/system/status')
+  return request('/system/status');
 }
 
 export function getCpuModules() {
-  return request('/system/cpu-modules')
+  return request('/system/cpu-modules');
 }
 
 export function getHardwareTopology() {
-  return request('/hardware/topology')
+  return request('/hardware/topology');
 }
 
 export function getHardwarePorts() {
-  return request('/hardware/ports')
+  return request('/hardware/ports');
 }
 
 export function getHardwareCards() {
-  return request('/hardware/cards')
+  return request('/hardware/cards');
 }
