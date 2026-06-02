@@ -1,0 +1,404 @@
+/* 工业控制台风格 - 变量定义 */
+.sysstat-page {
+  /* 背景色 */
+  --bg-primary: #1a1a2e;
+  --bg-secondary: #16213e;
+  --bg-card: #0f0f23;
+  --bg-header: #0a0a1a;
+
+  /* 文字色 */
+  --text-primary: #e0e0e0;
+  --text-secondary: #a0a0a0;
+  --text-muted: #666666;
+
+  /* 状态指示灯颜色 */
+  --status-normal: #00ff88;
+  --status-warning: #ffaa00;
+  --status-error: #ff4444;
+  --status-offline: #666666;
+
+  /* 边框色 */
+  --border-color: #2a2a4a;
+  --border-active: #4a4a7a;
+
+  /* 设备类型颜色 */
+  --device-rf: #3b82f6;
+  --device-matrix: #06b6d4;
+  --device-converter: #8b5cf6;
+  --device-dvb: #22c55e;
+  --device-ad: #f97316;
+
+  /* 字体 */
+  --font-mono: 'Consolas', 'Monaco', 'Courier New', monospace;
+  --font-system: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+  /* 间距 */
+  --spacing-xs: 2px;
+  --spacing-sm: 4px;
+  --spacing-md: 6px;
+  --spacing-lg: 8px;
+  --spacing-xl: 12px;
+}
+
+/* 基础重置 */
+.sysstat-page,
+.sysstat-page * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.sysstat-page {
+  font-family: var(--font-system);
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  line-height: 1.5;
+  font-size: 14px;
+}
+
+/* 布局容器 */
+.sysstat-page .app-container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
+
+.sysstat-page .app-header {
+  background-color: var(--bg-header);
+  padding: 2px var(--spacing-lg);
+  border-bottom: 1px solid var(--border-color);
+  flex-shrink: 0;
+}
+
+.sysstat-page .app-header h1 {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+  letter-spacing: 1px;
+}
+
+/* Tab 导航 */
+.sysstat-page .tab-nav {
+  display: flex;
+  background-color: var(--bg-secondary);
+  border-bottom: 2px solid var(--border-color);
+  flex-shrink: 0;
+}
+
+.sysstat-page .tab-btn {
+  padding: 2px var(--spacing-lg);
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -2px;
+}
+
+.sysstat-page .tab-btn:hover {
+  color: var(--text-primary);
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.sysstat-page .tab-btn.active {
+  color: var(--status-normal);
+  border-bottom-color: var(--status-normal);
+  background-color: rgba(0, 255, 136, 0.1);
+}
+
+/* Tab 内容区 */
+.sysstat-page .tab-content {
+  flex: 1;
+  padding: var(--spacing-sm);
+  overflow: auto;
+  min-height: 0;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.sysstat-page .tab-content::-webkit-scrollbar {
+  display: none;
+}
+
+/* 模块卡片 */
+.sysstat-page .module-section {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+}
+
+.sysstat-page .module-header {
+  background-color: var(--bg-secondary);
+  padding: 2px 6px;
+  border-bottom: 1px solid var(--border-color);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.sysstat-page .module-content {
+  padding: 4px;
+}
+
+/* 数据表格 */
+.sysstat-page .data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  table-layout: fixed;
+  white-space: nowrap;
+}
+
+.sysstat-page .data-table th,
+.sysstat-page .data-table td {
+  padding: var(--spacing-xs) var(--spacing-sm);
+  text-align: left;
+  border-bottom: 1px solid var(--border-color);
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sysstat-page .data-table th {
+  color: var(--text-secondary);
+  font-weight: 500;
+  font-family: var(--font-system);
+  width: 100px;
+}
+
+.sysstat-page .data-table td {
+  color: var(--text-primary);
+}
+
+.sysstat-page .data-table tr:last-child td {
+  border-bottom: none;
+}
+
+/* 表格滚动容器 */
+.sysstat-page .table-scroll {
+  overflow-x: auto;
+  max-width: 100%;
+}
+
+/* 连接信息行 */
+.sysstat-page .connection-list {
+  display: inline;
+  white-space: nowrap;
+}
+
+.sysstat-page .connection-item {
+  display: inline-block;
+  margin-right: 8px;
+}
+
+/* 状态指示灯 */
+.sysstat-page .status-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.sysstat-page .status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.sysstat-page .status-dot.normal {
+  background-color: var(--status-normal);
+  box-shadow: 0 0 6px var(--status-normal);
+}
+
+.sysstat-page .status-dot.warning {
+  background-color: var(--status-warning);
+  box-shadow: 0 0 6px var(--status-warning);
+}
+
+.sysstat-page .status-dot.error {
+  background-color: var(--status-error);
+  box-shadow: 0 0 6px var(--status-error);
+}
+
+.sysstat-page .status-dot.offline {
+  background-color: var(--status-offline);
+}
+
+/* 网格布局 - 系统状态用 4 列 grid，8个CPU模块 + 其他 */
+.sysstat-page .grid-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--spacing-md);
+  align-items: stretch;
+}
+
+/* 模块卡片在 grid 内取消固定宽度 */
+.sysstat-page .grid-container > .module-section,
+.sysstat-page .grid-container > .device-timesync-section {
+  width: auto;
+  min-width: 0;
+  height: 100%;
+}
+
+/* 8个业务组件 - 第1-2行 */
+.sysstat-page .grid-area-inboundLink     { grid-column: 1; grid-row: 1; }
+.sysstat-page .grid-area-outboundLink    { grid-column: 2; grid-row: 1; }
+.sysstat-page .grid-area-authControl     { grid-column: 3; grid-row: 1; }
+.sysstat-page .grid-area-adCollection    { grid-column: 4; grid-row: 1; }
+.sysstat-page .grid-area-middleware      { grid-column: 1; grid-row: 2; }
+.sysstat-page .grid-area-controlCenter   { grid-column: 2; grid-row: 2; }
+.sysstat-page .grid-area-dataOutput      { grid-column: 3; grid-row: 2; }
+.sysstat-page .grid-area-dvbCollection   { grid-column: 4; grid-row: 2; }
+
+/* 其他模块 - 第3行 */
+.sysstat-page .grid-area-device-timesync { grid-column: 1; grid-row: 3; align-self: stretch; }
+.sysstat-page .grid-area-memory   { grid-column: 2; grid-row: 3; align-self: stretch; }
+.sysstat-page .grid-area-network  { grid-column: 3; grid-row: 3; align-self: stretch; }
+.sysstat-page .grid-area-disk     { grid-column: 4; grid-row: 3; align-self: stretch; }
+
+/* 紧凑布局 */
+.sysstat-page .dense-table {
+  font-size: 11px;
+}
+
+.sysstat-page .dense-table th,
+.sysstat-page .dense-table td {
+  padding: 2px var(--spacing-xs);
+}
+
+/* 模块卡片固定宽度（非 grid 场景） */
+.sysstat-page .module-section {
+  width: calc(25% - var(--spacing-md));
+  min-width: 200px;
+  margin-bottom: var(--spacing-md);
+}
+
+@media (max-width: 1400px) {
+  .sysstat-page .module-section {
+    width: calc(33.333% - var(--spacing-md));
+  }
+  .sysstat-page .grid-container {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .sysstat-page .grid-area-inboundLink   { grid-column: 1; grid-row: auto; }
+  .sysstat-page .grid-area-outboundLink  { grid-column: 2; grid-row: auto; }
+  .sysstat-page .grid-area-authControl   { grid-column: 3; grid-row: auto; }
+  .sysstat-page .grid-area-adCollection  { grid-column: 1; grid-row: auto; }
+  .sysstat-page .grid-area-middleware    { grid-column: 2; grid-row: auto; }
+  .sysstat-page .grid-area-controlCenter { grid-column: 3; grid-row: auto; }
+  .sysstat-page .grid-area-dataOutput    { grid-column: 1; grid-row: auto; }
+  .sysstat-page .grid-area-dvbCollection { grid-column: 2; grid-row: auto; }
+  .sysstat-page .grid-area-device-timesync,
+  .sysstat-page .grid-area-memory,
+  .sysstat-page .grid-area-network,
+  .sysstat-page .grid-area-disk {
+    grid-column: auto;
+    grid-row: auto;
+  }
+}
+
+@media (max-width: 1000px) {
+  .sysstat-page .module-section {
+    width: calc(50% - var(--spacing-md));
+  }
+  .sysstat-page .grid-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .sysstat-page .grid-area-inboundLink,
+  .sysstat-page .grid-area-outboundLink,
+  .sysstat-page .grid-area-authControl,
+  .sysstat-page .grid-area-adCollection,
+  .sysstat-page .grid-area-middleware,
+  .sysstat-page .grid-area-controlCenter,
+  .sysstat-page .grid-area-dataOutput,
+  .sysstat-page .grid-area-dvbCollection,
+  .sysstat-page .grid-area-device-timesync,
+  .sysstat-page .grid-area-memory,
+  .sysstat-page .grid-area-network,
+  .sysstat-page .grid-area-disk {
+    grid-column: auto;
+    grid-row: auto;
+  }
+}
+
+@media (max-width: 600px) {
+  .sysstat-page .module-section {
+    width: 100%;
+  }
+  .sysstat-page .grid-container {
+    grid-template-columns: 1fr;
+  }
+  .sysstat-page .grid-area-inboundLink,
+  .sysstat-page .grid-area-outboundLink,
+  .sysstat-page .grid-area-authControl,
+  .sysstat-page .grid-area-adCollection,
+  .sysstat-page .grid-area-middleware,
+  .sysstat-page .grid-area-controlCenter,
+  .sysstat-page .grid-area-dataOutput,
+  .sysstat-page .grid-area-dvbCollection,
+  .sysstat-page .grid-area-device-timesync,
+  .sysstat-page .grid-area-memory,
+  .sysstat-page .grid-area-network,
+  .sysstat-page .grid-area-disk {
+    grid-column: 1;
+    grid-row: auto;
+  }
+}
+
+/* 拓扑图全宽 */
+.sysstat-page .module-section.full-width {
+  width: 100%;
+}
+
+/* 数值显示 */
+.sysstat-page .value-normal {
+  color: var(--text-primary);
+}
+
+.sysstat-page .value-good {
+  color: var(--status-normal);
+}
+
+.sysstat-page .value-warning {
+  color: var(--status-warning);
+}
+
+.sysstat-page .value-error {
+  color: var(--status-error);
+}
+
+/* 进度条 */
+.sysstat-page .progress-bar {
+  width: 100px;
+  height: 6px;
+  background-color: var(--bg-secondary);
+  border-radius: 3px;
+  overflow: hidden;
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: var(--spacing-sm);
+}
+
+.sysstat-page .progress-bar-fill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.3s ease;
+}
+
+.sysstat-page .progress-bar-fill.low {
+  background-color: var(--status-normal);
+}
+
+.sysstat-page .progress-bar-fill.medium {
+  background-color: var(--status-warning);
+}
+
+.sysstat-page .progress-bar-fill.high {
+  background-color: var(--status-error);
+}
