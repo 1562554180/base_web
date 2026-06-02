@@ -143,6 +143,9 @@ importers:
       css-minimizer-webpack-plugin:
         specifier: ^7.0.4
         version: 7.0.4(webpack@5.88.0)
+      dagre:
+        specifier: ^0.8.5
+        version: 0.8.5
       dayjs:
         specifier: ^1.11.20
         version: 1.11.20
