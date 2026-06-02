@@ -78,6 +78,7 @@ export const getRouterData = app => {
     '/': { component: dynamicWrapper(app, [], appsGlob['./apps/layout.js']) },
     '/home': { component: dynamicWrapper(app, ['main'], appsGlob['./apps/home/index.js']) },
     '/form_demo': { component: dynamicWrapper(app, [], appsGlob['./apps/form_demo/index.js']) },
+    '/sysstat': { component: dynamicWrapper(app, [], appsGlob['./apps/sysstat/index.js']) },
   };
   routerConfig.$ = Object.keys(routerConfig);
   routerConfig.$.sort();
