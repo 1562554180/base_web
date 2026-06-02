@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Redirect } from 'react-router-dom';
+import { Route, Redirect } from 'dva/router';
 import config from 'utils/config';
 import Authorized from './Authorized';
 

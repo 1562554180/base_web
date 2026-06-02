@@ -132,28 +132,17 @@ export default defineConfig({
         ],
       },
     }),
-    federation({
-      name: 'antdShell',
-      filename: 'remoteEntry.js',
-      remotes: {
-        home: {
-          type: 'module',
-          name: 'home',
-          entry: 'http://localhost:3001/remoteEntry.js',
-          shareScope: 'default',
-        },
-        about: {
-          type: 'module',
-          name: 'about',
-          entry: '/remotes/about/remoteEntry.js',
-          shareScope: 'default',
-        },
-      },
-      shared: {
-        react: { singleton: true, eager: true, requiredVersion: '17.0.2' },
-        'react-dom': { singleton: true, eager: true, requiredVersion: '17.0.2' },
-      },
-    }),
+    // Temporarily disable module federation in Vite mode to avoid runtime
+    // remote plugin incompatibility causing blank screen.
+    // federation({
+    //   name: 'antdShell',
+    //   filename: 'remoteEntry.js',
+    //   remotes: {},
+    //   shared: {
+    //     react: { singleton: true, eager: true, requiredVersion: '17.0.2' },
+    //     'react-dom': { singleton: true, eager: true, requiredVersion: '17.0.2' },
+    //   },
+    // }),
   ],
 
   resolve: {
@@ -185,6 +174,8 @@ export default defineConfig({
       '@ant-design/compatible/es/mention/index.js': path.resolve(__dirname, 'src/utils/antd-compatible-mention-shim.js'),
       '@ant-design/compatible/es/mention': path.resolve(__dirname, 'src/utils/antd-compatible-mention-shim.js'),
       '@ant-design/compatible/node_modules/rc-util/es/warning.js': path.resolve(__dirname, 'src/utils/rc-util-warning-shim.js'),
+      // Module Federation dts plugin subpath fallback (vite optimizeDeps compatibility)
+      '@module-federation/dts-plugin/dynamic-remote-type-hints-plugin': path.resolve(__dirname, 'src/utils/mf-dts-dynamic-remote-type-hints-shim.js'),
       // Node.js polyfills
       os: path.resolve(__dirname, 'node_modules/os-browserify/browser.js'),
     },

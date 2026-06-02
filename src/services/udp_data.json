@@ -30058,5 +30058,35 @@
     "id": 2004,
     "update_time": "2026-04-10 11:57:44",
     "oper": ""
+  },
+  {
+    "data_type": "UDP",
+    "sock_type": "TCP",
+    "remote_ip": "39.169.83.106",
+    "remote_port": "62946",
+    "send_ok_pkts": 9094,
+    "send_fl_pkts": 23,
+    "send_ok_bytes": 512656,
+    "send_fl_bytes": 468,
+    "task_status": "运行中",
+    "other": "已启用",
+    "id": 2005,
+    "update_time": "2026-04-22 21:18:20",
+    "oper": ""
+  },
+  {
+    "data_type": "UDP",
+    "sock_type": "TCP",
+    "remote_ip": "253.72.64.80",
+    "remote_port": "46768",
+    "send_ok_pkts": 8995,
+    "send_fl_pkts": 13,
+    "send_ok_bytes": 2983289,
+    "send_fl_bytes": 612,
+    "task_status": "运行中",
+    "other": "已启用",
+    "id": 2006,
+    "update_time": "2026-04-22 21:18:26",
+    "oper": ""
   }
 ]

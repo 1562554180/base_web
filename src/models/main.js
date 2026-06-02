@@ -470,6 +470,7 @@ export default {
         newState.selectedTheme = changeTheme(config.selectedTheme);
         config.selectedTheme = newState.selectedTheme;
       }
+      newState.themeName = newState.themeName || config.selectedTheme || 'dark';
       if (settings.enableHeaderNav) newState.hasHeader = settings.enableHeaderNav;
       if (isUndefined(settings.hideHeader)) newState.hasHeader = !settings.hideHeader;
       newState.inited = true;

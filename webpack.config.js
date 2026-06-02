@@ -167,9 +167,9 @@ module.exports = (env, argv) => {
         remotes: {
           // 这里根据子应用的 webpack ModuleFederation 配置来写
           // home 仍然从开发服务器加载（端口 3001）
-          home: 'home@http://localhost:3001/remoteEntry.js',
+          // home: 'home@http://localhost:3001/remoteEntry.js',
           // about 从主应用的 public 目录加载（不需要单独的服务器）
-          about: 'about@/remotes/about/remoteEntry.js',
+          // about: 'about@/remotes/about/remoteEntry.js',
         },
         shared: {
           react: {

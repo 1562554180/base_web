@@ -263,7 +263,7 @@ class EditHeader extends Component {
       let data = defaultColumns;
       if (response?.code === 0) {
         data = parseJson(response.data, defaultColumns);
-        if (data.length === 0) {
+        if (_.isEmpty(data)) {
           data = defaultColumns;
         }
       }

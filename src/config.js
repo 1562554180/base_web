@@ -53,18 +53,23 @@ function AppWrapper({ children }) {
 // 主题 Provider 组件
 function ThemeProvider({ children }) {
   const [themeName, setThemeNameState] = React.useState(getInitialThemeName());
+  const lastThemeRef = React.useRef(themeName);
 
   const setTheme = React.useCallback((name) => {
+    if (!name || name === lastThemeRef.current) return;
+    lastThemeRef.current = name;
     setStorageData('theme', name);
     setThemeNameState(name);
     // 更新 body 背景色
     document.body.style.background = themes[name]?.custom?.layoutBg || themes.dark.custom.layoutBg;
-    // 同步更新 dva store 中的 themeName
     if (config.store) {
-      config.store.dispatch({
-        type: 'main/updateState',
-        payload: { themeName: name },
-      });
+      const currentTheme = config.store.getState?.().main?.themeName;
+      if (currentTheme !== name) {
+        config.store.dispatch({
+          type: 'main/updateState',
+          payload: { themeName: name },
+        });
+      }
     }
   }, []);
 
@@ -73,13 +78,13 @@ function ThemeProvider({ children }) {
   // 初始化时设置 body 背景色并同步到 store
   React.useEffect(() => {
     document.body.style.background = theme.custom.layoutBg;
-    // 初始化时同步主题到 store
-    if (config.store && themeName) {
+    if (config.store && config.store.getState?.().main?.themeName !== themeName) {
       config.store.dispatch({
         type: 'main/updateState',
         payload: { themeName },
       });
     }
+    lastThemeRef.current = themeName;
   }, [theme, themeName]);
 
   return (

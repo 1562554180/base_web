@@ -33,6 +33,7 @@ export default class HomeIndex extends PureComponent {
 
   updateHeaders = (list) => {
     const columns = initColumns(list);
+    console.log(list, 12333)
     // 添加操作列
     // const operColumn = columns.find(c => c.dataIndex === 'oper');
     // if (operColumn) {
@@ -189,7 +190,6 @@ export default class HomeIndex extends PureComponent {
 
   render() {
     const { columns, refreshFlag } = this.state;
-    console.log(columns, 'columns')
     return (
       <Fragment>
         <Card title="UDP数据 (AG Grid)" extra={this.renderExtra()}>

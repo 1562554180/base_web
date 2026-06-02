@@ -158,9 +158,10 @@ const DetailRowRenderer = (props) => {
   const heightRef = React.useRef(0);
 
   React.useEffect(() => {
-    if (!containerRef.current || !onHeightChange) return;
+    const ResizeObserverImpl = typeof window !== 'undefined' ? window.ResizeObserver : null;
+    if (!containerRef.current || !onHeightChange || !ResizeObserverImpl) return;
 
-    const resizeObserver = new window.ResizeObserver((entries) => {
+    const resizeObserver = new ResizeObserverImpl((entries) => {
       for (const entry of entries) {
         const height = entry.contentRect.height;
         // 只有高度变化超过 1px 时才通知更新，避免频繁触发
@@ -252,12 +253,22 @@ class AgTable extends PureComponent {
     this.selectedRowIds = new Set(props.selectedRowKeys || []); // 存储选中行的 ID
     this.expandedRowIds = new Set(); // 存储展开行的 ID
     this.detailRowHeights = {}; // 存储每个详情行的高度
+    this.cachedDisplayRowData = null;
+    this.cachedDisplayRowDataSource = null;
+    this.cachedExpandedRowDataKey = '';
+    this.cachedThemeName = null;
+    this.cachedThemeStyle = null;
+    this.cachedColumnDefs = null;
+    this.cachedColumnDefsKey = '';
+    this.cachedDefaultColDef = null;
+    this.cachedDefaultColDefKey = '';
     this.state = {
       pageSize: props.pageSize,
       currentPage: 1, // 当前页码
       rowData: this.parseData(props.data),
       localSearchObj: props.searchObj,
       columns: this.initColumns(props.columns),
+      prevColumnsKey: AgTable.getColumnsCompareKey(props.columns),
       boxWidth: 0,
       adjustColumnsVisible: false,
       tempCheckedKeys: null,
@@ -267,13 +278,18 @@ class AgTable extends PureComponent {
     };
   }
 
-  // 解析数据，兼容 { list: [] } 格式和数组格式
+  // 解析数据，兼容数组、{ list: [] }、{ data: [] } 等格式
   parseData = (data) => {
+    return AgTable.parseDataStatic(data);
+  };
+
+  static parseDataStatic(data) {
     if (!data) return [];
     if (Array.isArray(data)) return data;
-    if (data.list && Array.isArray(data.list)) return data.list;
+    if (Array.isArray(data.list)) return data.list;
+    if (Array.isArray(data.data)) return data.data;
     return [];
-  };
+  }
 
   componentDidMount() {
     // 初始化主题名称
@@ -310,12 +326,23 @@ class AgTable extends PureComponent {
     fetchData(requestParams, (res) => {
       if (this._isUnmounted) return;
 
-      // 解析数据：只考虑 res[dataField]，如果 dataField 为空则直接使用 res
+      // 解析数据：优先读取 dataField，其次兼容常见的 list/data 结构，最后回退到数组本身
       let newRowData = [];
-      if (dataField && res && res[dataField]) {
-        newRowData = Array.isArray(res[dataField]) ? res[dataField] : [];
+      if (dataField && res && res[dataField] !== undefined) {
+        const fieldData = res[dataField];
+        if (Array.isArray(fieldData)) {
+          newRowData = fieldData;
+        } else if (fieldData && Array.isArray(fieldData.list)) {
+          newRowData = fieldData.list;
+        } else if (fieldData && Array.isArray(fieldData.data)) {
+          newRowData = fieldData.data;
+        }
       } else if (Array.isArray(res)) {
         newRowData = res;
+      } else if (res && Array.isArray(res.list)) {
+        newRowData = res.list;
+      } else if (res && Array.isArray(res.data)) {
+        newRowData = res.data;
       }
 
       this.setState({ rowData: newRowData });
@@ -331,9 +358,14 @@ class AgTable extends PureComponent {
   getThemeStyle = () => {
     const { themeName } = this.props;
 
+    if (this.cachedThemeName === themeName && this.cachedThemeStyle) {
+      return this.cachedThemeStyle;
+    }
+
     // 科技黑主题
     if (themeName === 'techBlack') {
-      return {
+      this.cachedThemeName = themeName;
+      this.cachedThemeStyle = {
         '--ag-accent-color': '#214e85',
         '--ag-background-color': '#201f2b',
         '--ag-foreground-color': '#89cad8',
@@ -350,11 +382,12 @@ class AgTable extends PureComponent {
         '--ag-focus-border-color': 'transparent',
         colorScheme: 'dark',
       };
+      return this.cachedThemeStyle;
     }
 
     const isDark = themeName === 'dark';
-
-    return isDark ? {
+    this.cachedThemeName = themeName;
+    this.cachedThemeStyle = isDark ? {
       // 深色主题
       '--ag-accent-color': '#1890FF',
       '--ag-background-color': '#19325a',
@@ -389,6 +422,7 @@ class AgTable extends PureComponent {
       '--ag-focus-border-color': 'transparent',  // 去掉 focus 边框
       colorScheme: 'light',
     };
+    return this.cachedThemeStyle;
   }
 
   componentWillUnmount() {
@@ -514,7 +548,7 @@ class AgTable extends PureComponent {
     }, () => {
       // 保存列配置到本地存储
       if (this.tableKey && !_.isEmpty(newColumns)) {
-        setStorageData(this.tableKey, JSON.stringify({ columns: newColumns, pageSize }));
+        setStorageData(this.tableKey, JSON.stringify({ version: 1, columns: newColumns, pageSize }));
       }
     });
   };
@@ -523,11 +557,18 @@ class AgTable extends PureComponent {
   loadColumnState = () => {
     if (!this.tableKey) return null;
     const configStr = getStorageData(this.tableKey);
-    if (configStr) {
-      const config = parseJson(configStr, {});
-      return config.columnState || config.columns;
-    }
-    return null;
+    if (!configStr) return null;
+
+    const config = parseJson(configStr, {});
+    const savedColumns = Array.isArray(config.columns)
+      ? config.columns
+      : Array.isArray(config.columnState)
+        ? config.columnState
+        : null;
+
+    if (!Array.isArray(savedColumns)) return null;
+
+    return savedColumns;
   };
 
   // 保存列状态
@@ -554,7 +595,7 @@ class AgTable extends PureComponent {
         }
       });
 
-      setStorageData(this.tableKey, JSON.stringify({ columns, pageSize }));
+      setStorageData(this.tableKey, JSON.stringify({ version: 1, columns, pageSize }));
     }
   };
 
@@ -602,7 +643,7 @@ class AgTable extends PureComponent {
     this.setState({ columns: newColumns }, () => {
       if (this._isUnmounted) return;
       if (this.tableKey) {
-        setStorageData(this.tableKey, JSON.stringify({ columns: newColumns, pageSize }));
+        setStorageData(this.tableKey, JSON.stringify({ version: 1, columns: newColumns, pageSize }));
       }
     });
   };
@@ -695,7 +736,7 @@ class AgTable extends PureComponent {
     }, () => {
       if (this._isUnmounted) return;
       if (this.tableKey) {
-        setStorageData(this.tableKey, JSON.stringify({ columns: newColumns, pageSize }));
+        setStorageData(this.tableKey, JSON.stringify({ version: 1, columns: newColumns, pageSize }));
       }
     });
   }
@@ -743,6 +784,30 @@ class AgTable extends PureComponent {
 
     if (_.isEmpty(columns)) return [];
 
+    const cacheKey = JSON.stringify({
+      columns: columns.map(col => [
+        col.dataIndex,
+        col.width,
+        col.hidden,
+        col.fixed,
+        col.sort,
+        col.dataType,
+        col.is_disabled,
+        col.sorter,
+        col.minWidth,
+        col.maxWidth,
+      ]),
+      enableColumnDrag,
+      enableRowDrag,
+      rowSelectionType,
+      hasSelection: !!onSelectRow,
+      hasExpanded: !!expandedRowRender,
+    });
+
+    if (this.cachedColumnDefs && this.cachedColumnDefsKey === cacheKey) {
+      return this.cachedColumnDefs;
+    }
+
     const defs = [];
     const isRadio = rowSelectionType === 'radio';
 
@@ -781,8 +846,7 @@ class AgTable extends PureComponent {
 
     // 2. 添加选择列（仅 radio 模式需要手动创建，checkbox 模式由 AG Grid 自动创建）
     if (onSelectRow && isRadio) {
-      console.log(1)
-      const selectorCol = {
+        const selectorCol = {
         field: '__selector__',
         headerName: '',
         width: 40,
@@ -817,9 +881,7 @@ class AgTable extends PureComponent {
 
     // 2.5 v32: checkbox 模式需要手动添加 checkbox 列
     if (onSelectRow && !isRadio) {
-      console.log(2)
-
-      defs.push({
+        defs.push({
         field: '__checkbox__',
         headerName: '',
         width: 40,
@@ -951,16 +1013,26 @@ class AgTable extends PureComponent {
       return def;
     });
 
-    return [...defs, ...columnDefs];
+    this.cachedColumnDefs = [...defs, ...columnDefs];
+    this.cachedColumnDefsKey = cacheKey;
+    return this.cachedColumnDefs;
   };
 
   // 默认列配置
-  getDefaultColDef = () => ({
-    resizable: true,
-    sortable: true,
-    filter: true,
-    minWidth: 50,
-  });
+  getDefaultColDef = () => {
+    const cacheKey = 'default-v1';
+    if (this.cachedDefaultColDef && this.cachedDefaultColDefKey === cacheKey) {
+      return this.cachedDefaultColDef;
+    }
+    this.cachedDefaultColDef = {
+      resizable: true,
+      sortable: true,
+      filter: true,
+      minWidth: 50,
+    };
+    this.cachedDefaultColDefKey = cacheKey;
+    return this.cachedDefaultColDef;
+  };
 
   // 行选择配置 (v32 使用字符串模式)
   getRowSelection = () => {
@@ -973,12 +1045,14 @@ class AgTable extends PureComponent {
 
   // 处理选择变化 - 兼容 Antd Table 的 onSelectRow
   onSelectionChanged = (event) => {
-    const { onSelectRow, onSelectOneRow, onSelectAll, onSelectInvert, rowKey } = this.props;
-    const selectedRows = event.api.getSelectedRows();
-    const selectedRowKeys = selectedRows.map(row => {
-      if (_.isFunction(rowKey)) return rowKey(row);
-      return row[rowKey];
-    });
+    const { onSelectRow, rowKey } = this.props;
+    const selectedRows = event.api.getSelectedRows().filter(row => !row?.__isDetailRow__);
+    const selectedRowKeys = selectedRows
+      .map((row) => {
+        if (_.isFunction(rowKey)) return rowKey(row);
+        return row?.[rowKey];
+      })
+      .filter(key => key !== undefined && key !== null && key !== '');
 
     // 保存选中状态到实例
     this.selectedRowIds = new Set(selectedRowKeys);
@@ -992,7 +1066,7 @@ class AgTable extends PureComponent {
   // 处理行点击 - 兼容 Antd Table 的 onRowClick
   onRowClicked = (event) => {
     const { onRowClick } = this.props;
-    if (onRowClick) {
+    if (onRowClick && event?.data && !event.data.__isDetailRow__) {
       // Antd: onRowClick(record, index)
       onRowClick(event.data, event.node?.rowIndex);
     }
@@ -1001,7 +1075,7 @@ class AgTable extends PureComponent {
   // 处理行双击 - 兼容 Antd Table 的 onRowDoubleClick
   onRowDoubleClicked = (event) => {
     const { onRowDoubleClick } = this.props;
-    if (onRowDoubleClick) {
+    if (onRowDoubleClick && event?.data && !event.data.__isDetailRow__) {
       // Antd: onRowDoubleClick(record, index)
       onRowDoubleClick(event.data, event.node?.rowIndex);
     }
@@ -1013,7 +1087,9 @@ class AgTable extends PureComponent {
     if (onRowMove) {
       const newRowData = [];
       event.api.forEachNode((node) => {
-        newRowData.push(node.data);
+        if (node.data && !node.data.__isDetailRow__) {
+          newRowData.push(node.data);
+        }
       });
       onRowMove(newRowData);
     }
@@ -1035,7 +1111,7 @@ class AgTable extends PureComponent {
           ...col,
           width: state.width,
           hidden: state.hide,
-          fixed: state.pinned,
+          fixed: state.pinned || null,
         };
       }
       return null;
@@ -1135,15 +1211,8 @@ class AgTable extends PureComponent {
     const newPageSize = event.api.paginationGetPageSize();
     const newCurrentPage = event.api.paginationGetCurrentPage() + 1; // AG Grid 页码从 0 开始
 
-    let pageSizeChanged = false;
-    let pageChanged = false;
-
-    if (newPageSize !== pageSize) {
-      pageSizeChanged = true;
-    }
-    if (newCurrentPage !== currentPage) {
-      pageChanged = true;
-    }
+    const pageSizeChanged = newPageSize !== pageSize;
+    const pageChanged = newCurrentPage !== currentPage;
 
     // fetchData 模式：分页变化时重新请求数据
     if (fetchData && _.isFunction(fetchData) && (pageSizeChanged || pageChanged)) {
@@ -1262,6 +1331,9 @@ class AgTable extends PureComponent {
       newExpandedRowIds.add(id);
     }
     this.expandedRowIds = newExpandedRowIds;
+    this.cachedDisplayRowData = null;
+    this.cachedDisplayRowDataSource = null;
+    this.cachedExpandedRowDataKey = '';
 
     // 强制刷新表格以更新展开图标和详情行
     this.forceUpdate();
@@ -1273,6 +1345,11 @@ class AgTable extends PureComponent {
     const { expandedRowRender, rowKey } = this.props;
 
     if (!expandedRowRender) return rowData;
+
+    const expandedKey = Array.from(this.expandedRowIds).join('|');
+    if (this.cachedDisplayRowData && this.cachedDisplayRowDataSource === rowData && this.cachedExpandedRowDataKey === expandedKey) {
+      return this.cachedDisplayRowData;
+    }
 
     const result = [];
     rowData.forEach((row) => {
@@ -1289,6 +1366,9 @@ class AgTable extends PureComponent {
       }
     });
 
+    this.cachedDisplayRowData = result;
+    this.cachedDisplayRowDataSource = rowData;
+    this.cachedExpandedRowDataKey = expandedKey;
     return result;
   };
 
@@ -1310,24 +1390,26 @@ class AgTable extends PureComponent {
   getRowId = (params) => {
     const { rowKey } = this.props;
 
+    if (!params?.data) {
+      return `row_${params?.node?.rowIndex ?? 'unknown'}`;
+    }
+
     // 如果是详情行，使用特殊的 ID
     if (params.data.__isDetailRow__) {
       return `detail_${params.data.__parentId__}`;
     }
 
-    // 如果 rowKey 是函数，调用它
-    if (_.isFunction(rowKey)) {
-      return String(rowKey(params.data));
-    }
+    const rowId = _.isFunction(rowKey)
+      ? rowKey(params.data)
+      : params.data[rowKey];
 
-    // 如果 rowKey 字段存在，使用它
-    if (params.data[rowKey] !== undefined && params.data[rowKey] !== null) {
-      return String(params.data[rowKey]);
+    if (rowId !== undefined && rowId !== null && rowId !== '') {
+      return String(rowId);
     }
 
     // 回退：使用行索引作为唯一 ID
     // 注意：这要求 rowData 的顺序稳定，但比所有行返回相同 ID 好得多
-    return `row_${params.node?.rowIndex ?? Math.random()}`;
+    return `row_${params.node?.rowIndex ?? 'unknown'}`;
   };
 
   // 判断是否为全宽行（详情行）
@@ -1437,6 +1519,27 @@ class AgTable extends PureComponent {
     return defaultColumns;
   }
 
+  static getColumnsCompareKey(columns) {
+    if (!Array.isArray(columns)) return '[]';
+    return JSON.stringify(columns.map((col) => ({
+      dataIndex: col.dataIndex,
+      title: _.isString(col.title) ? col.title : col.dataIndex,
+      width: col.width,
+      minWidth: col.minWidth,
+      maxWidth: col.maxWidth,
+      hidden: !!col.hidden,
+      fixed: col.fixed || null,
+      sort: col.sort || null,
+      sorter: col.sorter,
+      dataType: col.dataType || '',
+      is_disabled: !!col.is_disabled,
+      isSearch: !!col.isSearch,
+      type: col.type || '',
+      optionsLen: Array.isArray(col.options) ? col.options.length : 0,
+      align: col.align || '',
+    })));
+  }
+
   // 生命周期
   static getDerivedStateFromProps(nextProps, prevState) {
     const newState = {};
@@ -1444,9 +1547,9 @@ class AgTable extends PureComponent {
     // 如果有 fetchData，则使用内部数据管理模式，不使用外部 data prop
     // 只有在没有 fetchData 时，才从 props.data 获取数据
     if (!nextProps.fetchData) {
-      // 兼容 data 可能是 { list: [] } 格式
-      const newRowData = nextProps.data?.list || nextProps.data || [];
-      if (newRowData !== prevState.rowData && !_.isEqual(newRowData, prevState.rowData)) {
+      // 兼容 data 可能是数组、{ list: [] }、{ data: [] } 格式
+      const newRowData = AgTable.parseDataStatic(nextProps.data);
+      if (!_.isEqual(newRowData, prevState.rowData)) {
         newState.rowData = newRowData;
       }
     }
@@ -1456,8 +1559,10 @@ class AgTable extends PureComponent {
       newState.prevSearchObj = nextProps.searchObj;
     }
     // columns 变化时重新初始化
-    if (nextProps.columns !== prevState.prevPropsColumns) {
+    const nextColumnsKey = AgTable.getColumnsCompareKey(nextProps.columns);
+    if (nextColumnsKey !== prevState.prevColumnsKey) {
       newState.prevPropsColumns = nextProps.columns;
+      newState.prevColumnsKey = nextColumnsKey;
       newState.columns = AgTable.initColumnsStatic(nextProps.columns);
       newState.columnsChanged = true; // 标记 columns 变化，用于 componentDidUpdate 中重新计算列宽
     }
@@ -1533,9 +1638,10 @@ class AgTable extends PureComponent {
       headerHeight,
     } = this.props;
 
-    const { columns, pageSize, rowData, localSearchObj } = this.state;
+    const { columns, pageSize, localSearchObj } = this.state;
 
     const columnDefs = this.getColumnDefs();
+    const themeStyle = this.getThemeStyle();
     const defaultColDef = this.getDefaultColDef();
     const rowSelection = this.getRowSelection();
 
@@ -1560,8 +1666,6 @@ class AgTable extends PureComponent {
       onSearch: this.handleSearch,
       onReset: this.handleReset,
     };
-    console.log(this.state.boxWidth, this.state.columns, 1234)
-
     // 渲染调整表头弹框
     const renderAdjustColumnsDialog = () => {
       const { columns, adjustColumnsVisible, tempCheckedKeys } = this.state;
@@ -1603,11 +1707,18 @@ class AgTable extends PureComponent {
           {/* AG Grid 表格 */}
           <div
             className={`ag-theme-quartz ${bordered ? 'ag-table-bordered' : ''}`}
-            style={{ height, width: '100%', ...this.getThemeStyle() }}
+            style={{
+              height,
+              width: '100%',
+              ...themeStyle,
+              contain: 'layout paint style',
+              willChange: 'auto',
+            }}
           >
             <AgGridReact
               ref={this.gridRef}
               rowData={displayRowData}
+            suppressAnimationFrame
               getRowId={this.getRowId}
               columnDefs={columnDefs}
               defaultColDef={defaultColDef}
@@ -1626,11 +1737,12 @@ class AgTable extends PureComponent {
               onPaginationChanged={this.onPaginationChanged}
               onGridReady={this.onGridReady}
               loading={loading}
+              noRowsOverlayComponent={null}
               rowHeight={rowHeight}
               headerHeight={headerHeight}
               rowModelType="clientSide"
               suppressDragLeaveHidesColumns
-              suppressContextMenu={['hide']}
+              suppressContextMenu={true}
               suppressColumnVirtualisation={false}
               isFullWidthRow={this.isFullWidthRow}
               fullWidthCellRenderer={this.fullWidthCellRenderer}
