@@ -1,0 +1,136 @@
+.diskSection {
+  height: 100%;
+}
+
+.diskContent {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 4px;
+  height: 100%;
+}
+
+.subCard {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.subHeader {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 2px;
+  padding-bottom: 2px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.subDivider {
+  width: 100%;
+  height: 1px;
+  background: var(--border-color);
+  flex-shrink: 0;
+}
+
+.mountList {
+  display: flex;
+  flex-direction: column;
+}
+
+.mountItem {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 0;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.mountItem:last-child {
+  border-bottom: none;
+}
+
+.mountName {
+  font-family: var(--font-system);
+  font-size: 11px;
+  color: var(--text-secondary);
+  width: 70px;
+  flex-shrink: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.mountSize {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-primary);
+  flex: 1;
+  text-align: right;
+}
+
+.mountPercent {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  width: 42px;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.ioMetrics {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.ioMetric {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2px 4px;
+  background: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: 3px;
+}
+
+.ioLabel {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  color: var(--text-secondary);
+  font-family: var(--font-system);
+}
+
+.ioIcon {
+  font-size: 9px;
+  font-weight: 700;
+  padding: 1px 4px;
+  border-radius: 2px;
+  font-family: var(--font-mono);
+}
+
+.readIcon {
+  background: rgba(59, 130, 246, 0.2);
+  color: #60a5fa;
+  border: 1px solid rgba(59, 130, 246, 0.3);
+}
+
+.writeIcon {
+  background: rgba(249, 115, 22, 0.2);
+  color: #fb923c;
+  border: 1px solid rgba(249, 115, 22, 0.3);
+}
+
+.ioValue {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.ioUnit {
+  font-size: 10px;
+  color: var(--text-muted);
+  font-weight: 400;
+}

@@ -1,0 +1,74 @@
+.convCardList {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.convCardItem {
+  background: var(--bg-secondary);
+  border-radius: 4px;
+  padding: 5px 6px;
+}
+
+.convCardTitle {
+  color: var(--status-normal);
+  font-weight: 600;
+  font-size: 12px;
+  margin-bottom: 2px;
+}
+
+.convCardGrid {
+  display: grid;
+  grid-template-columns: repeat(3, auto);
+  gap: 4px 10px;
+}
+
+.convStat {
+  display: flex;
+  flex-direction: column;
+}
+
+.convLabel {
+  color: var(--text-muted);
+  font-size: 10px;
+}
+
+.convValue {
+  font-size: 11px;
+  color: var(--text-primary);
+}
+
+.mono {
+  font-family: var(--font-mono);
+}
+
+.statusIndicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: 8px;
+  font-weight: 400;
+}
+
+.statusDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+.statusDot.normal {
+  background-color: var(--status-normal);
+  box-shadow: 0 0 4px var(--status-normal);
+}
+
+.statusDot.error {
+  background-color: var(--status-error);
+  box-shadow: 0 0 4px var(--status-error);
+}
+
+.statusText {
+  font-size: 10px;
+  color: var(--text-muted);
+}

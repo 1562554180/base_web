@@ -1,0 +1,40 @@
+.rfList {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.rfItem {
+  display: flex;
+  gap: 4px;
+  padding: 2px 0;
+  border-bottom: 1px dashed var(--border-color);
+  font-size: 11px;
+  align-items: center;
+  line-height: 1.4;
+  white-space: nowrap;
+}
+
+.rfItem:last-child {
+  border-bottom: none;
+}
+
+.rfPort {
+  color: var(--status-normal);
+  font-weight: 600;
+  font-family: var(--font-mono);
+}
+
+.rfSep {
+  color: var(--text-muted);
+  font-size: 10px;
+}
+
+.rfConn {
+  color: var(--text-secondary);
+}
+
+.rfLevel {
+  font-family: var(--font-mono);
+  margin-left: auto;
+}

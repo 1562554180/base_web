@@ -1,0 +1,73 @@
+.adCardList {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.adCardItem {
+  background: var(--bg-secondary);
+  border-radius: 4px;
+  padding: 5px 6px;
+}
+
+.adCardTitle {
+  color: var(--status-normal);
+  font-weight: 600;
+  font-size: 12px;
+  margin-bottom: 2px;
+}
+
+.adCardGrid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 4px 10px;
+}
+
+.adStat {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.adLabel {
+  color: var(--text-muted);
+  font-size: 10px;
+}
+
+.adValue {
+  font-size: 11px;
+  color: var(--text-primary);
+}
+
+.mono {
+  font-family: var(--font-mono);
+}
+
+.statusIndicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.statusDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+.statusDot.normal {
+  background-color: var(--status-normal);
+  box-shadow: 0 0 4px var(--status-normal);
+}
+
+.statusDot.warning {
+  background-color: var(--status-warning);
+  box-shadow: 0 0 4px var(--status-warning);
+}
+
+.statusDot.error {
+  background-color: var(--status-error);
+  box-shadow: 0 0 4px var(--status-error);
+}

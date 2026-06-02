@@ -1,0 +1,36 @@
+.networkSection {
+  height: 100%;
+}
+
+.networkContent {
+  height: 100%;
+}
+
+.statusIndicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.statusDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+.statusDot.enabled {
+  background-color: var(--status-normal);
+  box-shadow: 0 0 4px var(--status-normal);
+}
+
+.statusDot.disabled {
+  background-color: #6b7280;
+  box-shadow: none;
+}
+
+.statusDot.error {
+  background-color: var(--status-error);
+  box-shadow: 0 0 4px var(--status-error);
+}

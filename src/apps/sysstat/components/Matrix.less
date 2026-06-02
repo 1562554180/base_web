@@ -1,0 +1,114 @@
+.matrixItem {
+  margin-bottom: 6px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.matrixItem:last-child {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.matrixTitle {
+  color: var(--status-normal);
+  font-weight: 600;
+  font-size: 12px;
+  margin-bottom: 2px;
+}
+
+.matrixInfo {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 4px;
+}
+
+.matrixStat {
+  color: var(--text-secondary);
+  font-size: 11px;
+}
+
+.matrixConnectionsHorizontal {
+  display: flex;
+  gap: 0;
+  align-items: flex-start;
+}
+
+.connBlock {
+  flex-shrink: 0;
+}
+
+.connLabel {
+  color: var(--text-muted);
+  font-size: 9px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 4px;
+  padding-left: 2px;
+}
+
+.connTable {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  width: max-content;
+}
+
+.connHeader {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 4px;
+  background: var(--bg-secondary);
+  border-radius: 2px 2px 0 0;
+  font-size: 9px;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.connRow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 6px;
+  background: var(--bg-secondary);
+  border-radius: 2px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  min-height: 22px;
+  box-sizing: border-box;
+}
+
+.connRow .colPort {
+  color: var(--text-muted);
+  width: 16px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.connRow .colConn {
+  color: var(--text-primary);
+  white-space: nowrap;
+  min-width: 40px;
+}
+
+.connRow .colArrow {
+  color: var(--status-normal);
+  font-size: 10px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.connInternal .connRow {
+  background: rgba(0, 255, 136, 0.08);
+  border: 1px solid rgba(0, 255, 136, 0.15);
+}
+
+.connRowInline {
+  min-height: 22px;
+}
+
+.connOutput .connHeader {
+  border-radius: 2px 2px 0 0;
+}
