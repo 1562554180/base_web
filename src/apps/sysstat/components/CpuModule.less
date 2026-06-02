@@ -1,0 +1,349 @@
+.cpu-module {
+  width: auto;
+}
+
+.module-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.header-title {
+  flex-shrink: 0;
+}
+
+.header-meta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.status-dot.normal {
+  background-color: var(--status-normal);
+  box-shadow: 0 0 4px var(--status-normal);
+}
+
+.status-dot.error {
+  background-color: var(--status-error);
+  box-shadow: 0 0 4px var(--status-error);
+}
+
+.update-time {
+  font-size: 9px;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  white-space: nowrap;
+}
+
+.cpu-summary {
+  display: flex;
+  gap: 12px;
+  padding-bottom: 4px;
+  margin-bottom: 4px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.cpu-stat {
+  font-size: 11px;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.cpu-stat strong {
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+  font-size: 12px;
+}
+
+.mini-bar {
+  display: inline-block;
+  width: 40px;
+  height: 3px;
+  background: var(--bg-secondary);
+  border-radius: 2px;
+  overflow: hidden;
+  vertical-align: middle;
+}
+
+.mini-bar-fill {
+  display: block;
+  height: 100%;
+  border-radius: 2px;
+}
+
+.mini-bar-fill.low {
+  background: var(--status-normal);
+}
+
+.mini-bar-fill.medium {
+  background: var(--status-warning);
+}
+
+.mini-bar-fill.high {
+  background: var(--status-error);
+}
+
+/* ===== 核心 Grid (无NUMA) ===== */
+.core-grid {
+  display: grid;
+  gap: 2px;
+}
+
+.core-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2px 1px;
+  border-radius: 2px;
+  border: 1px solid transparent;
+  min-width: 0;
+  transition: background 0.15s;
+}
+
+.core-id {
+  font-size: 9px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.75);
+  line-height: 1.2;
+  font-family: var(--font-mono);
+}
+
+.core-val {
+  font-size: 9px;
+  font-weight: 600;
+  font-family: var(--font-mono);
+  line-height: 1.1;
+}
+
+.core-low {
+  background: rgba(0, 255, 136, 0.08);
+  border-color: rgba(0, 255, 136, 0.15);
+}
+
+.core-low .core-val {
+  color: var(--status-normal);
+}
+
+.core-medium {
+  background: rgba(255, 170, 0, 0.1);
+  border-color: rgba(255, 170, 0, 0.2);
+}
+
+.core-medium .core-val {
+  color: var(--status-warning);
+}
+
+.core-high {
+  background: rgba(255, 68, 68, 0.12);
+  border-color: rgba(255, 68, 68, 0.25);
+}
+
+.core-high .core-val {
+  color: var(--status-error);
+}
+
+.core-cell:hover {
+  filter: brightness(1.4);
+}
+
+/* ===== NUMA 多层布局 ===== */
+.numa-layers {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.numa-layer {
+  display: flex;
+  align-items: stretch;
+  gap: 3px;
+}
+
+.numa-tag {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 4px;
+  border-radius: 3px;
+  flex-shrink: 0;
+  min-width: 24px;
+  writing-mode: horizontal-tb;
+}
+
+.numa-tag-id {
+  font-size: 9px;
+  font-weight: 800;
+  font-family: var(--font-mono);
+  letter-spacing: 0.5px;
+}
+
+.numa-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px;
+  flex: 1;
+  min-width: 0;
+}
+
+.numa-core {
+  flex: 0 0 auto;
+  min-width: 28px;
+}
+
+/* ===== NUMA 颜色方案 (8色循环, 支持最多8个NUMA节点) ===== */
+
+/* N0 - 钴蓝 */
+.numa-color-0 {
+  background: rgba(59, 130, 246, 0.18);
+  border: 1px solid rgba(59, 130, 246, 0.35);
+}
+
+.numa-color-0 .numa-tag-id {
+  color: #60a5fa;
+}
+
+.numa-accent-0 {
+  border-top: 2px solid rgba(59, 130, 246, 0.6);
+}
+
+.numa-accent-0 .numa-id {
+  color: #60a5fa;
+}
+
+/* N1 - 紫罗兰 */
+.numa-color-1 {
+  background: rgba(192, 132, 252, 0.18);
+  border: 1px solid rgba(192, 132, 252, 0.35);
+}
+
+.numa-color-1 .numa-tag-id {
+  color: #c084fc;
+}
+
+.numa-accent-1 {
+  border-top: 2px solid rgba(192, 132, 252, 0.6);
+}
+
+.numa-accent-1 .numa-id {
+  color: #c084fc;
+}
+
+/* N2 - 青绿 */
+.numa-color-2 {
+  background: rgba(52, 211, 153, 0.18);
+  border: 1px solid rgba(52, 211, 153, 0.35);
+}
+
+.numa-color-2 .numa-tag-id {
+  color: #34d399;
+}
+
+.numa-accent-2 {
+  border-top: 2px solid rgba(52, 211, 153, 0.6);
+}
+
+.numa-accent-2 .numa-id {
+  color: #34d399;
+}
+
+/* N3 - 琥珀 */
+.numa-color-3 {
+  background: rgba(251, 191, 36, 0.18);
+  border: 1px solid rgba(251, 191, 36, 0.35);
+}
+
+.numa-color-3 .numa-tag-id {
+  color: #fbbf24;
+}
+
+.numa-accent-3 {
+  border-top: 2px solid rgba(251, 191, 36, 0.6);
+}
+
+.numa-accent-3 .numa-id {
+  color: #fbbf24;
+}
+
+/* N4 - 玫红 */
+.numa-color-4 {
+  background: rgba(244, 114, 182, 0.18);
+  border: 1px solid rgba(244, 114, 182, 0.35);
+}
+
+.numa-color-4 .numa-tag-id {
+  color: #f472b6;
+}
+
+.numa-accent-4 {
+  border-top: 2px solid rgba(244, 114, 182, 0.6);
+}
+
+.numa-accent-4 .numa-id {
+  color: #f472b6;
+}
+
+/* N5 - 天青 */
+.numa-color-5 {
+  background: rgba(34, 211, 238, 0.18);
+  border: 1px solid rgba(34, 211, 238, 0.35);
+}
+
+.numa-color-5 .numa-tag-id {
+  color: #22d3ee;
+}
+
+.numa-accent-5 {
+  border-top: 2px solid rgba(34, 211, 238, 0.6);
+}
+
+.numa-accent-5 .numa-id {
+  color: #22d3ee;
+}
+
+/* N6 - 珊瑚橙 */
+.numa-color-6 {
+  background: rgba(251, 146, 60, 0.18);
+  border: 1px solid rgba(251, 146, 60, 0.35);
+}
+
+.numa-color-6 .numa-tag-id {
+  color: #fb923c;
+}
+
+.numa-accent-6 {
+  border-top: 2px solid rgba(251, 146, 60, 0.6);
+}
+
+.numa-accent-6 .numa-id {
+  color: #fb923c;
+}
+
+/* N7 - 石灰绿 */
+.numa-color-7 {
+  background: rgba(163, 230, 53, 0.18);
+  border: 1px solid rgba(163, 230, 53, 0.35);
+}
+
+.numa-color-7 .numa-tag-id {
+  color: #a3e635;
+}
+
+.numa-accent-7 {
+  border-top: 2px solid rgba(163, 230, 53, 0.6);
+}
+
+.numa-accent-7 .numa-id {
+  color: #a3e635;
+}
