@@ -229,6 +229,10 @@ export default defineConfig({
         changeOrigin: true,
         rewrite: (p) => p.replace(/^\/services\//, ''),
       },
+      '/api': {
+        target: 'http://localhost:5000',
+        changeOrigin: true,
+      },
     },
     fs: {
       allow: ['..'],
