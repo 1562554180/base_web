@@ -157,7 +157,7 @@ export default function TopologyGraph({ data, onViewModeChange }) {
     <section className={styles['topology-section']}>
       <div
         style={{ display: 'flex', justifyContent: 'space-between' }}
-        className={styles['module-header']}
+        className="module-header"
       >
         <span>系统拓扑图</span>
         <div className={styles['view-toggle']}>
