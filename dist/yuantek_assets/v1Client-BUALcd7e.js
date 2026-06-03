@@ -1,0 +1,55 @@
+import { mockData as r } from './mockData-Jc3uHu98.js';
+function a(t = 300) {
+  return new Promise(s => setTimeout(s, t));
+}
+async function e(t) {
+  switch ((await a(), t)) {
+    case '/system/status':
+      return {
+        device: r.device,
+        network: r.networkScenarios,
+        systemResource: r.systemResource,
+        disk: r.disk,
+        timeSync: r.timeSync,
+      };
+    case '/system/cpu-modules':
+      return r.statusModules.scenario64;
+    case '/hardware/topology':
+      return {
+        chains: [],
+        rfPorts: r.rfPorts,
+        matrix: r.matrix,
+        converters: r.converters.items,
+        dvbCards: r.dvbCards.items,
+        adCards: r.adCards.items,
+      };
+    case '/hardware/ports':
+      return { ports: r.rfPorts.connections.map(s => ({ portId: s.port, level: s.level })) };
+    case '/hardware/cards':
+      return { adCards: r.adCards.items, dvbCards: r.dvbCards.items };
+    default:
+      throw new Error(`Unknown mock endpoint: ${t}`);
+  }
+}
+function n() {
+  return e('/system/status');
+}
+function d() {
+  return e('/system/cpu-modules');
+}
+function u() {
+  return e('/hardware/topology');
+}
+function c() {
+  return e('/hardware/ports');
+}
+function i() {
+  return e('/hardware/cards');
+}
+export {
+  d as getCpuModules,
+  i as getHardwareCards,
+  c as getHardwarePorts,
+  u as getHardwareTopology,
+  n as getSystemStatus,
+};

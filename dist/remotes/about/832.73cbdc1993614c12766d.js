@@ -1,0 +1,60 @@
+/*! For license information please see 832.73cbdc1993614c12766d.js.LICENSE.txt */
+'use strict';
+(self.webpackChunkpage_about = self.webpackChunkpage_about || []).push([
+  [832],
+  {
+    228: e => {
+      var r = Object.getOwnPropertySymbols,
+        t = Object.prototype.hasOwnProperty,
+        n = Object.prototype.propertyIsEnumerable;
+      e.exports = (function() {
+        try {
+          if (!Object.assign) return !1;
+          var e = new String('abc');
+          if (((e[5] = 'de'), '5' === Object.getOwnPropertyNames(e)[0])) return !1;
+          for (var r = {}, t = 0; t < 10; t++) r['_' + String.fromCharCode(t)] = t;
+          if (
+            '0123456789' !==
+            Object.getOwnPropertyNames(r)
+              .map(function(e) {
+                return r[e];
+              })
+              .join('')
+          )
+            return !1;
+          var n = {};
+          return (
+            'abcdefghijklmnopqrst'.split('').forEach(function(e) {
+              n[e] = e;
+            }),
+            'abcdefghijklmnopqrst' === Object.keys(Object.assign({}, n)).join('')
+          );
+        } catch (e) {
+          return !1;
+        }
+      })()
+        ? Object.assign
+        : function(e, o) {
+            for (
+              var a,
+                c,
+                i = (function(e) {
+                  if (null == e)
+                    throw new TypeError('Object.assign cannot be called with null or undefined');
+                  return Object(e);
+                })(e),
+                s = 1;
+              s < arguments.length;
+              s++
+            ) {
+              for (var u in (a = Object(arguments[s]))) t.call(a, u) && (i[u] = a[u]);
+              if (r) {
+                c = r(a);
+                for (var b = 0; b < c.length; b++) n.call(a, c[b]) && (i[c[b]] = a[c[b]]);
+              }
+            }
+            return i;
+          };
+    },
+  },
+]);

@@ -1,7 +1,11 @@
 {
   "permissions": {
     "allow": [
-      "Bash(npm install:*)"
+      "Bash(npm install:*)",
+      "Bash(pnpm ls:*)",
+      "Bash(pnpm why:*)",
+      "Bash(pnpm update:*)",
+      "Bash(pnpm start:*)"
     ]
   }
 }

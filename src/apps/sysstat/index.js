@@ -47,13 +47,19 @@ export default function SysStat() {
   const statusPollTimer = useRef(null);
   const cpuPollTimer = useRef(null);
 
-  const currentCpuModules = useMemo(() => {
-    return v1CpuModules?.modules || [];
-  }, [v1CpuModules]);
+  const currentCpuModules = useMemo(
+    () => {
+      return v1CpuModules?.modules || [];
+    },
+    [v1CpuModules]
+  );
 
-  const systemStatusData = useMemo(() => {
-    return v1SystemStatus || {};
-  }, [v1SystemStatus]);
+  const systemStatusData = useMemo(
+    () => {
+      return v1SystemStatus || {};
+    },
+    [v1SystemStatus]
+  );
 
   const stopStatusPolling = useCallback(() => {
     if (statusPollTimer.current) {
@@ -66,17 +72,20 @@ export default function SysStat() {
     }
   }, []);
 
-  const startPolling = useCallback(() => {
-    stopStatusPolling();
+  const startPolling = useCallback(
+    () => {
+      stopStatusPolling();
 
-    statusPollTimer.current = setInterval(() => {
-      loadSystemStatus();
-    }, STATUS_POLL_INTERVAL_MS);
+      statusPollTimer.current = setInterval(() => {
+        loadSystemStatus();
+      }, STATUS_POLL_INTERVAL_MS);
 
-    cpuPollTimer.current = setInterval(() => {
-      loadCpuModules();
-    }, STATUS_POLL_INTERVAL_MS);
-  }, [stopStatusPolling]);
+      cpuPollTimer.current = setInterval(() => {
+        loadCpuModules();
+      }, STATUS_POLL_INTERVAL_MS);
+    },
+    [stopStatusPolling]
+  );
 
   const loadSystemStatus = useCallback(async () => {
     try {
@@ -115,7 +124,7 @@ export default function SysStat() {
         return false;
       }
       setV1Topology(data);
-      const converters = (data.converters || []).map((conv) => ({
+      const converters = (data.converters || []).map(conv => ({
         id: conv.id,
         type: conv.type,
         device: conv.device,
@@ -155,9 +164,9 @@ export default function SysStat() {
       const data = await getHardwarePorts();
       if (!data?.ports) return;
       setV1Ports(data);
-      setTopologyData((prev) => {
-        const updatedConnections = (prev.rfPorts?.connections || []).map((conn) => {
-          const v1Port = data.ports.find((p) => p.portId === conn.port);
+      setTopologyData(prev => {
+        const updatedConnections = (prev.rfPorts?.connections || []).map(conn => {
+          const v1Port = data.ports.find(p => p.portId === conn.port);
           return v1Port ? { ...conn, level: v1Port.level } : conn;
         });
         return {
@@ -178,11 +187,11 @@ export default function SysStat() {
       const data = await getHardwareCards();
       if (!data) return;
       setV1Cards(data);
-      setTopologyData((prev) => {
+      setTopologyData(prev => {
         let next = { ...prev };
         if (data.adCards && prev.adCards) {
-          const updatedAdCards = prev.adCards.map((card) => {
-            const updated = data.adCards.find((c) => c.id === card.id);
+          const updatedAdCards = prev.adCards.map(card => {
+            const updated = data.adCards.find(c => c.id === card.id);
             if (updated) {
               return {
                 ...card,
@@ -196,8 +205,8 @@ export default function SysStat() {
           next = { ...next, adCards: updatedAdCards };
         }
         if (data.dvbCards && prev.dvbCards) {
-          const updatedDvbCards = prev.dvbCards.map((card) => {
-            const updated = data.dvbCards.find((c) => c.id === card.id);
+          const updatedDvbCards = prev.dvbCards.map(card => {
+            const updated = data.dvbCards.find(c => c.id === card.id);
             if (updated) {
               return {
                 ...card,
@@ -217,24 +226,30 @@ export default function SysStat() {
     }
   }, []);
 
-  const reloadStatusData = useCallback(async () => {
-    stopStatusPolling();
-    await loadSystemStatus();
-    await loadCpuModules();
-    if (activeTab === 'status') {
-      startPolling();
-    }
-  }, [stopStatusPolling, loadSystemStatus, loadCpuModules, activeTab, startPolling]);
+  const reloadStatusData = useCallback(
+    async () => {
+      stopStatusPolling();
+      await loadSystemStatus();
+      await loadCpuModules();
+      if (activeTab === 'status') {
+        startPolling();
+      }
+    },
+    [stopStatusPolling, loadSystemStatus, loadCpuModules, activeTab, startPolling]
+  );
 
-  const reloadTopologyData = useCallback(async () => {
-    stopStatusPolling();
-    const loaded = await loadV1Topology();
-    if (!loaded) {
-      return;
-    }
-    await loadPorts();
-    await loadCards();
-  }, [stopStatusPolling, loadV1Topology, loadPorts, loadCards]);
+  const reloadTopologyData = useCallback(
+    async () => {
+      stopStatusPolling();
+      const loaded = await loadV1Topology();
+      if (!loaded) {
+        return;
+      }
+      await loadPorts();
+      await loadCards();
+    },
+    [stopStatusPolling, loadV1Topology, loadPorts, loadCards]
+  );
 
   useEffect(() => {
     if (activeTab === 'status') {
@@ -245,161 +260,154 @@ export default function SysStat() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  useEffect(() => {
-    if (activeTab === 'status') {
-      reloadStatusData();
-    } else if (activeTab === 'topology') {
-      stopStatusPolling();
-      reloadTopologyData();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [activeTab]);
+  useEffect(
+    () => {
+      if (activeTab === 'status') {
+        reloadStatusData();
+      } else if (activeTab === 'topology') {
+        stopStatusPolling();
+        reloadTopologyData();
+      }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    },
+    [activeTab]
+  );
 
-  useEffect(() => {
-    return () => {
-      stopStatusPolling();
-    };
-  }, [stopStatusPolling]);
+  useEffect(
+    () => {
+      return () => {
+        stopStatusPolling();
+      };
+    },
+    [stopStatusPolling]
+  );
 
   return (
     <div className={`sysstat-page ${styles.statusPage}`}>
-      <nav className={styles.tabNav}>
-        <button
-          className={`${styles.tabBtn} ${activeTab === 'status' ? styles.active : ''}`}
-          onClick={() => setActiveTab('status')}
-        >
-          系统状态
-        </button>
-        <button
-          className={`${styles.tabBtn} ${activeTab === 'topology' ? styles.active : ''}`}
-          onClick={() => setActiveTab('topology')}
-        >
-          系统拓扑
-        </button>
-      </nav>
+      <div className="app-container">
+        <nav className={styles.tabNav}>
+          <button
+            className={`${styles.tabBtn} ${activeTab === 'status' ? styles.active : ''}`}
+            onClick={() => setActiveTab('status')}
+          >
+            系统状态
+          </button>
+          <button
+            className={`${styles.tabBtn} ${activeTab === 'topology' ? styles.active : ''}`}
+            onClick={() => setActiveTab('topology')}
+          >
+            系统拓扑
+          </button>
+        </nav>
 
-      <div className={styles.tabContent}>
-        {activeTab === 'status' && (
-          <div className={`${styles.tabPanel} ${styles.tabScrollable}`}>
-            <div className={styles.scenarioBar}>
-              <span className={styles.scenarioLabel}>状态:</span>
-              <span style={{ color: 'var(--text-muted)', fontSize: '10px' }}>
-                {v1SystemStatus ? '已连接' : '加载中...'}
-              </span>
-              <button
-                className={styles.scenarioBtn}
-                onClick={reloadStatusData}
-                title="刷新数据"
-              >
-                刷新
-              </button>
-            </div>
-
-            <div className="grid-container">
-              {currentCpuModules.map((mod) => (
-                <CpuModule
-                  key={mod.key}
-                  title={mod.title}
-                  data={{
-                    totalCores: mod.totalCores,
-                    systemUsage: mod.systemUsage,
-                    cores: mod.cores,
-                    numa: mod.numa,
-                    cpuIds: mod.cpuIds,
-                    status: mod.status,
-                    lastUpdateTime: mod.lastUpdateTime,
-                  }}
-                  className={`grid-area-${mod.key}`}
-                />
-              ))}
-              <DeviceTimeSync
-                deviceData={systemStatusData.device || {}}
-                timeSyncData={systemStatusData.timeSync || {}}
-                className="grid-area-device-timesync"
-              />
-              <SystemResource
-                data={systemStatusData.systemResource || {}}
-                cpuModules={currentCpuModules}
-                className="grid-area-memory"
-              />
-              <Network
-                data={systemStatusData.network || {}}
-                className="grid-area-network"
-              />
-              <DiskIO
-                data={systemStatusData.disk || {}}
-                className="grid-area-disk"
-              />
-            </div>
-          </div>
-        )}
-
-        {activeTab === 'topology' && (
-          <div className={styles.tabPanel}>
-            <div className={styles.scenarioBar}>
-              <span className={styles.scenarioLabel}>状态:</span>
-              <span style={{ color: 'var(--text-muted)', fontSize: '10px' }}>
-                {topologyData.chains?.length > 0 ? '已连接' : '加载中...'}
-              </span>
-              <button
-                className={styles.scenarioBtn}
-                onClick={reloadTopologyData}
-                title="刷新拓扑"
-              >
-                刷新
-              </button>
-            </div>
-            {topologyError && (
-              <div style={{ color: 'red', padding: '10px' }}>错误: {topologyError}</div>
-            )}
-
-            <div className={styles.topologyContainer}>
-              <div
-                className={`${styles.topologyGraphWrapper} ${
-                  topoGraphMode === 'rack' ? styles.graphRack : ''
-                }`}
-              >
-                <TopologyGraph
-                  data={topologyData}
-                  onViewModeChange={setTopoGraphMode}
-                />
+        <div className={styles.tabContent}>
+          {activeTab === 'status' && (
+            <div className={`${styles.tabPanel} ${styles.tabScrollable}`}>
+              <div className={styles.scenarioBar}>
+                <span className={styles.scenarioLabel}>状态:</span>
+                <span style={{ color: 'var(--text-muted)', fontSize: '10px' }}>
+                  {v1SystemStatus ? '已连接' : '加载中...'}
+                </span>
+                <button className={styles.scenarioBtn} onClick={reloadStatusData} title="刷新数据">
+                  刷新
+                </button>
               </div>
-              <div className={styles.topologyGrid}>
-                {topologyData.rfPorts && (
-                  <RfPort data={topologyData.rfPorts} className={styles.rfNarrow} />
-                )}
-                {topologyData.matrix?.count > 0 && (
-                  <Matrix data={topologyData.matrix} />
-                )}
-                {topologyData.converters?.length > 0 && (
-                  <Converter
+
+              <div className="grid-container">
+                {currentCpuModules.map(mod => (
+                  <CpuModule
+                    key={mod.key}
+                    title={mod.title}
                     data={{
-                      count: topologyData.converters.length,
-                      items: topologyData.converters,
+                      totalCores: mod.totalCores,
+                      systemUsage: mod.systemUsage,
+                      cores: mod.cores,
+                      numa: mod.numa,
+                      cpuIds: mod.cpuIds,
+                      status: mod.status,
+                      lastUpdateTime: mod.lastUpdateTime,
                     }}
+                    className={`grid-area-${mod.key}`}
                   />
-                )}
-                {topologyData.adCards?.length > 0 && (
-                  <AdCard
-                    data={{
-                      count: topologyData.adCards.length,
-                      items: topologyData.adCards,
-                    }}
-                    className={styles.adSpan}
-                  />
-                )}
-                {topologyData.dvbCards?.length > 0 && (
-                  <DvbCard
-                    data={{
-                      count: topologyData.dvbCards.length,
-                      items: topologyData.dvbCards,
-                    }}
-                  />
-                )}
+                ))}
+                <DeviceTimeSync
+                  deviceData={systemStatusData.device || {}}
+                  timeSyncData={systemStatusData.timeSync || {}}
+                  className="grid-area-device-timesync"
+                />
+                <SystemResource
+                  data={systemStatusData.systemResource || {}}
+                  cpuModules={currentCpuModules}
+                  className="grid-area-memory"
+                />
+                <Network data={systemStatusData.network || {}} className="grid-area-network" />
+                <DiskIO data={systemStatusData.disk || {}} className="grid-area-disk" />
               </div>
             </div>
-          </div>
-        )}
+          )}
+
+          {activeTab === 'topology' && (
+            <div className={styles.tabPanel}>
+              <div className={styles.scenarioBar}>
+                <span className={styles.scenarioLabel}>状态:</span>
+                <span style={{ color: 'var(--text-muted)', fontSize: '10px' }}>
+                  {topologyData.chains?.length > 0 ? '已连接' : '加载中...'}
+                </span>
+                <button
+                  className={styles.scenarioBtn}
+                  onClick={reloadTopologyData}
+                  title="刷新拓扑"
+                >
+                  刷新
+                </button>
+              </div>
+              {topologyError && (
+                <div style={{ color: 'red', padding: '10px' }}>错误: {topologyError}</div>
+              )}
+
+              <div className={styles.topologyContainer}>
+                <div
+                  className={`${styles.topologyGraphWrapper} ${
+                    topoGraphMode === 'rack' ? styles.graphRack : ''
+                  }`}
+                >
+                  <TopologyGraph data={topologyData} onViewModeChange={setTopoGraphMode} />
+                </div>
+                <div className={styles.topologyGrid}>
+                  {topologyData.rfPorts && (
+                    <RfPort data={topologyData.rfPorts} className={styles.rfNarrow} />
+                  )}
+                  {topologyData.matrix?.count > 0 && <Matrix data={topologyData.matrix} />}
+                  {topologyData.converters?.length > 0 && (
+                    <Converter
+                      data={{
+                        count: topologyData.converters.length,
+                        items: topologyData.converters,
+                      }}
+                    />
+                  )}
+                  {topologyData.adCards?.length > 0 && (
+                    <AdCard
+                      data={{
+                        count: topologyData.adCards.length,
+                        items: topologyData.adCards,
+                      }}
+                      className={styles.adSpan}
+                    />
+                  )}
+                  {topologyData.dvbCards?.length > 0 && (
+                    <DvbCard
+                      data={{
+                        count: topologyData.dvbCards.length,
+                        items: topologyData.dvbCards,
+                      }}
+                    />
+                  )}
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

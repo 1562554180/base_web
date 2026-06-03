@@ -1,0 +1,1030 @@
+define([
+  'exports',
+  './defined-30a32f90',
+  './Math-fbd31710',
+  './freezeObject-4d675126',
+  './defaultValue-5903a66b',
+  './defineProperties-deb3db60',
+], function(e, A, b, t, c, n) {
+  'use strict';
+  function V(e, t, n) {
+    (this.x = c.defaultValue(e, 0)),
+      (this.y = c.defaultValue(t, 0)),
+      (this.z = c.defaultValue(n, 0));
+  }
+  (V.fromSpherical = function(e, t) {
+    A.defined(t) || (t = new V());
+    var n = e.clock,
+      a = e.cone,
+      r = c.defaultValue(e.magnitude, 1),
+      i = r * Math.sin(a);
+    return (t.x = i * Math.cos(n)), (t.y = i * Math.sin(n)), (t.z = r * Math.cos(a)), t;
+  }),
+    (V.fromElements = function(e, t, n, a) {
+      return A.defined(a) ? ((a.x = e), (a.y = t), (a.z = n), a) : new V(e, t, n);
+    }),
+    (V.fromCartesian4 = V.clone = function(e, t) {
+      if (A.defined(e))
+        return A.defined(t) ? ((t.x = e.x), (t.y = e.y), (t.z = e.z), t) : new V(e.x, e.y, e.z);
+    }),
+    (V.packedLength = 3),
+    (V.pack = function(e, t, n) {
+      return (n = c.defaultValue(n, 0)), (t[n++] = e.x), (t[n++] = e.y), (t[n] = e.z), t;
+    }),
+    (V.unpack = function(e, t, n) {
+      return (
+        (t = c.defaultValue(t, 0)),
+        A.defined(n) || (n = new V()),
+        (n.x = e[t++]),
+        (n.y = e[t++]),
+        (n.z = e[t]),
+        n
+      );
+    }),
+    (V.packArray = function(e, t) {
+      var n = e.length;
+      A.defined(t) ? (t.length = 3 * n) : (t = new Array(3 * n));
+      for (var a = 0; a < n; ++a) V.pack(e[a], t, 3 * a);
+      return t;
+    }),
+    (V.unpackArray = function(e, t) {
+      var n = e.length;
+      A.defined(t) ? (t.length = n / 3) : (t = new Array(n / 3));
+      for (var a = 0; a < n; a += 3) {
+        var r = a / 3;
+        t[r] = V.unpack(e, a, t[r]);
+      }
+      return t;
+    }),
+    (V.fromArray = V.unpack),
+    (V.maximumComponent = function(e) {
+      return Math.max(e.x, e.y, e.z);
+    }),
+    (V.minimumComponent = function(e) {
+      return Math.min(e.x, e.y, e.z);
+    }),
+    (V.minimumByComponent = function(e, t, n) {
+      return (n.x = Math.min(e.x, t.x)), (n.y = Math.min(e.y, t.y)), (n.z = Math.min(e.z, t.z)), n;
+    }),
+    (V.maximumByComponent = function(e, t, n) {
+      return (n.x = Math.max(e.x, t.x)), (n.y = Math.max(e.y, t.y)), (n.z = Math.max(e.z, t.z)), n;
+    }),
+    (V.magnitudeSquared = function(e) {
+      return e.x * e.x + e.y * e.y + e.z * e.z;
+    }),
+    (V.magnitude = function(e) {
+      return Math.sqrt(V.magnitudeSquared(e));
+    });
+  var a = new V();
+  (V.distance = function(e, t) {
+    return V.subtract(e, t, a), V.magnitude(a);
+  }),
+    (V.distanceSquared = function(e, t) {
+      return V.subtract(e, t, a), V.magnitudeSquared(a);
+    }),
+    (V.normalize = function(e, t) {
+      var n = V.magnitude(e);
+      return (t.x = e.x / n), (t.y = e.y / n), (t.z = e.z / n), t;
+    }),
+    (V.dot = function(e, t) {
+      return e.x * t.x + e.y * t.y + e.z * t.z;
+    }),
+    (V.multiplyComponents = function(e, t, n) {
+      return (n.x = e.x * t.x), (n.y = e.y * t.y), (n.z = e.z * t.z), n;
+    }),
+    (V.divideComponents = function(e, t, n) {
+      return (n.x = e.x / t.x), (n.y = e.y / t.y), (n.z = e.z / t.z), n;
+    }),
+    (V.add = function(e, t, n) {
+      return (n.x = e.x + t.x), (n.y = e.y + t.y), (n.z = e.z + t.z), n;
+    }),
+    (V.subtract = function(e, t, n) {
+      return (n.x = e.x - t.x), (n.y = e.y - t.y), (n.z = e.z - t.z), n;
+    }),
+    (V.multiplyByScalar = function(e, t, n) {
+      return (n.x = e.x * t), (n.y = e.y * t), (n.z = e.z * t), n;
+    }),
+    (V.divideByScalar = function(e, t, n) {
+      return (n.x = e.x / t), (n.y = e.y / t), (n.z = e.z / t), n;
+    }),
+    (V.negate = function(e, t) {
+      return (t.x = -e.x), (t.y = -e.y), (t.z = -e.z), t;
+    }),
+    (V.abs = function(e, t) {
+      return (t.x = Math.abs(e.x)), (t.y = Math.abs(e.y)), (t.z = Math.abs(e.z)), t;
+    });
+  var r = new V();
+  V.lerp = function(e, t, n, a) {
+    return V.multiplyByScalar(t, n, r), (a = V.multiplyByScalar(e, 1 - n, a)), V.add(r, a, a);
+  };
+  var i = new V(),
+    u = new V();
+  V.angleBetween = function(e, t) {
+    V.normalize(e, i), V.normalize(t, u);
+    var n = V.dot(i, u),
+      a = V.magnitude(V.cross(i, u, i));
+    return Math.atan2(a, n);
+  };
+  var o = new V();
+  (V.mostOrthogonalAxis = function(e, t) {
+    var n = V.normalize(e, o);
+    return (
+      V.abs(n, n),
+      (t =
+        n.x <= n.y
+          ? n.x <= n.z
+            ? V.clone(V.UNIT_X, t)
+            : V.clone(V.UNIT_Z, t)
+          : n.y <= n.z
+            ? V.clone(V.UNIT_Y, t)
+            : V.clone(V.UNIT_Z, t))
+    );
+  }),
+    (V.projectVector = function(e, t, n) {
+      var a = V.dot(e, t) / V.dot(t, t);
+      return V.multiplyByScalar(t, a, n);
+    }),
+    (V.equals = function(e, t) {
+      return e === t || (A.defined(e) && A.defined(t) && e.x === t.x && e.y === t.y && e.z === t.z);
+    }),
+    (V.equalsArray = function(e, t, n) {
+      return e.x === t[n] && e.y === t[n + 1] && e.z === t[n + 2];
+    }),
+    (V.equalsEpsilon = function(e, t, n, a) {
+      return (
+        e === t ||
+        (A.defined(e) &&
+          A.defined(t) &&
+          b.BMMath.equalsEpsilon(e.x, t.x, n, a) &&
+          b.BMMath.equalsEpsilon(e.y, t.y, n, a) &&
+          b.BMMath.equalsEpsilon(e.z, t.z, n, a))
+      );
+    }),
+    (V.cross = function(e, t, n) {
+      var a = e.x,
+        r = e.y,
+        i = e.z,
+        u = t.x,
+        o = t.y,
+        d = t.z,
+        s = r * d - i * o,
+        h = i * u - a * d,
+        f = a * o - r * u;
+      return (n.x = s), (n.y = h), (n.z = f), n;
+    }),
+    (V.midpoint = function(e, t, n) {
+      return (n.x = 0.5 * (e.x + t.x)), (n.y = 0.5 * (e.y + t.y)), (n.z = 0.5 * (e.z + t.z)), n;
+    }),
+    (V.fromDegrees = function(e, t, n, a, r) {
+      return (e = b.BMMath.toRadians(e)), (t = b.BMMath.toRadians(t)), V.fromRadians(e, t, n, a, r);
+    });
+  var d = new V(),
+    s = new V(),
+    h = new V(40680631590769, 40680631590769, 40408299984661.445);
+  (V.fromRadians = function(e, t, n, a, r) {
+    n = c.defaultValue(n, 0);
+    var i = A.defined(a) ? a.radiiSquared : h,
+      u = Math.cos(t);
+    (d.x = u * Math.cos(e)),
+      (d.y = u * Math.sin(e)),
+      (d.z = Math.sin(t)),
+      (d = V.normalize(d, d)),
+      V.multiplyComponents(i, d, s);
+    var o = Math.sqrt(V.dot(d, s));
+    return (
+      (s = V.divideByScalar(s, o, s)),
+      (d = V.multiplyByScalar(d, n, d)),
+      A.defined(r) || (r = new V()),
+      V.add(s, d, r)
+    );
+  }),
+    (V.fromDegreesArray = function(e, t, n) {
+      var a = e.length;
+      A.defined(n) ? (n.length = a / 2) : (n = new Array(a / 2));
+      for (var r = 0; r < a; r += 2) {
+        var i = e[r],
+          u = e[r + 1],
+          o = r / 2;
+        n[o] = V.fromDegrees(i, u, 0, t, n[o]);
+      }
+      return n;
+    }),
+    (V.fromRadiansArray = function(e, t, n) {
+      var a = e.length;
+      A.defined(n) ? (n.length = a / 2) : (n = new Array(a / 2));
+      for (var r = 0; r < a; r += 2) {
+        var i = e[r],
+          u = e[r + 1],
+          o = r / 2;
+        n[o] = V.fromRadians(i, u, 0, t, n[o]);
+      }
+      return n;
+    }),
+    (V.fromDegreesArrayHeights = function(e, t, n) {
+      var a = e.length;
+      A.defined(n) ? (n.length = a / 3) : (n = new Array(a / 3));
+      for (var r = 0; r < a; r += 3) {
+        var i = e[r],
+          u = e[r + 1],
+          o = e[r + 2],
+          d = r / 3;
+        n[d] = V.fromDegrees(i, u, o, t, n[d]);
+      }
+      return n;
+    }),
+    (V.fromRadiansArrayHeights = function(e, t, n) {
+      var a = e.length;
+      A.defined(n) ? (n.length = a / 3) : (n = new Array(a / 3));
+      for (var r = 0; r < a; r += 3) {
+        var i = e[r],
+          u = e[r + 1],
+          o = e[r + 2],
+          d = r / 3;
+        n[d] = V.fromRadians(i, u, o, t, n[d]);
+      }
+      return n;
+    }),
+    (V.ZERO = t.freezeObject(new V(0, 0, 0))),
+    (V.UNIT_X = t.freezeObject(new V(1, 0, 0))),
+    (V.UNIT_Y = t.freezeObject(new V(0, 1, 0))),
+    (V.UNIT_Z = t.freezeObject(new V(0, 0, 1))),
+    (V.prototype.clone = function(e) {
+      return V.clone(this, e);
+    }),
+    (V.prototype.equals = function(e) {
+      return V.equals(this, e);
+    }),
+    (V.prototype.equalsEpsilon = function(e, t, n) {
+      return V.equalsEpsilon(this, e, t, n);
+    }),
+    (V.prototype.toString = function() {
+      return '(' + this.x + ', ' + this.y + ', ' + this.z + ')';
+    });
+  var I = new V(),
+    E = new V();
+  function f(e, t, n, a, r) {
+    var i = e.x,
+      u = e.y,
+      o = e.z,
+      d = t.x,
+      s = t.y,
+      h = t.z,
+      f = i * i * d * d,
+      l = u * u * s * s,
+      c = o * o * h * h,
+      m = f + l + c,
+      y = Math.sqrt(1 / m),
+      M = V.multiplyByScalar(e, y, I);
+    if (m < a) return isFinite(y) ? V.clone(M, r) : void 0;
+    var p = n.x,
+      g = n.y,
+      x = n.z,
+      w = E;
+    (w.x = M.x * p * 2), (w.y = M.y * g * 2), (w.z = M.z * x * 2);
+    var v,
+      _,
+      z,
+      S,
+      q,
+      B,
+      T,
+      O = ((1 - y) * V.magnitude(e)) / (0.5 * V.magnitude(w)),
+      R = 0;
+    do {
+      R =
+        (v =
+          f * (q = (_ = 1 / (1 + (O -= R) * p)) * _) +
+          l * (B = (z = 1 / (1 + O * g)) * z) +
+          c * (T = (S = 1 / (1 + O * x)) * S) -
+          1) /
+        (-2 * (f * (q * _) * p + l * (B * z) * g + c * (T * S) * x));
+    } while (Math.abs(v) > b.BMMath.EPSILON12);
+    return A.defined(r)
+      ? ((r.x = i * _), (r.y = u * z), (r.z = o * S), r)
+      : new V(i * _, u * z, o * S);
+  }
+  function l(e, t, n) {
+    (this.longitude = c.defaultValue(e, 0)),
+      (this.latitude = c.defaultValue(t, 0)),
+      (this.height = c.defaultValue(n, 0));
+  }
+  (l.fromRadians = function(e, t, n, a) {
+    return (
+      (n = c.defaultValue(n, 0)),
+      A.defined(a) ? ((a.longitude = e), (a.latitude = t), (a.height = n), a) : new l(e, t, n)
+    );
+  }),
+    (l.fromDegrees = function(e, t, n, a) {
+      return (e = b.BMMath.toRadians(e)), (t = b.BMMath.toRadians(t)), l.fromRadians(e, t, n, a);
+    });
+  var m = new V(),
+    y = new V(),
+    M = new V(),
+    p = new V(1 / 6378137, 1 / 6378137, 1 / 6356752.314245179),
+    g = new V(1 / 40680631590769, 1 / 40680631590769, 1 / 40408299984661.445),
+    x = b.BMMath.EPSILON1;
+  function w(e, t, n, a) {
+    (t = c.defaultValue(t, 0)),
+      (n = c.defaultValue(n, 0)),
+      (a = c.defaultValue(a, 0)),
+      (e._radii = new V(t, n, a)),
+      (e._radiiSquared = new V(t * t, n * n, a * a)),
+      (e._radiiToTheFourth = new V(t * t * t * t, n * n * n * n, a * a * a * a)),
+      (e._oneOverRadii = new V(0 === t ? 0 : 1 / t, 0 === n ? 0 : 1 / n, 0 === a ? 0 : 1 / a)),
+      (e._oneOverRadiiSquared = new V(
+        0 === t ? 0 : 1 / (t * t),
+        0 === n ? 0 : 1 / (n * n),
+        0 === a ? 0 : 1 / (a * a)
+      )),
+      (e._minimumRadius = Math.min(t, n, a)),
+      (e._maximumRadius = Math.max(t, n, a)),
+      (e._centerToleranceSquared = b.BMMath.EPSILON1),
+      0 !== e._radiiSquared.z && (e._squaredXOverSquaredZ = e._radiiSquared.x / e._radiiSquared.z);
+  }
+  function v(e, t, n) {
+    (this._radii = void 0),
+      (this._radiiSquared = void 0),
+      (this._radiiToTheFourth = void 0),
+      (this._oneOverRadii = void 0),
+      (this._oneOverRadiiSquared = void 0),
+      (this._minimumRadius = void 0),
+      (this._maximumRadius = void 0),
+      (this._centerToleranceSquared = void 0),
+      (this._squaredXOverSquaredZ = void 0),
+      w(this, e, t, n);
+  }
+  (l.fromCartesian = function(e, t, n) {
+    var a = A.defined(t) ? t.oneOverRadii : p,
+      r = A.defined(t) ? t.oneOverRadiiSquared : g,
+      i = f(e, a, r, A.defined(t) ? t._centerToleranceSquared : x, y);
+    if (A.defined(i)) {
+      var u = V.multiplyComponents(i, r, m);
+      u = V.normalize(u, u);
+      var o = V.subtract(e, i, M),
+        d = Math.atan2(u.y, u.x),
+        s = Math.asin(u.z),
+        h = b.BMMath.sign(V.dot(o, e)) * V.magnitude(o);
+      return A.defined(n)
+        ? ((n.longitude = d), (n.latitude = s), (n.height = h), n)
+        : new l(d, s, h);
+    }
+  }),
+    (l.toCartesian = function(e, t, n) {
+      return V.fromRadians(e.longitude, e.latitude, e.height, t, n);
+    }),
+    (l.clone = function(e, t) {
+      if (A.defined(e))
+        return A.defined(t)
+          ? ((t.longitude = e.longitude), (t.latitude = e.latitude), (t.height = e.height), t)
+          : new l(e.longitude, e.latitude, e.height);
+    }),
+    (l.equals = function(e, t) {
+      return (
+        e === t ||
+        (A.defined(e) &&
+          A.defined(t) &&
+          e.longitude === t.longitude &&
+          e.latitude === t.latitude &&
+          e.height === t.height)
+      );
+    }),
+    (l.equalsEpsilon = function(e, t, n) {
+      return (
+        e === t ||
+        (A.defined(e) &&
+          A.defined(t) &&
+          Math.abs(e.longitude - t.longitude) <= n &&
+          Math.abs(e.latitude - t.latitude) <= n &&
+          Math.abs(e.height - t.height) <= n)
+      );
+    }),
+    (l.ZERO = t.freezeObject(new l(0, 0, 0))),
+    (l.prototype.clone = function(e) {
+      return l.clone(this, e);
+    }),
+    (l.prototype.equals = function(e) {
+      return l.equals(this, e);
+    }),
+    (l.prototype.equalsEpsilon = function(e, t) {
+      return l.equalsEpsilon(this, e, t);
+    }),
+    (l.prototype.toString = function() {
+      return '(' + this.longitude + ', ' + this.latitude + ', ' + this.height + ')';
+    }),
+    n.defineProperties(v.prototype, {
+      radii: {
+        get: function() {
+          return this._radii;
+        },
+      },
+      radiiSquared: {
+        get: function() {
+          return this._radiiSquared;
+        },
+      },
+      radiiToTheFourth: {
+        get: function() {
+          return this._radiiToTheFourth;
+        },
+      },
+      oneOverRadii: {
+        get: function() {
+          return this._oneOverRadii;
+        },
+      },
+      oneOverRadiiSquared: {
+        get: function() {
+          return this._oneOverRadiiSquared;
+        },
+      },
+      minimumRadius: {
+        get: function() {
+          return this._minimumRadius;
+        },
+      },
+      maximumRadius: {
+        get: function() {
+          return this._maximumRadius;
+        },
+      },
+    }),
+    (v.clone = function(e, t) {
+      if (A.defined(e)) {
+        var n = e._radii;
+        return A.defined(t)
+          ? (V.clone(n, t._radii),
+            V.clone(e._radiiSquared, t._radiiSquared),
+            V.clone(e._radiiToTheFourth, t._radiiToTheFourth),
+            V.clone(e._oneOverRadii, t._oneOverRadii),
+            V.clone(e._oneOverRadiiSquared, t._oneOverRadiiSquared),
+            (t._minimumRadius = e._minimumRadius),
+            (t._maximumRadius = e._maximumRadius),
+            (t._centerToleranceSquared = e._centerToleranceSquared),
+            t)
+          : new v(n.x, n.y, n.z);
+      }
+    }),
+    (v.fromCartesian3 = function(e, t) {
+      return A.defined(t) || (t = new v()), A.defined(e) && w(t, e.x, e.y, e.z), t;
+    }),
+    (v.WGS84 = t.freezeObject(new v(6378137, 6378137, 6356752.314245179))),
+    (v.UNIT_SPHERE = t.freezeObject(new v(1, 1, 1))),
+    (v.MOON = t.freezeObject(
+      new v(b.BMMath.LUNAR_RADIUS, b.BMMath.LUNAR_RADIUS, b.BMMath.LUNAR_RADIUS)
+    )),
+    (v.prototype.clone = function(e) {
+      return v.clone(this, e);
+    }),
+    (v.packedLength = V.packedLength),
+    (v.pack = function(e, t, n) {
+      return (n = c.defaultValue(n, 0)), V.pack(e._radii, t, n), t;
+    }),
+    (v.unpack = function(e, t, n) {
+      t = c.defaultValue(t, 0);
+      var a = V.unpack(e, t);
+      return v.fromCartesian3(a, n);
+    }),
+    (v.prototype.geocentricSurfaceNormal = V.normalize),
+    (v.prototype.geodeticSurfaceNormalCartographic = function(e, t) {
+      var n = e.longitude,
+        a = e.latitude,
+        r = Math.cos(a),
+        i = r * Math.cos(n),
+        u = r * Math.sin(n),
+        o = Math.sin(a);
+      return A.defined(t) || (t = new V()), (t.x = i), (t.y = u), (t.z = o), V.normalize(t, t);
+    }),
+    (v.prototype.geodeticSurfaceNormal = function(e, t) {
+      return (
+        A.defined(t) || (t = new V()),
+        (t = V.multiplyComponents(e, this._oneOverRadiiSquared, t)),
+        V.normalize(t, t)
+      );
+    });
+  var _ = new V(),
+    z = new V();
+  (v.prototype.cartographicToCartesian = function(e, t) {
+    var n = _,
+      a = z;
+    this.geodeticSurfaceNormalCartographic(e, n), V.multiplyComponents(this._radiiSquared, n, a);
+    var r = Math.sqrt(V.dot(n, a));
+    return (
+      V.divideByScalar(a, r, a),
+      V.multiplyByScalar(n, e.height, n),
+      A.defined(t) || (t = new V()),
+      V.add(a, n, t)
+    );
+  }),
+    (v.prototype.cartographicArrayToCartesianArray = function(e, t) {
+      var n = e.length;
+      A.defined(t) ? (t.length = n) : (t = new Array(n));
+      for (var a = 0; a < n; a++) t[a] = this.cartographicToCartesian(e[a], t[a]);
+      return t;
+    });
+  var S = new V(),
+    q = new V(),
+    B = new V();
+  function T(e, t, n, a) {
+    (this.west = c.defaultValue(e, 0)),
+      (this.south = c.defaultValue(t, 0)),
+      (this.east = c.defaultValue(n, 0)),
+      (this.north = c.defaultValue(a, 0));
+  }
+  (v.prototype.cartesianToCartographic = function(e, t) {
+    var n = this.scaleToGeodeticSurface(e, q);
+    if (A.defined(n)) {
+      var a = this.geodeticSurfaceNormal(n, S),
+        r = V.subtract(e, n, B),
+        i = Math.atan2(a.y, a.x),
+        u = Math.asin(a.z),
+        o = b.BMMath.sign(V.dot(r, e)) * V.magnitude(r);
+      return A.defined(t)
+        ? ((t.longitude = i), (t.latitude = u), (t.height = o), t)
+        : new l(i, u, o);
+    }
+  }),
+    (v.prototype.cartesianArrayToCartographicArray = function(e, t) {
+      var n = e.length;
+      A.defined(t) ? (t.length = n) : (t = new Array(n));
+      for (var a = 0; a < n; ++a) t[a] = this.cartesianToCartographic(e[a], t[a]);
+      return t;
+    }),
+    (v.prototype.scaleToGeodeticSurface = function(e, t) {
+      return f(e, this._oneOverRadii, this._oneOverRadiiSquared, this._centerToleranceSquared, t);
+    }),
+    (v.prototype.scaleToGeocentricSurface = function(e, t) {
+      A.defined(t) || (t = new V());
+      var n = e.x,
+        a = e.y,
+        r = e.z,
+        i = this._oneOverRadiiSquared,
+        u = 1 / Math.sqrt(n * n * i.x + a * a * i.y + r * r * i.z);
+      return V.multiplyByScalar(e, u, t);
+    }),
+    (v.prototype.transformPositionToScaledSpace = function(e, t) {
+      return A.defined(t) || (t = new V()), V.multiplyComponents(e, this._oneOverRadii, t);
+    }),
+    (v.prototype.transformPositionFromScaledSpace = function(e, t) {
+      return A.defined(t) || (t = new V()), V.multiplyComponents(e, this._radii, t);
+    }),
+    (v.prototype.equals = function(e) {
+      return this === e || (A.defined(e) && V.equals(this._radii, e._radii));
+    }),
+    (v.prototype.toString = function() {
+      return this._radii.toString();
+    }),
+    (v.prototype.getSurfaceNormalIntersectionWithZAxis = function(e, t, n) {
+      t = c.defaultValue(t, 0);
+      var a = this._squaredXOverSquaredZ;
+      if (
+        (A.defined(n) || (n = new V()),
+        (n.x = 0),
+        (n.y = 0),
+        (n.z = e.z * (1 - a)),
+        !(Math.abs(n.z) >= this._radii.z - t))
+      )
+        return n;
+    }),
+    n.defineProperties(T.prototype, {
+      width: {
+        get: function() {
+          return T.computeWidth(this);
+        },
+      },
+      height: {
+        get: function() {
+          return T.computeHeight(this);
+        },
+      },
+    }),
+    (T.packedLength = 4),
+    (T.pack = function(e, t, n) {
+      return (
+        (n = c.defaultValue(n, 0)),
+        (t[n++] = e.west),
+        (t[n++] = e.south),
+        (t[n++] = e.east),
+        (t[n] = e.north),
+        t
+      );
+    }),
+    (T.unpack = function(e, t, n) {
+      return (
+        (t = c.defaultValue(t, 0)),
+        A.defined(n) || (n = new T()),
+        (n.west = e[t++]),
+        (n.south = e[t++]),
+        (n.east = e[t++]),
+        (n.north = e[t]),
+        n
+      );
+    }),
+    (T.computeWidth = function(e) {
+      var t = e.east,
+        n = e.west;
+      return t < n && (t += b.BMMath.TWO_PI), t - n;
+    }),
+    (T.computeHeight = function(e) {
+      return e.north - e.south;
+    }),
+    (T.fromDegrees = function(e, t, n, a, r) {
+      return (
+        (e = b.BMMath.toRadians(c.defaultValue(e, 0))),
+        (t = b.BMMath.toRadians(c.defaultValue(t, 0))),
+        (n = b.BMMath.toRadians(c.defaultValue(n, 0))),
+        (a = b.BMMath.toRadians(c.defaultValue(a, 0))),
+        A.defined(r)
+          ? ((r.west = e), (r.south = t), (r.east = n), (r.north = a), r)
+          : new T(e, t, n, a)
+      );
+    }),
+    (T.fromRadians = function(e, t, n, a, r) {
+      return A.defined(r)
+        ? ((r.west = c.defaultValue(e, 0)),
+          (r.south = c.defaultValue(t, 0)),
+          (r.east = c.defaultValue(n, 0)),
+          (r.north = c.defaultValue(a, 0)),
+          r)
+        : new T(e, t, n, a);
+    }),
+    (T.fromCartographicArray = function(e, t) {
+      for (
+        var n = Number.MAX_VALUE,
+          a = -Number.MAX_VALUE,
+          r = Number.MAX_VALUE,
+          i = -Number.MAX_VALUE,
+          u = Number.MAX_VALUE,
+          o = -Number.MAX_VALUE,
+          d = 0,
+          s = e.length;
+        d < s;
+        d++
+      ) {
+        var h = e[d];
+        (n = Math.min(n, h.longitude)),
+          (a = Math.max(a, h.longitude)),
+          (u = Math.min(u, h.latitude)),
+          (o = Math.max(o, h.latitude));
+        var f = 0 <= h.longitude ? h.longitude : h.longitude + b.BMMath.TWO_PI;
+        (r = Math.min(r, f)), (i = Math.max(i, f));
+      }
+      return (
+        i - r < a - n &&
+          ((n = r),
+          (a = i) > b.BMMath.PI && (a -= b.BMMath.TWO_PI),
+          n > b.BMMath.PI && (n -= b.BMMath.TWO_PI)),
+        A.defined(t)
+          ? ((t.west = n), (t.south = u), (t.east = a), (t.north = o), t)
+          : new T(n, u, a, o)
+      );
+    }),
+    (T.fromCartesianArray = function(e, t, n) {
+      t = c.defaultValue(t, v.WGS84);
+      for (
+        var a = Number.MAX_VALUE,
+          r = -Number.MAX_VALUE,
+          i = Number.MAX_VALUE,
+          u = -Number.MAX_VALUE,
+          o = Number.MAX_VALUE,
+          d = -Number.MAX_VALUE,
+          s = 0,
+          h = e.length;
+        s < h;
+        s++
+      ) {
+        var f = t.cartesianToCartographic(e[s]);
+        (a = Math.min(a, f.longitude)),
+          (r = Math.max(r, f.longitude)),
+          (o = Math.min(o, f.latitude)),
+          (d = Math.max(d, f.latitude));
+        var l = 0 <= f.longitude ? f.longitude : f.longitude + b.BMMath.TWO_PI;
+        (i = Math.min(i, l)), (u = Math.max(u, l));
+      }
+      return (
+        u - i < r - a &&
+          ((a = i),
+          (r = u) > b.BMMath.PI && (r -= b.BMMath.TWO_PI),
+          a > b.BMMath.PI && (a -= b.BMMath.TWO_PI)),
+        A.defined(n)
+          ? ((n.west = a), (n.south = o), (n.east = r), (n.north = d), n)
+          : new T(a, o, r, d)
+      );
+    }),
+    (T.clone = function(e, t) {
+      if (A.defined(e))
+        return A.defined(t)
+          ? ((t.west = e.west), (t.south = e.south), (t.east = e.east), (t.north = e.north), t)
+          : new T(e.west, e.south, e.east, e.north);
+    }),
+    (T.equalsEpsilon = function(e, t, n) {
+      return (
+        e === t ||
+        (A.defined(e) &&
+          A.defined(t) &&
+          Math.abs(e.west - t.west) <= n &&
+          Math.abs(e.south - t.south) <= n &&
+          Math.abs(e.east - t.east) <= n &&
+          Math.abs(e.north - t.north) <= n)
+      );
+    }),
+    (T.prototype.clone = function(e) {
+      return T.clone(this, e);
+    }),
+    (T.prototype.equals = function(e) {
+      return T.equals(this, e);
+    }),
+    (T.equals = function(e, t) {
+      return (
+        e === t ||
+        (A.defined(e) &&
+          A.defined(t) &&
+          e.west === t.west &&
+          e.south === t.south &&
+          e.east === t.east &&
+          e.north === t.north)
+      );
+    }),
+    (T.prototype.equalsEpsilon = function(e, t) {
+      return T.equalsEpsilon(this, e, t);
+    }),
+    (T.validate = function(e) {}),
+    (T.southwest = function(e, t) {
+      return A.defined(t)
+        ? ((t.longitude = e.west), (t.latitude = e.south), (t.height = 0), t)
+        : new l(e.west, e.south);
+    }),
+    (T.northwest = function(e, t) {
+      return A.defined(t)
+        ? ((t.longitude = e.west), (t.latitude = e.north), (t.height = 0), t)
+        : new l(e.west, e.north);
+    }),
+    (T.northeast = function(e, t) {
+      return A.defined(t)
+        ? ((t.longitude = e.east), (t.latitude = e.north), (t.height = 0), t)
+        : new l(e.east, e.north);
+    }),
+    (T.southeast = function(e, t) {
+      return A.defined(t)
+        ? ((t.longitude = e.east), (t.latitude = e.south), (t.height = 0), t)
+        : new l(e.east, e.south);
+    }),
+    (T.center = function(e, t) {
+      var n = e.east,
+        a = e.west;
+      n < a && (n += b.BMMath.TWO_PI);
+      var r = b.BMMath.negativePiToPi(0.5 * (a + n)),
+        i = 0.5 * (e.south + e.north);
+      return A.defined(t) ? ((t.longitude = r), (t.latitude = i), (t.height = 0), t) : new l(r, i);
+    }),
+    (T.intersection = function(e, t, n) {
+      var a = e.east,
+        r = e.west,
+        i = t.east,
+        u = t.west;
+      a < r && 0 < i ? (a += b.BMMath.TWO_PI) : i < u && 0 < a && (i += b.BMMath.TWO_PI),
+        a < r && u < 0 ? (u += b.BMMath.TWO_PI) : i < u && r < 0 && (r += b.BMMath.TWO_PI);
+      var o = b.BMMath.negativePiToPi(Math.max(r, u)),
+        d = b.BMMath.negativePiToPi(Math.min(a, i));
+      if (!((e.west < e.east || t.west < t.east) && d <= o)) {
+        var s = Math.max(e.south, t.south),
+          h = Math.min(e.north, t.north);
+        if (!(h <= s))
+          return A.defined(n)
+            ? ((n.west = o), (n.south = s), (n.east = d), (n.north = h), n)
+            : new T(o, s, d, h);
+      }
+    }),
+    (T.simpleIntersection = function(e, t, n) {
+      var a = Math.max(e.west, t.west),
+        r = Math.max(e.south, t.south),
+        i = Math.min(e.east, t.east),
+        u = Math.min(e.north, t.north);
+      if (!(u <= r || i <= a))
+        return A.defined(n)
+          ? ((n.west = a), (n.south = r), (n.east = i), (n.north = u), n)
+          : new T(a, r, i, u);
+    }),
+    (T.union = function(e, t, n) {
+      A.defined(n) || (n = new T());
+      var a = e.east,
+        r = e.west,
+        i = t.east,
+        u = t.west;
+      a < r && 0 < i ? (a += b.BMMath.TWO_PI) : i < u && 0 < a && (i += b.BMMath.TWO_PI),
+        a < r && u < 0 ? (u += b.BMMath.TWO_PI) : i < u && r < 0 && (r += b.BMMath.TWO_PI);
+      var o = b.BMMath.convertLongitudeRange(Math.min(r, u)),
+        d = b.BMMath.convertLongitudeRange(Math.max(a, i));
+      return (
+        (n.west = o),
+        (n.south = Math.min(e.south, t.south)),
+        (n.east = d),
+        (n.north = Math.max(e.north, t.north)),
+        n
+      );
+    }),
+    (T.expand = function(e, t, n) {
+      return (
+        A.defined(n) || (n = new T()),
+        (n.west = Math.min(e.west, t.longitude)),
+        (n.south = Math.min(e.south, t.latitude)),
+        (n.east = Math.max(e.east, t.longitude)),
+        (n.north = Math.max(e.north, t.latitude)),
+        n
+      );
+    }),
+    (T.contains = function(e, t) {
+      var n = t.longitude,
+        a = t.latitude,
+        r = e.west,
+        i = e.east;
+      return (
+        i < r && ((i += b.BMMath.TWO_PI), n < 0 && (n += b.BMMath.TWO_PI)),
+        (r < n || b.BMMath.equalsEpsilon(n, r, b.BMMath.EPSILON14)) &&
+          (n < i || b.BMMath.equalsEpsilon(n, i, b.BMMath.EPSILON14)) &&
+          a >= e.south &&
+          a <= e.north
+      );
+    });
+  var O = new l();
+  function R(e, t) {
+    (this.x = c.defaultValue(e, 0)), (this.y = c.defaultValue(t, 0));
+  }
+  (T.subsample = function(e, t, n, a) {
+    (t = c.defaultValue(t, v.WGS84)), (n = c.defaultValue(n, 0)), A.defined(a) || (a = []);
+    var r = 0,
+      i = e.north,
+      u = e.south,
+      o = e.east,
+      d = e.west,
+      s = O;
+    (s.height = n),
+      (s.longitude = d),
+      (s.latitude = i),
+      (a[r] = t.cartographicToCartesian(s, a[r])),
+      r++,
+      (s.longitude = o),
+      (a[r] = t.cartographicToCartesian(s, a[r])),
+      r++,
+      (s.latitude = u),
+      (a[r] = t.cartographicToCartesian(s, a[r])),
+      r++,
+      (s.longitude = d),
+      (a[r] = t.cartographicToCartesian(s, a[r])),
+      r++,
+      (s.latitude = i < 0 ? i : 0 < u ? u : 0);
+    for (var h = 1; h < 8; ++h)
+      (s.longitude = -Math.PI + h * b.BMMath.PI_OVER_TWO),
+        T.contains(e, s) && ((a[r] = t.cartographicToCartesian(s, a[r])), r++);
+    return (
+      0 === s.latitude &&
+        ((s.longitude = d),
+        (a[r] = t.cartographicToCartesian(s, a[r])),
+        r++,
+        (s.longitude = o),
+        (a[r] = t.cartographicToCartesian(s, a[r])),
+        r++),
+      (a.length = r),
+      a
+    );
+  }),
+    (T.MAX_VALUE = t.freezeObject(
+      new T(-Math.PI, -b.BMMath.PI_OVER_TWO, Math.PI, b.BMMath.PI_OVER_TWO)
+    )),
+    (R.fromElements = function(e, t, n) {
+      return A.defined(n) ? ((n.x = e), (n.y = t), n) : new R(e, t);
+    }),
+    (R.fromCartesian3 = R.clone = function(e, t) {
+      if (A.defined(e)) return A.defined(t) ? ((t.x = e.x), (t.y = e.y), t) : new R(e.x, e.y);
+    }),
+    (R.fromCartesian4 = R.clone),
+    (R.packedLength = 2),
+    (R.pack = function(e, t, n) {
+      return (n = c.defaultValue(n, 0)), (t[n++] = e.x), (t[n] = e.y), t;
+    }),
+    (R.unpack = function(e, t, n) {
+      return (
+        (t = c.defaultValue(t, 0)), A.defined(n) || (n = new R()), (n.x = e[t++]), (n.y = e[t]), n
+      );
+    }),
+    (R.packArray = function(e, t) {
+      var n = e.length;
+      A.defined(t) ? (t.length = 2 * n) : (t = new Array(2 * n));
+      for (var a = 0; a < n; ++a) R.pack(e[a], t, 2 * a);
+      return t;
+    }),
+    (R.unpackArray = function(e, t) {
+      var n = e.length;
+      A.defined(t) ? (t.length = n / 2) : (t = new Array(n / 2));
+      for (var a = 0; a < n; a += 2) {
+        var r = a / 2;
+        t[r] = R.unpack(e, a, t[r]);
+      }
+      return t;
+    }),
+    (R.fromArray = R.unpack),
+    (R.maximumComponent = function(e) {
+      return Math.max(e.x, e.y);
+    }),
+    (R.minimumComponent = function(e) {
+      return Math.min(e.x, e.y);
+    }),
+    (R.minimumByComponent = function(e, t, n) {
+      return (n.x = Math.min(e.x, t.x)), (n.y = Math.min(e.y, t.y)), n;
+    }),
+    (R.maximumByComponent = function(e, t, n) {
+      return (n.x = Math.max(e.x, t.x)), (n.y = Math.max(e.y, t.y)), n;
+    }),
+    (R.magnitudeSquared = function(e) {
+      return e.x * e.x + e.y * e.y;
+    }),
+    (R.magnitude = function(e) {
+      return Math.sqrt(R.magnitudeSquared(e));
+    });
+  var C = new R();
+  (R.distance = function(e, t) {
+    return R.subtract(e, t, C), R.magnitude(C);
+  }),
+    (R.distanceSquared = function(e, t) {
+      return R.subtract(e, t, C), R.magnitudeSquared(C);
+    }),
+    (R.normalize = function(e, t) {
+      var n = R.magnitude(e);
+      return (t.x = e.x / n), (t.y = e.y / n), t;
+    }),
+    (R.dot = function(e, t) {
+      return e.x * t.x + e.y * t.y;
+    }),
+    (R.multiplyComponents = function(e, t, n) {
+      return (n.x = e.x * t.x), (n.y = e.y * t.y), n;
+    }),
+    (R.divideComponents = function(e, t, n) {
+      return (n.x = e.x / t.x), (n.y = e.y / t.y), n;
+    }),
+    (R.add = function(e, t, n) {
+      return (n.x = e.x + t.x), (n.y = e.y + t.y), n;
+    }),
+    (R.subtract = function(e, t, n) {
+      return (n.x = e.x - t.x), (n.y = e.y - t.y), n;
+    }),
+    (R.multiplyByScalar = function(e, t, n) {
+      return (n.x = e.x * t), (n.y = e.y * t), n;
+    }),
+    (R.divideByScalar = function(e, t, n) {
+      return (n.x = e.x / t), (n.y = e.y / t), n;
+    }),
+    (R.negate = function(e, t) {
+      return (t.x = -e.x), (t.y = -e.y), t;
+    }),
+    (R.abs = function(e, t) {
+      return (t.x = Math.abs(e.x)), (t.y = Math.abs(e.y)), t;
+    });
+  var P = new R();
+  R.lerp = function(e, t, n, a) {
+    return R.multiplyByScalar(t, n, P), (a = R.multiplyByScalar(e, 1 - n, a)), R.add(P, a, a);
+  };
+  var N = new R(),
+    U = new R();
+  R.angleBetween = function(e, t) {
+    return R.normalize(e, N), R.normalize(t, U), b.BMMath.acosClamped(R.dot(N, U));
+  };
+  var L = new R();
+  (R.mostOrthogonalAxis = function(e, t) {
+    var n = R.normalize(e, L);
+    return R.abs(n, n), (t = n.x <= n.y ? R.clone(R.UNIT_X, t) : R.clone(R.UNIT_Y, t));
+  }),
+    (R.equals = function(e, t) {
+      return e === t || (A.defined(e) && A.defined(t) && e.x === t.x && e.y === t.y);
+    }),
+    (R.equalsArray = function(e, t, n) {
+      return e.x === t[n] && e.y === t[n + 1];
+    }),
+    (R.equalsEpsilon = function(e, t, n, a) {
+      return (
+        e === t ||
+        (A.defined(e) &&
+          A.defined(t) &&
+          b.BMMath.equalsEpsilon(e.x, t.x, n, a) &&
+          b.BMMath.equalsEpsilon(e.y, t.y, n, a))
+      );
+    }),
+    (R.ZERO = t.freezeObject(new R(0, 0))),
+    (R.UNIT_X = t.freezeObject(new R(1, 0))),
+    (R.UNIT_Y = t.freezeObject(new R(0, 1))),
+    (R.prototype.clone = function(e) {
+      return R.clone(this, e);
+    }),
+    (R.prototype.equals = function(e) {
+      return R.equals(this, e);
+    }),
+    (R.prototype.equalsEpsilon = function(e, t, n) {
+      return R.equalsEpsilon(this, e, t, n);
+    }),
+    (R.prototype.toString = function() {
+      return '(' + this.x + ', ' + this.y + ')';
+    }),
+    (e.Cartesian2 = R),
+    (e.Cartesian3 = V),
+    (e.Cartographic = l),
+    (e.Ellipsoid = v),
+    (e.Rectangle = T);
+});

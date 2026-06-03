@@ -1,0 +1,732 @@
+define([
+  './defined-30a32f90',
+  './Math-fbd31710',
+  './freezeObject-4d675126',
+  './defaultValue-5903a66b',
+  './Cartesian2-06dac25b',
+  './defineProperties-deb3db60',
+  './Transforms-62d2509c',
+  './RuntimeError-98ac9e82',
+  './WebGLConstants-deedc028',
+  './ComponentDatatype-30a05127',
+  './GeometryAttribute-b6f01f29',
+  './when-1faa3867',
+  './GeometryAttributes-38e93c79',
+  './AttributeCompression-4610093c',
+  './GeometryPipeline-b073abaf',
+  './EncodedCartesian3-b7dd761a',
+  './IndexDatatype-a3dd2038',
+  './IntersectionTests-dd48299d',
+  './Plane-19a62994',
+  './GeometryOffsetAttribute-718df502',
+  './VertexFormat-f7b9c25e',
+  './GeometryInstance-23fe87b0',
+  './EllipsoidRhumbLine-62acd3ce',
+  './PolygonPipeline-3dd0399b',
+  './RectangleGeometryLibrary-466d6df1',
+], function(dt, pt, t, m, mt, e, k, a, r, gt, yt, n, o, i, ft, s, ht, l, u, vt, bt, _t, c, At, H) {
+  'use strict';
+  var xt = new mt.Cartesian3(),
+    wt = new mt.Cartesian3(),
+    Ct = new mt.Cartesian3(),
+    Rt = new mt.Cartesian3(),
+    _ = new mt.Rectangle(),
+    z = new mt.Cartesian2(),
+    A = new k.BoundingSphere(),
+    x = new k.BoundingSphere();
+  function Et(t, e) {
+    var a = new yt.Geometry({
+      attributes: new o.GeometryAttributes(),
+      primitiveType: yt.PrimitiveType.TRIANGLES,
+    });
+    return (
+      (a.attributes.position = new yt.GeometryAttribute({
+        componentDatatype: gt.ComponentDatatype.DOUBLE,
+        componentsPerAttribute: 3,
+        values: e.positions,
+      })),
+      t.normal &&
+        (a.attributes.normal = new yt.GeometryAttribute({
+          componentDatatype: gt.ComponentDatatype.FLOAT,
+          componentsPerAttribute: 3,
+          values: e.normals,
+        })),
+      t.tangent &&
+        (a.attributes.tangent = new yt.GeometryAttribute({
+          componentDatatype: gt.ComponentDatatype.FLOAT,
+          componentsPerAttribute: 3,
+          values: e.tangents,
+        })),
+      t.bitangent &&
+        (a.attributes.bitangent = new yt.GeometryAttribute({
+          componentDatatype: gt.ComponentDatatype.FLOAT,
+          componentsPerAttribute: 3,
+          values: e.bitangents,
+        })),
+      a
+    );
+  }
+  var Ft = new mt.Cartesian3(),
+    Gt = new mt.Cartesian3();
+  function Pt(t, e) {
+    var a = t._vertexFormat,
+      r = t._ellipsoid,
+      n = e.height,
+      o = e.width,
+      i = e.northCap,
+      s = e.southCap,
+      l = 0,
+      u = n,
+      c = n,
+      d = 0;
+    i && ((c -= l = 1), (d += 1)), s && ((u -= 1), (c -= 1), (d += 1)), (d += o * c);
+    for (
+      var p = a.position ? new Float64Array(3 * d) : void 0,
+        m = a.st ? new Float32Array(2 * d) : void 0,
+        g = 0,
+        y = 0,
+        f = xt,
+        h = z,
+        v = Number.MAX_VALUE,
+        b = Number.MAX_VALUE,
+        _ = -Number.MAX_VALUE,
+        A = -Number.MAX_VALUE,
+        x = l;
+      x < u;
+      ++x
+    )
+      for (var w = 0; w < o; ++w)
+        H.RectangleGeometryLibrary.computePosition(e, r, a.st, x, w, f, h),
+          (p[g++] = f.x),
+          (p[g++] = f.y),
+          (p[g++] = f.z),
+          a.st &&
+            ((m[y++] = h.x),
+            (m[y++] = h.y),
+            (v = Math.min(v, h.x)),
+            (b = Math.min(b, h.y)),
+            (_ = Math.max(_, h.x)),
+            (A = Math.max(A, h.y)));
+    if (
+      (i &&
+        (H.RectangleGeometryLibrary.computePosition(e, r, a.st, 0, 0, f, h),
+        (p[g++] = f.x),
+        (p[g++] = f.y),
+        (p[g++] = f.z),
+        a.st && ((m[y++] = h.x), (m[y++] = h.y), (v = h.x), (b = h.y), (_ = h.x), (A = h.y))),
+      s &&
+        (H.RectangleGeometryLibrary.computePosition(e, r, a.st, n - 1, 0, f, h),
+        (p[g++] = f.x),
+        (p[g++] = f.y),
+        (p[g] = f.z),
+        a.st &&
+          ((m[y++] = h.x),
+          (m[y] = h.y),
+          (v = Math.min(v, h.x)),
+          (b = Math.min(b, h.y)),
+          (_ = Math.max(_, h.x)),
+          (A = Math.max(A, h.y)))),
+      a.st && (v < 0 || b < 0 || 1 < _ || 1 < A))
+    )
+      for (var C = 0; C < m.length; C += 2)
+        (m[C] = (m[C] - v) / (_ - v)), (m[C + 1] = (m[C + 1] - b) / (A - b));
+    var R = (function(t, e, a, r) {
+        var n = t.length,
+          o = e.normal ? new Float32Array(n) : void 0,
+          i = e.tangent ? new Float32Array(n) : void 0,
+          s = e.bitangent ? new Float32Array(n) : void 0,
+          l = 0,
+          u = Rt,
+          c = Ct,
+          d = wt;
+        if (e.normal || e.tangent || e.bitangent)
+          for (var p = 0; p < n; p += 3) {
+            var m = mt.Cartesian3.fromArray(t, p, xt),
+              g = l + 1,
+              y = l + 2;
+            (d = a.geodeticSurfaceNormal(m, d)),
+              (e.tangent || e.bitangent) &&
+                (mt.Cartesian3.cross(mt.Cartesian3.UNIT_Z, d, c),
+                k.Matrix3.multiplyByVector(r, c, c),
+                mt.Cartesian3.normalize(c, c),
+                e.bitangent && mt.Cartesian3.normalize(mt.Cartesian3.cross(d, c, u), u)),
+              e.normal && ((o[l] = d.x), (o[g] = d.y), (o[y] = d.z)),
+              e.tangent && ((i[l] = c.x), (i[g] = c.y), (i[y] = c.z)),
+              e.bitangent && ((s[l] = u.x), (s[g] = u.y), (s[y] = u.z)),
+              (l += 3);
+          }
+        return Et(e, { positions: t, normals: o, tangents: i, bitangents: s });
+      })(p, a, r, e.tangentRotationMatrix),
+      E = 6 * (o - 1) * (c - 1);
+    i && (E += 3 * (o - 1)), s && (E += 3 * (o - 1));
+    var F,
+      G = ht.IndexDatatype.createTypedArray(d, E),
+      P = 0,
+      M = 0;
+    for (F = 0; F < c - 1; ++F) {
+      for (var V = 0; V < o - 1; ++V) {
+        var L = P,
+          D = L + o,
+          T = D + 1,
+          O = L + 1;
+        (G[M++] = L), (G[M++] = D), (G[M++] = O), (G[M++] = O), (G[M++] = D), (G[M++] = T), ++P;
+      }
+      ++P;
+    }
+    if (i || s) {
+      var N,
+        S,
+        I = d - 1,
+        B = d - 1;
+      if ((i && s && (I = d - 2), (P = 0), i))
+        for (F = 0; F < o - 1; F++)
+          (S = (N = P) + 1), (G[M++] = I), (G[M++] = N), (G[M++] = S), ++P;
+      if (s)
+        for (P = (c - 1) * o, F = 0; F < o - 1; F++)
+          (S = (N = P) + 1), (G[M++] = N), (G[M++] = B), (G[M++] = S), ++P;
+    }
+    return (
+      (R.indices = G),
+      a.st &&
+        (R.attributes.st = new yt.GeometryAttribute({
+          componentDatatype: gt.ComponentDatatype.FLOAT,
+          componentsPerAttribute: 2,
+          values: m,
+        })),
+      R
+    );
+  }
+  function Mt(t, e, a, r, n) {
+    return (
+      (t[e++] = r[a]),
+      (t[e++] = r[a + 1]),
+      (t[e++] = r[a + 2]),
+      (t[e++] = n[a]),
+      (t[e++] = n[a + 1]),
+      (t[e] = n[a + 2]),
+      t
+    );
+  }
+  function Vt(t, e, a, r) {
+    return (t[e++] = r[a]), (t[e++] = r[a + 1]), (t[e++] = r[a]), (t[e] = r[a + 1]), t;
+  }
+  var Lt = new bt.VertexFormat();
+  function w(t, e) {
+    var a,
+      r = t._shadowVolume,
+      n = t._offsetAttribute,
+      o = t._vertexFormat,
+      i = t._extrudedHeight,
+      s = t._surfaceHeight,
+      l = t._ellipsoid,
+      u = e.height,
+      c = e.width;
+    if (r) {
+      var d = bt.VertexFormat.clone(o, Lt);
+      (d.normal = !0), (t._vertexFormat = d);
+    }
+    var p = Pt(t, e);
+    r && (t._vertexFormat = o);
+    var m = At.PolygonPipeline.scaleToGeodeticHeight(p.attributes.position.values, s, l, !1),
+      g = (m = new Float64Array(m)).length,
+      y = 2 * g,
+      f = new Float64Array(y);
+    f.set(m);
+    var h = At.PolygonPipeline.scaleToGeodeticHeight(p.attributes.position.values, i, l);
+    f.set(h, g), (p.attributes.position.values = f);
+    var v,
+      b,
+      _,
+      A = o.normal ? new Float32Array(y) : void 0,
+      x = o.tangent ? new Float32Array(y) : void 0,
+      w = o.bitangent ? new Float32Array(y) : void 0,
+      C = o.st ? new Float32Array((y / 3) * 2) : void 0;
+    if (o.normal) {
+      for (b = p.attributes.normal.values, A.set(b), a = 0; a < g; a++) b[a] = -b[a];
+      A.set(b, g), (p.attributes.normal.values = A);
+    }
+    if (r) {
+      (b = p.attributes.normal.values), o.normal || (p.attributes.normal = void 0);
+      var R = new Float32Array(y);
+      for (a = 0; a < g; a++) b[a] = -b[a];
+      R.set(b, g),
+        (p.attributes.extrudeDirection = new yt.GeometryAttribute({
+          componentDatatype: gt.ComponentDatatype.FLOAT,
+          componentsPerAttribute: 3,
+          values: R,
+        }));
+    }
+    var E = dt.defined(n);
+    if (E) {
+      var F = (g / 3) * 2,
+        G = new Uint8Array(F);
+      (G =
+        n === vt.GeometryOffsetAttribute.TOP
+          ? vt.arrayFill(G, 1, 0, F / 2)
+          : ((_ = n === vt.GeometryOffsetAttribute.NONE ? 0 : 1), vt.arrayFill(G, _))),
+        (p.attributes.applyOffset = new yt.GeometryAttribute({
+          componentDatatype: gt.ComponentDatatype.UNSIGNED_BYTE,
+          componentsPerAttribute: 1,
+          values: G,
+        }));
+    }
+    if (o.tangent) {
+      var P = p.attributes.tangent.values;
+      for (x.set(P), a = 0; a < g; a++) P[a] = -P[a];
+      x.set(P, g), (p.attributes.tangent.values = x);
+    }
+    if (o.bitangent) {
+      var M = p.attributes.bitangent.values;
+      w.set(M), w.set(M, g), (p.attributes.bitangent.values = w);
+    }
+    o.st &&
+      ((v = p.attributes.st.values), C.set(v), C.set(v, (g / 3) * 2), (p.attributes.st.values = C));
+    var V = p.indices,
+      L = V.length,
+      D = g / 3,
+      T = ht.IndexDatatype.createTypedArray(y / 3, 2 * L);
+    for (T.set(V), a = 0; a < L; a += 3)
+      (T[a + L] = V[a + 2] + D), (T[a + 1 + L] = V[a + 1] + D), (T[a + 2 + L] = V[a] + D);
+    p.indices = T;
+    var O = e.northCap,
+      N = e.southCap,
+      S = u,
+      I = 2,
+      B = 0,
+      k = 4,
+      H = 4;
+    O && ((I -= 1), (S -= 1), (B += 1), (k -= 2), (H -= 1)),
+      N && ((I -= 1), (S -= 1), (B += 1), (k -= 2), (H -= 1));
+    var z = 2 * ((B += I * c + 2 * S - k) + H),
+      U = new Float64Array(3 * z),
+      Y = r ? new Float32Array(3 * z) : void 0,
+      q = E ? new Uint8Array(z) : void 0,
+      X = o.st ? new Float32Array(2 * z) : void 0,
+      Q = n === vt.GeometryOffsetAttribute.TOP;
+    E && !Q && ((_ = n === vt.GeometryOffsetAttribute.ALL ? 1 : 0), (q = vt.arrayFill(q, _)));
+    var W,
+      J = 0,
+      j = 0,
+      Z = 0,
+      K = 0,
+      $ = c * S;
+    for (a = 0; a < $; a += c)
+      (U = Mt(U, J, (W = 3 * a), m, h)),
+        (J += 6),
+        o.st && ((X = Vt(X, j, 2 * a, v)), (j += 4)),
+        r && ((Z += 3), (Y[Z++] = b[W]), (Y[Z++] = b[W + 1]), (Y[Z++] = b[W + 2])),
+        Q && ((q[K++] = 1), (K += 1));
+    if (N) {
+      var tt = O ? 1 + $ : $;
+      for (W = 3 * tt, a = 0; a < 2; a++)
+        (U = Mt(U, J, W, m, h)),
+          (J += 6),
+          o.st && ((X = Vt(X, j, 2 * tt, v)), (j += 4)),
+          r && ((Z += 3), (Y[Z++] = b[W]), (Y[Z++] = b[W + 1]), (Y[Z++] = b[W + 2])),
+          Q && ((q[K++] = 1), (K += 1));
+    } else
+      for (a = $ - c; a < $; a++)
+        (U = Mt(U, J, (W = 3 * a), m, h)),
+          (J += 6),
+          o.st && ((X = Vt(X, j, 2 * a, v)), (j += 4)),
+          r && ((Z += 3), (Y[Z++] = b[W]), (Y[Z++] = b[W + 1]), (Y[Z++] = b[W + 2])),
+          Q && ((q[K++] = 1), (K += 1));
+    for (a = $ - 1; 0 < a; a -= c)
+      (U = Mt(U, J, (W = 3 * a), m, h)),
+        (J += 6),
+        o.st && ((X = Vt(X, j, 2 * a, v)), (j += 4)),
+        r && ((Z += 3), (Y[Z++] = b[W]), (Y[Z++] = b[W + 1]), (Y[Z++] = b[W + 2])),
+        Q && ((q[K++] = 1), (K += 1));
+    if (O) {
+      var et = $;
+      for (W = 3 * et, a = 0; a < 2; a++)
+        (U = Mt(U, J, W, m, h)),
+          (J += 6),
+          o.st && ((X = Vt(X, j, 2 * et, v)), (j += 4)),
+          r && ((Z += 3), (Y[Z++] = b[W]), (Y[Z++] = b[W + 1]), (Y[Z++] = b[W + 2])),
+          Q && ((q[K++] = 1), (K += 1));
+    } else
+      for (a = c - 1; 0 <= a; a--)
+        (U = Mt(U, J, (W = 3 * a), m, h)),
+          (J += 6),
+          o.st && ((X = Vt(X, j, 2 * a, v)), (j += 4)),
+          r && ((Z += 3), (Y[Z++] = b[W]), (Y[Z++] = b[W + 1]), (Y[Z++] = b[W + 2])),
+          Q && ((q[K++] = 1), (K += 1));
+    var at = (function(t, e, a) {
+      var r = t.length,
+        n = e.normal ? new Float32Array(r) : void 0,
+        o = e.tangent ? new Float32Array(r) : void 0,
+        i = e.bitangent ? new Float32Array(r) : void 0,
+        s = 0,
+        l = 0,
+        u = 0,
+        c = !0,
+        d = Rt,
+        p = Ct,
+        m = wt;
+      if (e.normal || e.tangent || e.bitangent)
+        for (var g = 0; g < r; g += 6) {
+          var y = mt.Cartesian3.fromArray(t, g, xt),
+            f = mt.Cartesian3.fromArray(t, (g + 6) % r, Ft);
+          if (c) {
+            var h = mt.Cartesian3.fromArray(t, (g + 3) % r, Gt);
+            mt.Cartesian3.subtract(f, y, f),
+              mt.Cartesian3.subtract(h, y, h),
+              (m = mt.Cartesian3.normalize(mt.Cartesian3.cross(h, f, m), m)),
+              (c = !1);
+          }
+          mt.Cartesian3.equalsEpsilon(f, y, pt.BMMath.EPSILON10) && (c = !0),
+            (e.tangent || e.bitangent) &&
+              ((d = a.geodeticSurfaceNormal(y, d)),
+              e.tangent && (p = mt.Cartesian3.normalize(mt.Cartesian3.cross(d, m, p), p))),
+            e.normal &&
+              ((n[s++] = m.x),
+              (n[s++] = m.y),
+              (n[s++] = m.z),
+              (n[s++] = m.x),
+              (n[s++] = m.y),
+              (n[s++] = m.z)),
+            e.tangent &&
+              ((o[l++] = p.x),
+              (o[l++] = p.y),
+              (o[l++] = p.z),
+              (o[l++] = p.x),
+              (o[l++] = p.y),
+              (o[l++] = p.z)),
+            e.bitangent &&
+              ((i[u++] = d.x),
+              (i[u++] = d.y),
+              (i[u++] = d.z),
+              (i[u++] = d.x),
+              (i[u++] = d.y),
+              (i[u++] = d.z));
+        }
+      return Et(e, { positions: t, normals: n, tangents: o, bitangents: i });
+    })(U, o, l);
+    o.st &&
+      (at.attributes.st = new yt.GeometryAttribute({
+        componentDatatype: gt.ComponentDatatype.FLOAT,
+        componentsPerAttribute: 2,
+        values: X,
+      })),
+      r &&
+        (at.attributes.extrudeDirection = new yt.GeometryAttribute({
+          componentDatatype: gt.ComponentDatatype.FLOAT,
+          componentsPerAttribute: 3,
+          values: Y,
+        })),
+      E &&
+        (at.attributes.applyOffset = new yt.GeometryAttribute({
+          componentDatatype: gt.ComponentDatatype.UNSIGNED_BYTE,
+          componentsPerAttribute: 1,
+          values: q,
+        }));
+    var rt,
+      nt,
+      ot,
+      it,
+      st = ht.IndexDatatype.createTypedArray(z, 6 * B);
+    g = U.length / 3;
+    var lt = 0;
+    for (a = 0; a < g - 1; a += 2) {
+      it = ((rt = a) + 2) % g;
+      var ut = mt.Cartesian3.fromArray(U, 3 * rt, Ft),
+        ct = mt.Cartesian3.fromArray(U, 3 * it, Gt);
+      mt.Cartesian3.equalsEpsilon(ut, ct, pt.BMMath.EPSILON10) ||
+        ((ot = (2 + (nt = (rt + 1) % g)) % g),
+        (st[lt++] = rt),
+        (st[lt++] = nt),
+        (st[lt++] = it),
+        (st[lt++] = it),
+        (st[lt++] = nt),
+        (st[lt++] = ot));
+    }
+    return (
+      (at.indices = st),
+      (at = ft.GeometryPipeline.combineInstances([
+        new _t.GeometryInstance({ geometry: p }),
+        new _t.GeometryInstance({ geometry: at }),
+      ]))[0]
+    );
+  }
+  var d = [new mt.Cartesian3(), new mt.Cartesian3(), new mt.Cartesian3(), new mt.Cartesian3()],
+    C = new mt.Cartographic(),
+    R = new mt.Cartographic();
+  function y(t, e, a, r, n) {
+    if (0 === a) return mt.Rectangle.clone(t, n);
+    var o = H.RectangleGeometryLibrary.computeOptions(t, e, a, 0, _, C),
+      i = o.height,
+      s = o.width,
+      l = d;
+    return (
+      H.RectangleGeometryLibrary.computePosition(o, r, !1, 0, 0, l[0]),
+      H.RectangleGeometryLibrary.computePosition(o, r, !1, 0, s - 1, l[1]),
+      H.RectangleGeometryLibrary.computePosition(o, r, !1, i - 1, 0, l[2]),
+      H.RectangleGeometryLibrary.computePosition(o, r, !1, i - 1, s - 1, l[3]),
+      mt.Rectangle.fromCartesianArray(l, r, n)
+    );
+  }
+  function g(t) {
+    var e = (t = m.defaultValue(t, m.defaultValue.EMPTY_OBJECT)).rectangle,
+      a = m.defaultValue(t.height, 0),
+      r = m.defaultValue(t.extrudedHeight, a);
+    (this._rectangle = mt.Rectangle.clone(e)),
+      (this._granularity = m.defaultValue(t.granularity, pt.BMMath.RADIANS_PER_DEGREE)),
+      (this._ellipsoid = mt.Ellipsoid.clone(m.defaultValue(t.ellipsoid, mt.Ellipsoid.WGS84))),
+      (this._surfaceHeight = Math.max(a, r)),
+      (this._rotation = m.defaultValue(t.rotation, 0)),
+      (this._stRotation = m.defaultValue(t.stRotation, 0)),
+      (this._vertexFormat = bt.VertexFormat.clone(
+        m.defaultValue(t.vertexFormat, bt.VertexFormat.DEFAULT)
+      )),
+      (this._extrudedHeight = Math.min(a, r)),
+      (this._shadowVolume = m.defaultValue(t.shadowVolume, !1)),
+      (this._workerName = 'createRectangleGeometry'),
+      (this._offsetAttribute = t.offsetAttribute),
+      (this._rotatedRectangle = void 0),
+      (this._textureCoordinateRotationPoints = void 0);
+  }
+  (g.packedLength =
+    mt.Rectangle.packedLength + mt.Ellipsoid.packedLength + bt.VertexFormat.packedLength + 7),
+    (g.pack = function(t, e, a) {
+      return (
+        (a = m.defaultValue(a, 0)),
+        mt.Rectangle.pack(t._rectangle, e, a),
+        (a += mt.Rectangle.packedLength),
+        mt.Ellipsoid.pack(t._ellipsoid, e, a),
+        (a += mt.Ellipsoid.packedLength),
+        bt.VertexFormat.pack(t._vertexFormat, e, a),
+        (a += bt.VertexFormat.packedLength),
+        (e[a++] = t._granularity),
+        (e[a++] = t._surfaceHeight),
+        (e[a++] = t._rotation),
+        (e[a++] = t._stRotation),
+        (e[a++] = t._extrudedHeight),
+        (e[a++] = t._shadowVolume ? 1 : 0),
+        (e[a] = m.defaultValue(t._offsetAttribute, -1)),
+        e
+      );
+    });
+  var f = new mt.Rectangle(),
+    h = mt.Ellipsoid.clone(mt.Ellipsoid.UNIT_SPHERE),
+    v = {
+      rectangle: f,
+      ellipsoid: h,
+      vertexFormat: Lt,
+      granularity: void 0,
+      height: void 0,
+      rotation: void 0,
+      stRotation: void 0,
+      extrudedHeight: void 0,
+      shadowVolume: void 0,
+      offsetAttribute: void 0,
+    };
+  (g.unpack = function(t, e, a) {
+    e = m.defaultValue(e, 0);
+    var r = mt.Rectangle.unpack(t, e, f);
+    e += mt.Rectangle.packedLength;
+    var n = mt.Ellipsoid.unpack(t, e, h);
+    e += mt.Ellipsoid.packedLength;
+    var o = bt.VertexFormat.unpack(t, e, Lt);
+    e += bt.VertexFormat.packedLength;
+    var i = t[e++],
+      s = t[e++],
+      l = t[e++],
+      u = t[e++],
+      c = t[e++],
+      d = 1 === t[e++],
+      p = t[e];
+    return dt.defined(a)
+      ? ((a._rectangle = mt.Rectangle.clone(r, a._rectangle)),
+        (a._ellipsoid = mt.Ellipsoid.clone(n, a._ellipsoid)),
+        (a._vertexFormat = bt.VertexFormat.clone(o, a._vertexFormat)),
+        (a._granularity = i),
+        (a._surfaceHeight = s),
+        (a._rotation = l),
+        (a._stRotation = u),
+        (a._extrudedHeight = c),
+        (a._shadowVolume = d),
+        (a._offsetAttribute = -1 === p ? void 0 : p),
+        a)
+      : ((v.granularity = i),
+        (v.height = s),
+        (v.rotation = l),
+        (v.stRotation = u),
+        (v.extrudedHeight = c),
+        (v.shadowVolume = d),
+        (v.offsetAttribute = -1 === p ? void 0 : p),
+        new g(v));
+  }),
+    (g.computeRectangle = function(t, e) {
+      var a = (t = m.defaultValue(t, m.defaultValue.EMPTY_OBJECT)).rectangle,
+        r = m.defaultValue(t.granularity, pt.BMMath.RADIANS_PER_DEGREE),
+        n = m.defaultValue(t.ellipsoid, mt.Ellipsoid.WGS84);
+      return y(a, r, m.defaultValue(t.rotation, 0), n, e);
+    });
+  var E = new k.Matrix3(),
+    F = new k.Quaternion(),
+    G = new mt.Cartographic();
+  (g.createGeometry = function(t) {
+    if (
+      !pt.BMMath.equalsEpsilon(t._rectangle.north, t._rectangle.south, pt.BMMath.EPSILON10) &&
+      !pt.BMMath.equalsEpsilon(t._rectangle.east, t._rectangle.west, pt.BMMath.EPSILON10)
+    ) {
+      var e = t._rectangle,
+        a = t._ellipsoid,
+        r = t._rotation,
+        n = t._stRotation,
+        o = t._vertexFormat,
+        i = H.RectangleGeometryLibrary.computeOptions(e, t._granularity, r, n, _, C, R),
+        s = E;
+      if (0 !== n || 0 !== r) {
+        var l = mt.Rectangle.center(e, G),
+          u = a.geodeticSurfaceNormalCartographic(l, Ft);
+        k.Quaternion.fromAxisAngle(u, -n, F), k.Matrix3.fromQuaternion(F, s);
+      } else k.Matrix3.clone(k.Matrix3.IDENTITY, s);
+      var c,
+        d,
+        p = t._surfaceHeight,
+        m = t._extrudedHeight,
+        g = !pt.BMMath.equalsEpsilon(p, m, 0, pt.BMMath.EPSILON2);
+      if (
+        ((i.lonScalar = 1 / t._rectangle.width),
+        (i.latScalar = 1 / t._rectangle.height),
+        (i.tangentRotationMatrix = s),
+        (e = t._rectangle),
+        g)
+      ) {
+        c = w(t, i);
+        var y = k.BoundingSphere.fromRectangle3D(e, a, p, x),
+          f = k.BoundingSphere.fromRectangle3D(e, a, m, A);
+        d = k.BoundingSphere.union(y, f);
+      } else {
+        if (
+          (((c = Pt(t, i)).attributes.position.values = At.PolygonPipeline.scaleToGeodeticHeight(
+            c.attributes.position.values,
+            p,
+            a,
+            !1
+          )),
+          dt.defined(t._offsetAttribute))
+        ) {
+          var h = c.attributes.position.values.length,
+            v = new Uint8Array(h / 3),
+            b = t._offsetAttribute === vt.GeometryOffsetAttribute.NONE ? 0 : 1;
+          vt.arrayFill(v, b),
+            (c.attributes.applyOffset = new yt.GeometryAttribute({
+              componentDatatype: gt.ComponentDatatype.UNSIGNED_BYTE,
+              componentsPerAttribute: 1,
+              values: v,
+            }));
+        }
+        d = k.BoundingSphere.fromRectangle3D(e, a, p);
+      }
+      return (
+        o.position || delete c.attributes.position,
+        new yt.Geometry({
+          attributes: c.attributes,
+          indices: c.indices,
+          primitiveType: c.primitiveType,
+          boundingSphere: d,
+          offsetAttribute: t._offsetAttribute,
+        })
+      );
+    }
+  }),
+    (g.createShadowVolume = function(t, e, a) {
+      var r = t._granularity,
+        n = t._ellipsoid,
+        o = e(r, n),
+        i = a(r, n);
+      return new g({
+        rectangle: t._rectangle,
+        rotation: t._rotation,
+        ellipsoid: n,
+        stRotation: t._stRotation,
+        granularity: r,
+        extrudedHeight: i,
+        height: o,
+        vertexFormat: bt.VertexFormat.POSITION_ONLY,
+        shadowVolume: !0,
+      });
+    });
+  var b = new mt.Rectangle(),
+    P = [new mt.Cartesian2(), new mt.Cartesian2(), new mt.Cartesian2()],
+    M = new yt.Matrix2(),
+    V = new mt.Cartographic();
+  return (
+    e.defineProperties(g.prototype, {
+      rectangle: {
+        get: function() {
+          return (
+            dt.defined(this._rotatedRectangle) ||
+              (this._rotatedRectangle = y(
+                this._rectangle,
+                this._granularity,
+                this._rotation,
+                this._ellipsoid
+              )),
+            this._rotatedRectangle
+          );
+        },
+      },
+      textureCoordinateRotationPoints: {
+        get: function() {
+          return (
+            dt.defined(this._textureCoordinateRotationPoints) ||
+              (this._textureCoordinateRotationPoints = (function(t) {
+                if (0 === t._stRotation) return [0, 0, 0, 1, 1, 0];
+                var e = mt.Rectangle.clone(t._rectangle, b),
+                  a = t._granularity,
+                  r = t._ellipsoid,
+                  n = y(e, a, t._rotation - t._stRotation, r, b),
+                  o = P;
+                (o[0].x = n.west),
+                  (o[0].y = n.south),
+                  (o[1].x = n.west),
+                  (o[1].y = n.north),
+                  (o[2].x = n.east),
+                  (o[2].y = n.south);
+                for (
+                  var i = t.rectangle,
+                    s = yt.Matrix2.fromRotation(t._stRotation, M),
+                    l = mt.Rectangle.center(i, V),
+                    u = 0;
+                  u < 3;
+                  ++u
+                ) {
+                  var c = o[u];
+                  (c.x -= l.longitude),
+                    (c.y -= l.latitude),
+                    yt.Matrix2.multiplyByVector(s, c, c),
+                    (c.x += l.longitude),
+                    (c.y += l.latitude),
+                    (c.x = (c.x - i.west) / i.width),
+                    (c.y = (c.y - i.south) / i.height);
+                }
+                var d = o[0],
+                  p = o[1],
+                  m = o[2],
+                  g = new Array(6);
+                return (
+                  mt.Cartesian2.pack(d, g),
+                  mt.Cartesian2.pack(p, g, 2),
+                  mt.Cartesian2.pack(m, g, 4),
+                  g
+                );
+              })(this)),
+            this._textureCoordinateRotationPoints
+          );
+        },
+      },
+    }),
+    function(t, e) {
+      return (
+        dt.defined(e) && (t = g.unpack(t, e)),
+        (t._ellipsoid = mt.Ellipsoid.clone(t._ellipsoid)),
+        (t._rectangle = mt.Rectangle.clone(t._rectangle)),
+        g.createGeometry(t)
+      );
+    }
+  );
+});

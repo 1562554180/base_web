@@ -1,0 +1,65 @@
+define([
+  './defined-30a32f90',
+  './Math-fbd31710',
+  './freezeObject-4d675126',
+  './defaultValue-5903a66b',
+  './Cartesian2-06dac25b',
+  './defineProperties-deb3db60',
+  './Transforms-62d2509c',
+  './RuntimeError-98ac9e82',
+  './WebGLConstants-deedc028',
+  './ComponentDatatype-30a05127',
+  './GeometryAttribute-b6f01f29',
+  './when-1faa3867',
+  './GeometryAttributes-38e93c79',
+  './IndexDatatype-a3dd2038',
+  './GeometryOffsetAttribute-718df502',
+  './VertexFormat-f7b9c25e',
+  './EllipsoidGeometry-14c76c5b',
+], function(a, e, t, i, o, r, n, s, d, c, l, m, u, f, p, y, G) {
+  'use strict';
+  function b(e) {
+    var t = i.defaultValue(e.radius, 1),
+      r = {
+        radii: new o.Cartesian3(t, t, t),
+        stackPartitions: e.stackPartitions,
+        slicePartitions: e.slicePartitions,
+        vertexFormat: e.vertexFormat,
+      };
+    (this._ellipsoidGeometry = new G.EllipsoidGeometry(r)),
+      (this._workerName = 'createSphereGeometry');
+  }
+  (b.packedLength = G.EllipsoidGeometry.packedLength),
+    (b.pack = function(e, t, r) {
+      return G.EllipsoidGeometry.pack(e._ellipsoidGeometry, t, r);
+    });
+  var k = new G.EllipsoidGeometry(),
+    v = {
+      radius: void 0,
+      radii: new o.Cartesian3(),
+      vertexFormat: new y.VertexFormat(),
+      stackPartitions: void 0,
+      slicePartitions: void 0,
+    };
+  return (
+    (b.unpack = function(e, t, r) {
+      var i = G.EllipsoidGeometry.unpack(e, t, k);
+      return (
+        (v.vertexFormat = y.VertexFormat.clone(i._vertexFormat, v.vertexFormat)),
+        (v.stackPartitions = i._stackPartitions),
+        (v.slicePartitions = i._slicePartitions),
+        a.defined(r)
+          ? (o.Cartesian3.clone(i._radii, v.radii),
+            (r._ellipsoidGeometry = new G.EllipsoidGeometry(v)),
+            r)
+          : ((v.radius = i._radii.x), new b(v))
+      );
+    }),
+    (b.createGeometry = function(e) {
+      return G.EllipsoidGeometry.createGeometry(e._ellipsoidGeometry);
+    }),
+    function(e, t) {
+      return a.defined(t) && (e = b.unpack(e, t)), b.createGeometry(e);
+    }
+  );
+});

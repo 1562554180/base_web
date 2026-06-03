@@ -1,0 +1,137 @@
+import { R as r, j as s } from './bootstrap-CaGnHU9H.js';
+import 'D:\\work\\base_web\\node_modules\\react\\cjs\\react.production.min.js';
+import 'D:\\work\\base_web\\node_modules\\history\\cjs\\history.min.js';
+import 'D:\\work\\base_web\\node_modules\\react-dom\\cjs\\react-dom.production.min.js';
+import 'D:\\work\\base_web\\node_modules\\rc-util\\node_modules\\react-is\\cjs\\react-is.production.min.js';
+import 'D:\\work\\base_web\\node_modules\\react\\cjs\\react-jsx-runtime.production.min.js';
+import './main-Bsls2Jb-.js';
+const l = 'Converter-module__convCardList---x2fG',
+  t = 'Converter-module__convCardItem--blxuh',
+  d = 'Converter-module__convCardTitle--X7gNL',
+  u = 'Converter-module__convCardGrid--8hcfN',
+  i = 'Converter-module__convStat--cqoWJ',
+  v = 'Converter-module__convLabel--9D1ki',
+  m = 'Converter-module__convValue--EcM7u',
+  x = 'Converter-module__mono--Sm3OW',
+  p = 'Converter-module__statusText--uJL9-',
+  e = {
+    convCardList: l,
+    convCardItem: t,
+    convCardTitle: d,
+    convCardGrid: u,
+    convStat: i,
+    convLabel: v,
+    convValue: m,
+    mono: x,
+    statusText: p,
+  };
+function C(a) {
+  return (a / 1e3).toFixed(0) + 'MHz';
+}
+function q({ data: a }) {
+  const o = r.useMemo(
+    () =>
+      (a?.items || []).map(n => ({
+        id: n.id,
+        type: n.type,
+        device: n.device || n.version || '—',
+        ifFreq: n.ifMod != null ? n.ifMod + 'MHz' : n.ifFreq || '—',
+        centerLfFreq: n.freq != null ? C(n.freq) : n.centerLfFreq || '—',
+        gain: n.outGain != null ? n.outGain : n.gain || 0,
+        onlineStatus: n.onlineStatus || 'off',
+      })),
+    [a?.items]
+  );
+  return s.jsxs('section', {
+    className: 'module-section',
+    children: [
+      s.jsxs('div', { className: 'module-header', children: ['变频器 (', a?.count, ' 个)'] }),
+      s.jsx('div', {
+        className: 'module-content',
+        children: s.jsx('div', {
+          className: e.convCardList,
+          children: o.map((n, c) =>
+            s.jsxs(
+              'div',
+              {
+                className: e.convCardItem,
+                children: [
+                  s.jsxs('div', {
+                    className: e.convCardTitle,
+                    children: [
+                      'CONV-',
+                      n.id,
+                      s.jsxs('span', {
+                        className: 'status-indicator',
+                        children: [
+                          s.jsx('span', {
+                            className: `status-dot ${n.onlineStatus === 'on' ? 'normal' : 'error'}`,
+                          }),
+                          s.jsx('span', {
+                            className: e.statusText,
+                            children: n.onlineStatus === 'on' ? '在线' : '离线',
+                          }),
+                        ],
+                      }),
+                    ],
+                  }),
+                  s.jsxs('div', {
+                    className: e.convCardGrid,
+                    children: [
+                      s.jsxs('span', {
+                        className: e.convStat,
+                        children: [
+                          s.jsx('span', { className: e.convLabel, children: '类型' }),
+                          s.jsx('span', { className: e.convValue, children: n.type }),
+                        ],
+                      }),
+                      s.jsxs('span', {
+                        className: e.convStat,
+                        children: [
+                          s.jsx('span', { className: e.convLabel, children: '设备' }),
+                          s.jsx('span', { className: e.convValue, children: n.device }),
+                        ],
+                      }),
+                      s.jsxs('span', {
+                        className: e.convStat,
+                        children: [
+                          s.jsx('span', { className: e.convLabel, children: '中频模式' }),
+                          s.jsx('span', {
+                            className: `${e.convValue} ${e.mono}`,
+                            children: n.ifFreq,
+                          }),
+                        ],
+                      }),
+                      s.jsxs('span', {
+                        className: e.convStat,
+                        children: [
+                          s.jsx('span', { className: e.convLabel, children: '频率' }),
+                          s.jsx('span', {
+                            className: `${e.convValue} ${e.mono}`,
+                            children: n.centerLfFreq,
+                          }),
+                        ],
+                      }),
+                      s.jsxs('span', {
+                        className: e.convStat,
+                        children: [
+                          s.jsx('span', { className: e.convLabel, children: '增益' }),
+                          s.jsxs('span', {
+                            className: `${e.convValue} ${e.mono}`,
+                            children: [n.gain, 'dB'],
+                          }),
+                        ],
+                      }),
+                    ],
+                  }),
+                ],
+              },
+              c
+            )
+          ),
+        }),
+      }),
+    ],
+  });
+}
+export { q as default };

@@ -155,16 +155,21 @@ export default function TopologyGraph({ data, onViewModeChange }) {
 
   return (
     <section className={styles['topology-section']}>
-      <div className="module-header">
+      <div
+        style={{ display: 'flex', justifyContent: 'space-between' }}
+        className={styles['module-header']}
+      >
         <span>系统拓扑图</span>
         <div className={styles['view-toggle']}>
           <button
+            style={{ padding: '2px 10px' }}
             className={`${styles['view-btn']} ${viewMode === 'table' ? styles['active'] : ''}`}
             onClick={() => switchView('table')}
           >
             表格
           </button>
           <button
+            style={{ padding: '2px 10px' }}
             className={`${styles['view-btn']} ${viewMode === 'rack' ? styles['active'] : ''}`}
             onClick={() => switchView('rack')}
           >
@@ -173,7 +178,7 @@ export default function TopologyGraph({ data, onViewModeChange }) {
         </div>
       </div>
 
-      <div className="module-content">
+      <div style={{ display: 'flex', flex: 1 }} className="module-content">
         {viewMode === 'table' && (
           <div className="table-scroll">
             <table className={styles['chain-table']} aria-label="信号链路拓扑">

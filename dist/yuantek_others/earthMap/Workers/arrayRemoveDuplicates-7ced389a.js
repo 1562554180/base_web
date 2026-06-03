@@ -1,0 +1,23 @@
+define(['exports', './defined-30a32f90', './Math-fbd31710', './defaultValue-5903a66b'], function(
+  e,
+  l,
+  t,
+  d
+) {
+  'use strict';
+  var h = t.BMMath.EPSILON10;
+  e.arrayRemoveDuplicates = function(e, t, f) {
+    if (l.defined(e)) {
+      f = d.defaultValue(f, !1);
+      var r,
+        a,
+        n,
+        i = e.length;
+      if (i < 2) return e;
+      for (r = 1; r < i && !t((a = e[r - 1]), (n = e[r]), h); ++r);
+      if (r === i) return f && t(e[0], e[e.length - 1], h) ? e.slice(1) : e;
+      for (var u = e.slice(0, r); r < i; ++r) t(a, (n = e[r]), h) || (u.push(n), (a = n));
+      return f && 1 < u.length && t(u[0], u[u.length - 1], h) && u.shift(), u;
+    }
+  };
+});

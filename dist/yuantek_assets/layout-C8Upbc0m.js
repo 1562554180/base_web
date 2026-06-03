@@ -1,0 +1,8172 @@
+import {
+  z as Ot,
+  A as Xr,
+  E as Mt,
+  $ as Te,
+  D as G,
+  r as I,
+  y as Ae,
+  f as le,
+  a2 as Zr,
+  N as ds,
+  aM as hs,
+  I as fs,
+  ah as ha,
+  O as Vr,
+  R as se,
+  H as fa,
+  aT as ps,
+  aZ as Jr,
+  J as gs,
+  o as pa,
+  _ as ms,
+  h as pn,
+  t as vs,
+  X as gn,
+  aj as ys,
+  aq as bs,
+  a7 as _s,
+  bv as Ss,
+  a1 as xs,
+  bj as en,
+  bl as ws,
+  bm as ga,
+  bk as Cs,
+  bw as $s,
+  ba as oe,
+  j as p,
+  af as Ie,
+  d as Et,
+  bd as de,
+  s as H,
+  bx as tn,
+  by as js,
+  bz as Is,
+  bA as As,
+  bB as Ps,
+  bi as re,
+  bC as rn,
+  bo as we,
+  bD as Gr,
+  bE as Os,
+  bF as Tt,
+  bG as Ms,
+  bH as Es,
+  bI as Ds,
+  bp as Ns,
+  bs as Ve,
+  bJ as ma,
+  bK as va,
+  bL as ya,
+  b3 as mn,
+  B as ba,
+  bM as Rs,
+  bN as ke,
+  bO as At,
+  bP as qs,
+  bQ as Ls,
+  bR as Ts,
+  bS as ks,
+  bT as Ws,
+  bU as zs,
+  bV as vn,
+  bW as Fs,
+  bX as Hs,
+  bY as Qe,
+  bZ as Xe,
+  b_ as Bs,
+  b$ as Vs,
+  c0 as Gs,
+  c1 as Us,
+  c2 as yn,
+} from './bootstrap-CaGnHU9H.js';
+import {
+  G as _a,
+  H as Sa,
+  J as xa,
+  K as wa,
+  N as Ys,
+  Q as Ks,
+  C as Ca,
+  z as Qs,
+  x as Xs,
+  U as bn,
+  R as $a,
+  y as Zs,
+  F as te,
+  I as he,
+  a as Js,
+  b as _n,
+  D as ja,
+  c as Ne,
+  S as Ia,
+  q as Oe,
+  T as eo,
+  A as Pt,
+  M as De,
+  w as to,
+  V as Aa,
+  e as Pa,
+  P as ro,
+  v as no,
+  W as io,
+} from './Dialog-ytVFg8Gx.js';
+import {
+  r as Ue,
+  a as Ye,
+  b as ao,
+  c as so,
+  d as Oa,
+  e as Dt,
+  f as oo,
+  g as lo,
+} from './_baseSet-BT-05xLc.js';
+import {
+  r as co,
+  a as uo,
+  b as Ma,
+  c as ho,
+  d as fo,
+  e as po,
+  f as go,
+  g as Ea,
+  h as mo,
+  i as vo,
+  j as yo,
+  k as nn,
+  l as bo,
+  m as _o,
+  n as an,
+  o as Da,
+  p as So,
+  q as sn,
+  s as xo,
+  t as Na,
+  u as wo,
+  v as Co,
+  w as $o,
+  x as jo,
+} from './toInteger-B7KQihtg.js';
+import Ze from 'D:/work/base_web/node_modules/dayjs/dayjs.min.js';
+import { F as Io } from './Form-B4colF74.js';
+import 'D:\\work\\base_web\\node_modules\\react\\cjs\\react.production.min.js';
+import 'D:\\work\\base_web\\node_modules\\history\\cjs\\history.min.js';
+import 'D:\\work\\base_web\\node_modules\\react-dom\\cjs\\react-dom.production.min.js';
+import 'D:\\work\\base_web\\node_modules\\rc-util\\node_modules\\react-is\\cjs\\react-is.production.min.js';
+import 'D:\\work\\base_web\\node_modules\\react\\cjs\\react-jsx-runtime.production.min.js';
+import './main-Bsls2Jb-.js';
+import 'D:\\work\\base_web\\node_modules\\react-is\\cjs\\react-is.production.min.js';
+const Ao = new Te('antStatusProcessing', {
+    '0%': { transform: 'scale(0.8)', opacity: 0.5 },
+    '100%': { transform: 'scale(2.4)', opacity: 0 },
+  }),
+  Po = new Te('antZoomBadgeIn', {
+    '0%': { transform: 'scale(0) translate(50%, -50%)', opacity: 0 },
+    '100%': { transform: 'scale(1) translate(50%, -50%)' },
+  }),
+  Oo = new Te('antZoomBadgeOut', {
+    '0%': { transform: 'scale(1) translate(50%, -50%)' },
+    '100%': { transform: 'scale(0) translate(50%, -50%)', opacity: 0 },
+  }),
+  Mo = new Te('antNoWrapperZoomBadgeIn', {
+    '0%': { transform: 'scale(0)', opacity: 0 },
+    '100%': { transform: 'scale(1)' },
+  }),
+  Eo = new Te('antNoWrapperZoomBadgeOut', {
+    '0%': { transform: 'scale(1)' },
+    '100%': { transform: 'scale(0)', opacity: 0 },
+  }),
+  Do = new Te('antBadgeLoadingCircle', {
+    '0%': { transformOrigin: '50%' },
+    '100%': { transform: 'translate(50%, -50%) rotate(360deg)', transformOrigin: '50%' },
+  }),
+  No = e => {
+    const {
+        componentCls: r,
+        iconCls: t,
+        antCls: i,
+        badgeShadowSize: n,
+        textFontSize: a,
+        textFontSizeSM: s,
+        statusSize: l,
+        dotSize: c,
+        textFontWeight: o,
+        indicatorHeight: h,
+        indicatorHeightSM: g,
+        marginXS: d,
+        calc: f,
+      } = e,
+      m = `${i}-scroll-number`,
+      y = _a(e, (w, { darkColor: C }) => ({
+        [`&${r} ${r}-color-${w}`]: {
+          background: C,
+          [`&:not(${r}-count)`]: { color: C },
+          'a:hover &': { background: C },
+        },
+      }));
+    return {
+      [r]: Object.assign(
+        Object.assign(
+          Object.assign(Object.assign({}, Mt(e)), {
+            position: 'relative',
+            display: 'inline-block',
+            width: 'fit-content',
+            lineHeight: 1,
+            [`${r}-count`]: {
+              display: 'inline-flex',
+              justifyContent: 'center',
+              zIndex: e.indicatorZIndex,
+              minWidth: h,
+              height: h,
+              color: e.badgeTextColor,
+              fontWeight: o,
+              fontSize: a,
+              lineHeight: G(h),
+              whiteSpace: 'nowrap',
+              textAlign: 'center',
+              background: e.badgeColor,
+              borderRadius: f(h)
+                .div(2)
+                .equal(),
+              boxShadow: `0 0 0 ${G(n)} ${e.badgeShadowColor}`,
+              transition: `background ${e.motionDurationMid}`,
+              a: { color: e.badgeTextColor },
+              'a:hover': { color: e.badgeTextColor },
+              'a:hover &': { background: e.badgeColorHover },
+            },
+            [`${r}-count-sm`]: {
+              minWidth: g,
+              height: g,
+              fontSize: s,
+              lineHeight: G(g),
+              borderRadius: f(g)
+                .div(2)
+                .equal(),
+            },
+            [`${r}-multiple-words`]: {
+              padding: `0 ${G(e.paddingXS)}`,
+              bdi: { unicodeBidi: 'plaintext' },
+            },
+            [`${r}-dot`]: {
+              zIndex: e.indicatorZIndex,
+              width: c,
+              minWidth: c,
+              height: c,
+              background: e.badgeColor,
+              borderRadius: '100%',
+              boxShadow: `0 0 0 ${G(n)} ${e.badgeShadowColor}`,
+            },
+            [`${r}-count, ${r}-dot, ${m}-custom-component`]: {
+              position: 'absolute',
+              top: 0,
+              insetInlineEnd: 0,
+              transform: 'translate(50%, -50%)',
+              transformOrigin: '100% 0%',
+              [`&${t}-spin`]: {
+                animationName: Do,
+                animationDuration: '1s',
+                animationIterationCount: 'infinite',
+                animationTimingFunction: 'linear',
+              },
+            },
+            [`&${r}-status`]: {
+              lineHeight: 'inherit',
+              verticalAlign: 'baseline',
+              [`${r}-status-dot`]: {
+                position: 'relative',
+                top: -1,
+                display: 'inline-block',
+                width: l,
+                height: l,
+                verticalAlign: 'middle',
+                borderRadius: '50%',
+              },
+              [`${r}-status-success`]: { backgroundColor: e.colorSuccess },
+              [`${r}-status-processing`]: {
+                overflow: 'visible',
+                color: e.colorInfo,
+                backgroundColor: e.colorInfo,
+                borderColor: 'currentcolor',
+                '&::after': {
+                  position: 'absolute',
+                  top: 0,
+                  insetInlineStart: 0,
+                  width: '100%',
+                  height: '100%',
+                  borderWidth: n,
+                  borderStyle: 'solid',
+                  borderColor: 'inherit',
+                  borderRadius: '50%',
+                  animationName: Ao,
+                  animationDuration: e.badgeProcessingDuration,
+                  animationIterationCount: 'infinite',
+                  animationTimingFunction: 'ease-in-out',
+                  content: '""',
+                },
+              },
+              [`${r}-status-default`]: { backgroundColor: e.colorTextPlaceholder },
+              [`${r}-status-error`]: { backgroundColor: e.colorError },
+              [`${r}-status-warning`]: { backgroundColor: e.colorWarning },
+              [`${r}-status-text`]: {
+                marginInlineStart: d,
+                color: e.colorText,
+                fontSize: e.fontSize,
+              },
+            },
+          }),
+          y
+        ),
+        {
+          [`${r}-zoom-appear, ${r}-zoom-enter`]: {
+            animationName: Po,
+            animationDuration: e.motionDurationSlow,
+            animationTimingFunction: e.motionEaseOutBack,
+            animationFillMode: 'both',
+          },
+          [`${r}-zoom-leave`]: {
+            animationName: Oo,
+            animationDuration: e.motionDurationSlow,
+            animationTimingFunction: e.motionEaseOutBack,
+            animationFillMode: 'both',
+          },
+          [`&${r}-not-a-wrapper`]: {
+            [`${r}-zoom-appear, ${r}-zoom-enter`]: {
+              animationName: Mo,
+              animationDuration: e.motionDurationSlow,
+              animationTimingFunction: e.motionEaseOutBack,
+            },
+            [`${r}-zoom-leave`]: {
+              animationName: Eo,
+              animationDuration: e.motionDurationSlow,
+              animationTimingFunction: e.motionEaseOutBack,
+            },
+            [`&:not(${r}-status)`]: { verticalAlign: 'middle' },
+            [`${m}-custom-component, ${r}-count`]: { transform: 'none' },
+            [`${m}-custom-component, ${m}`]: {
+              position: 'relative',
+              top: 'auto',
+              display: 'block',
+              transformOrigin: '50% 50%',
+            },
+          },
+          [m]: {
+            overflow: 'hidden',
+            transition: `all ${e.motionDurationMid} ${e.motionEaseOutBack}`,
+            [`${m}-only`]: {
+              position: 'relative',
+              display: 'inline-block',
+              height: h,
+              transition: `all ${e.motionDurationSlow} ${e.motionEaseOutBack}`,
+              WebkitTransformStyle: 'preserve-3d',
+              WebkitBackfaceVisibility: 'hidden',
+              [`> p${m}-only-unit`]: {
+                height: h,
+                margin: 0,
+                WebkitTransformStyle: 'preserve-3d',
+                WebkitBackfaceVisibility: 'hidden',
+              },
+            },
+            [`${m}-symbol`]: { verticalAlign: 'top' },
+          },
+          '&-rtl': {
+            direction: 'rtl',
+            [`${r}-count, ${r}-dot, ${m}-custom-component`]: { transform: 'translate(-50%, -50%)' },
+          },
+        }
+      ),
+    };
+  },
+  Ra = e => {
+    const { fontHeight: r, lineWidth: t, marginXS: i, colorBorderBg: n } = e,
+      a = r,
+      s = t,
+      l = e.colorTextLightSolid,
+      c = e.colorError,
+      o = e.colorErrorHover;
+    return Xr(e, {
+      badgeFontHeight: a,
+      badgeShadowSize: s,
+      badgeTextColor: l,
+      badgeColor: c,
+      badgeColorHover: o,
+      badgeShadowColor: n,
+      badgeProcessingDuration: '1.2s',
+      badgeRibbonOffset: i,
+      badgeRibbonCornerTransform: 'scaleY(0.75)',
+      badgeRibbonCornerFilter: 'brightness(75%)',
+    });
+  },
+  qa = e => {
+    const { fontSize: r, lineHeight: t, fontSizeSM: i, lineWidth: n } = e;
+    return {
+      indicatorZIndex: 'auto',
+      indicatorHeight: Math.round(r * t) - 2 * n,
+      indicatorHeightSM: r,
+      dotSize: i / 2,
+      textFontSize: i,
+      textFontSizeSM: i,
+      textFontWeight: 'normal',
+      statusSize: i / 2,
+    };
+  },
+  Ro = Ot(
+    'Badge',
+    e => {
+      const r = Ra(e);
+      return No(r);
+    },
+    qa
+  ),
+  qo = e => {
+    const { antCls: r, badgeFontHeight: t, marginXS: i, badgeRibbonOffset: n, calc: a } = e,
+      s = `${r}-ribbon`,
+      l = `${r}-ribbon-wrapper`,
+      c = _a(e, (o, { darkColor: h }) => ({ [`&${s}-color-${o}`]: { background: h, color: h } }));
+    return {
+      [l]: { position: 'relative' },
+      [s]: Object.assign(
+        Object.assign(
+          Object.assign(Object.assign({}, Mt(e)), {
+            position: 'absolute',
+            top: i,
+            padding: `0 ${G(e.paddingXS)}`,
+            color: e.colorPrimary,
+            lineHeight: G(t),
+            whiteSpace: 'nowrap',
+            backgroundColor: e.colorPrimary,
+            borderRadius: e.borderRadiusSM,
+            [`${s}-text`]: { color: e.badgeTextColor },
+            [`${s}-corner`]: {
+              position: 'absolute',
+              top: '100%',
+              width: n,
+              height: n,
+              color: 'currentcolor',
+              border: `${G(
+                a(n)
+                  .div(2)
+                  .equal()
+              )} solid`,
+              transform: e.badgeRibbonCornerTransform,
+              transformOrigin: 'top',
+              filter: e.badgeRibbonCornerFilter,
+            },
+          }),
+          c
+        ),
+        {
+          [`&${s}-placement-end`]: {
+            insetInlineEnd: a(n)
+              .mul(-1)
+              .equal(),
+            borderEndEndRadius: 0,
+            [`${s}-corner`]: {
+              insetInlineEnd: 0,
+              borderInlineEndColor: 'transparent',
+              borderBlockEndColor: 'transparent',
+            },
+          },
+          [`&${s}-placement-start`]: {
+            insetInlineStart: a(n)
+              .mul(-1)
+              .equal(),
+            borderEndStartRadius: 0,
+            [`${s}-corner`]: {
+              insetInlineStart: 0,
+              borderBlockEndColor: 'transparent',
+              borderInlineStartColor: 'transparent',
+            },
+          },
+          '&-rtl': { direction: 'rtl' },
+        }
+      ),
+    };
+  },
+  Lo = Ot(
+    ['Badge', 'Ribbon'],
+    e => {
+      const r = Ra(e);
+      return qo(r);
+    },
+    qa
+  ),
+  To = e => {
+    const {
+        className: r,
+        prefixCls: t,
+        style: i,
+        color: n,
+        children: a,
+        text: s,
+        placement: l = 'end',
+        rootClassName: c,
+      } = e,
+      { getPrefixCls: o, direction: h } = I.useContext(Ae),
+      g = o('ribbon', t),
+      d = `${g}-wrapper`,
+      [f, m, y] = Lo(g, d),
+      w = Sa(n, !1),
+      C = le(g, `${g}-placement-${l}`, { [`${g}-rtl`]: h === 'rtl', [`${g}-color-${n}`]: w }, r),
+      j = {},
+      S = {};
+    return (
+      n && !w && ((j.background = n), (S.color = n)),
+      f(
+        I.createElement(
+          'div',
+          { className: le(d, c, m, y) },
+          a,
+          I.createElement(
+            'div',
+            { className: le(C, m), style: Object.assign(Object.assign({}, j), i) },
+            I.createElement('span', { className: `${g}-text` }, s),
+            I.createElement('div', { className: `${g}-corner`, style: S })
+          )
+        )
+      )
+    );
+  },
+  Sn = e => {
+    const { prefixCls: r, value: t, current: i, offset: n = 0 } = e;
+    let a;
+    return (
+      n && (a = { position: 'absolute', top: `${n}00%`, left: 0 }),
+      I.createElement('span', { style: a, className: le(`${r}-only-unit`, { current: i }) }, t)
+    );
+  };
+function ko(e, r, t) {
+  let i = e,
+    n = 0;
+  for (; (i + 10) % 10 !== r; ) (i += t), (n += t);
+  return n;
+}
+const Wo = e => {
+  const { prefixCls: r, count: t, value: i } = e,
+    n = Number(i),
+    a = Math.abs(t),
+    [s, l] = I.useState(n),
+    [c, o] = I.useState(a),
+    h = () => {
+      l(n), o(a);
+    };
+  I.useEffect(
+    () => {
+      const f = setTimeout(h, 1e3);
+      return () => clearTimeout(f);
+    },
+    [n]
+  );
+  let g, d;
+  if (s === n || Number.isNaN(n) || Number.isNaN(s))
+    (g = [I.createElement(Sn, Object.assign({}, e, { key: n, current: !0 }))]),
+      (d = { transition: 'none' });
+  else {
+    g = [];
+    const f = n + 10,
+      m = [];
+    for (let j = n; j <= f; j += 1) m.push(j);
+    const y = c < a ? 1 : -1,
+      w = m.findIndex(j => j % 10 === s);
+    (g = (y < 0 ? m.slice(0, w + 1) : m.slice(w)).map((j, S) => {
+      const u = j % 10;
+      return I.createElement(
+        Sn,
+        Object.assign({}, e, { key: j, value: u, offset: y < 0 ? S - w : S, current: S === w })
+      );
+    })),
+      (d = { transform: `translateY(${-ko(s, n, y)}00%)` });
+  }
+  return I.createElement('span', { className: `${r}-only`, style: d, onTransitionEnd: h }, g);
+};
+var zo = function(e, r) {
+  var t = {};
+  for (var i in e) Object.prototype.hasOwnProperty.call(e, i) && r.indexOf(i) < 0 && (t[i] = e[i]);
+  if (e != null && typeof Object.getOwnPropertySymbols == 'function')
+    for (var n = 0, i = Object.getOwnPropertySymbols(e); n < i.length; n++)
+      r.indexOf(i[n]) < 0 &&
+        Object.prototype.propertyIsEnumerable.call(e, i[n]) &&
+        (t[i[n]] = e[i[n]]);
+  return t;
+};
+const Fo = I.forwardRef((e, r) => {
+  const {
+      prefixCls: t,
+      count: i,
+      className: n,
+      motionClassName: a,
+      style: s,
+      title: l,
+      show: c,
+      component: o = 'sup',
+      children: h,
+    } = e,
+    g = zo(e, [
+      'prefixCls',
+      'count',
+      'className',
+      'motionClassName',
+      'style',
+      'title',
+      'show',
+      'component',
+      'children',
+    ]),
+    { getPrefixCls: d } = I.useContext(Ae),
+    f = d('scroll-number', t),
+    m = Object.assign(Object.assign({}, g), {
+      'data-show': c,
+      style: s,
+      className: le(f, n, a),
+      title: l,
+    });
+  let y = i;
+  if (i && Number(i) % 1 === 0) {
+    const w = String(i).split('');
+    y = I.createElement(
+      'bdi',
+      null,
+      w.map((C, j) =>
+        I.createElement(Wo, { prefixCls: f, count: Number(i), value: C, key: w.length - j })
+      )
+    );
+  }
+  return (
+    s?.borderColor &&
+      (m.style = Object.assign(Object.assign({}, s), {
+        boxShadow: `0 0 0 1px ${s.borderColor} inset`,
+      })),
+    h
+      ? Zr(h, w => ({ className: le(`${f}-custom-component`, w?.className, a) }))
+      : I.createElement(o, Object.assign({}, m, { ref: r }), y)
+  );
+});
+var Ho = function(e, r) {
+  var t = {};
+  for (var i in e) Object.prototype.hasOwnProperty.call(e, i) && r.indexOf(i) < 0 && (t[i] = e[i]);
+  if (e != null && typeof Object.getOwnPropertySymbols == 'function')
+    for (var n = 0, i = Object.getOwnPropertySymbols(e); n < i.length; n++)
+      r.indexOf(i[n]) < 0 &&
+        Object.prototype.propertyIsEnumerable.call(e, i[n]) &&
+        (t[i[n]] = e[i[n]]);
+  return t;
+};
+const Bo = I.forwardRef((e, r) => {
+    var t, i, n, a, s;
+    const {
+        prefixCls: l,
+        scrollNumberPrefixCls: c,
+        children: o,
+        status: h,
+        text: g,
+        color: d,
+        count: f = null,
+        overflowCount: m = 99,
+        dot: y = !1,
+        size: w = 'default',
+        title: C,
+        offset: j,
+        style: S,
+        className: u,
+        rootClassName: $,
+        classNames: _,
+        styles: v,
+        showZero: b = !1,
+      } = e,
+      x = Ho(e, [
+        'prefixCls',
+        'scrollNumberPrefixCls',
+        'children',
+        'status',
+        'text',
+        'color',
+        'count',
+        'overflowCount',
+        'dot',
+        'size',
+        'title',
+        'offset',
+        'style',
+        'className',
+        'rootClassName',
+        'classNames',
+        'styles',
+        'showZero',
+      ]),
+      { getPrefixCls: P, direction: M, badge: A } = I.useContext(Ae),
+      O = P('badge', l),
+      [U, T, L] = Ro(O),
+      N = f > m ? `${m}+` : f,
+      z = N === '0' || N === 0 || g === '0' || g === 0,
+      ne = f === null || (z && !b),
+      D = (h != null || d != null) && ne,
+      F = h != null || !z,
+      k = y && !z,
+      K = k ? '' : N,
+      Q = I.useMemo(
+        () => (((K == null || K === '') && (g == null || g === '')) || (z && !b)) && !k,
+        [K, z, b, k, g]
+      ),
+      X = I.useRef(f);
+    Q || (X.current = f);
+    const V = X.current,
+      ge = I.useRef(K);
+    Q || (ge.current = K);
+    const E = ge.current,
+      W = I.useRef(k);
+    Q || (W.current = k);
+    const Y = I.useMemo(
+        () => {
+          if (!j) return Object.assign(Object.assign({}, A?.style), S);
+          const J = { marginTop: j[1] };
+          return (
+            M === 'rtl'
+              ? (J.left = Number.parseInt(j[0], 10))
+              : (J.right = -Number.parseInt(j[0], 10)),
+            Object.assign(Object.assign(Object.assign({}, J), A?.style), S)
+          );
+        },
+        [M, j, S, A?.style]
+      ),
+      Z = C ?? (typeof V == 'string' || typeof V == 'number' ? V : void 0),
+      fe = !Q && (g === 0 ? b : !!g && g !== !0),
+      ve = fe ? I.createElement('span', { className: `${O}-status-text` }, g) : null,
+      me =
+        !V || typeof V != 'object'
+          ? void 0
+          : Zr(V, J => ({ style: Object.assign(Object.assign({}, Y), J.style) })),
+      ie = Sa(d, !1),
+      B = le(_?.indicator, (t = A?.classNames) === null || t === void 0 ? void 0 : t.indicator, {
+        [`${O}-status-dot`]: D,
+        [`${O}-status-${h}`]: !!h,
+        [`${O}-color-${d}`]: ie,
+      }),
+      ce = {};
+    d && !ie && ((ce.color = d), (ce.background = d));
+    const ye = le(
+      O,
+      { [`${O}-status`]: D, [`${O}-not-a-wrapper`]: !o, [`${O}-rtl`]: M === 'rtl' },
+      u,
+      $,
+      A?.className,
+      (i = A?.classNames) === null || i === void 0 ? void 0 : i.root,
+      _?.root,
+      T,
+      L
+    );
+    if (!o && D && (g || F || !ne)) {
+      const J = Y.color;
+      return U(
+        I.createElement(
+          'span',
+          Object.assign({}, x, {
+            className: ye,
+            style: Object.assign(
+              Object.assign(
+                Object.assign({}, v?.root),
+                (n = A?.styles) === null || n === void 0 ? void 0 : n.root
+              ),
+              Y
+            ),
+          }),
+          I.createElement('span', {
+            className: B,
+            style: Object.assign(
+              Object.assign(
+                Object.assign({}, v?.indicator),
+                (a = A?.styles) === null || a === void 0 ? void 0 : a.indicator
+              ),
+              ce
+            ),
+          }),
+          fe && I.createElement('span', { style: { color: J }, className: `${O}-status-text` }, g)
+        )
+      );
+    }
+    return U(
+      I.createElement(
+        'span',
+        Object.assign({ ref: r }, x, {
+          className: ye,
+          style: Object.assign(
+            Object.assign({}, (s = A?.styles) === null || s === void 0 ? void 0 : s.root),
+            v?.root
+          ),
+        }),
+        o,
+        I.createElement(
+          ds,
+          { visible: !Q, motionName: `${O}-zoom`, motionAppear: !1, motionDeadline: 1e3 },
+          ({ className: J }) => {
+            var ue, Se;
+            const ee = P('scroll-number', c),
+              ae = W.current,
+              pe = le(
+                _?.indicator,
+                (ue = A?.classNames) === null || ue === void 0 ? void 0 : ue.indicator,
+                {
+                  [`${O}-dot`]: ae,
+                  [`${O}-count`]: !ae,
+                  [`${O}-count-sm`]: w === 'small',
+                  [`${O}-multiple-words`]: !ae && E && E.toString().length > 1,
+                  [`${O}-status-${h}`]: !!h,
+                  [`${O}-color-${d}`]: ie,
+                }
+              );
+            let be = Object.assign(
+              Object.assign(
+                Object.assign({}, v?.indicator),
+                (Se = A?.styles) === null || Se === void 0 ? void 0 : Se.indicator
+              ),
+              Y
+            );
+            return (
+              d && !ie && ((be = be || {}), (be.background = d)),
+              I.createElement(
+                Fo,
+                {
+                  prefixCls: ee,
+                  show: !Q,
+                  motionClassName: J,
+                  className: pe,
+                  count: E,
+                  title: Z,
+                  style: be,
+                  key: 'scrollNumber',
+                },
+                me
+              )
+            );
+          }
+        ),
+        ve
+      )
+    );
+  }),
+  La = Bo;
+La.Ribbon = To;
+function Vo(e, r, t) {
+  return typeof t == 'boolean' ? t : e.length ? !0 : hs(r).some(n => n.type === xa);
+}
+var Ta = function(e, r) {
+  var t = {};
+  for (var i in e) Object.prototype.hasOwnProperty.call(e, i) && r.indexOf(i) < 0 && (t[i] = e[i]);
+  if (e != null && typeof Object.getOwnPropertySymbols == 'function')
+    for (var n = 0, i = Object.getOwnPropertySymbols(e); n < i.length; n++)
+      r.indexOf(i[n]) < 0 &&
+        Object.prototype.propertyIsEnumerable.call(e, i[n]) &&
+        (t[i[n]] = e[i[n]]);
+  return t;
+};
+function Nt({ suffixCls: e, tagName: r, displayName: t }) {
+  return i =>
+    I.forwardRef((a, s) =>
+      I.createElement(i, Object.assign({ ref: s, suffixCls: e, tagName: r }, a))
+    );
+}
+const on = I.forwardRef((e, r) => {
+    const { prefixCls: t, suffixCls: i, className: n, tagName: a } = e,
+      s = Ta(e, ['prefixCls', 'suffixCls', 'className', 'tagName']),
+      { getPrefixCls: l } = I.useContext(Ae),
+      c = l('layout', t),
+      [o, h, g] = wa(c),
+      d = i ? `${c}-${i}` : c;
+    return o(I.createElement(a, Object.assign({ className: le(t || d, n, h, g), ref: r }, s)));
+  }),
+  Go = I.forwardRef((e, r) => {
+    const { direction: t } = I.useContext(Ae),
+      [i, n] = I.useState([]),
+      {
+        prefixCls: a,
+        className: s,
+        rootClassName: l,
+        children: c,
+        hasSider: o,
+        tagName: h,
+        style: g,
+      } = e,
+      d = Ta(e, [
+        'prefixCls',
+        'className',
+        'rootClassName',
+        'children',
+        'hasSider',
+        'tagName',
+        'style',
+      ]),
+      f = fs(d, ['suffixCls']),
+      { getPrefixCls: m, className: y, style: w } = ha('layout'),
+      C = m('layout', a),
+      j = Vo(i, c, o),
+      [S, u, $] = wa(C),
+      _ = le(C, { [`${C}-has-sider`]: j, [`${C}-rtl`]: t === 'rtl' }, y, s, l, u, $),
+      v = I.useMemo(
+        () => ({
+          siderHook: {
+            addSider: b => {
+              n(x => [].concat(Vr(x), [b]));
+            },
+            removeSider: b => {
+              n(x => x.filter(P => P !== b));
+            },
+          },
+        }),
+        []
+      );
+    return S(
+      I.createElement(
+        Ys.Provider,
+        { value: v },
+        I.createElement(
+          h,
+          Object.assign({ ref: r, className: _, style: Object.assign(Object.assign({}, w), g) }, f),
+          c
+        )
+      )
+    );
+  }),
+  Uo = Nt({ tagName: 'div', displayName: 'Layout' })(Go),
+  Yo = Nt({ suffixCls: 'header', tagName: 'header', displayName: 'Header' })(on),
+  Ko = Nt({ suffixCls: 'footer', tagName: 'footer', displayName: 'Footer' })(on),
+  Qo = Nt({ suffixCls: 'content', tagName: 'main', displayName: 'Content' })(on),
+  Me = Uo;
+Me.Header = Yo;
+Me.Footer = Ko;
+Me.Content = Qo;
+Me.Sider = xa;
+Me._InternalSiderContext = Ks;
+const ln = se.createContext({});
+ln.Consumer;
+var ka = function(e, r) {
+  var t = {};
+  for (var i in e) Object.prototype.hasOwnProperty.call(e, i) && r.indexOf(i) < 0 && (t[i] = e[i]);
+  if (e != null && typeof Object.getOwnPropertySymbols == 'function')
+    for (var n = 0, i = Object.getOwnPropertySymbols(e); n < i.length; n++)
+      r.indexOf(i[n]) < 0 &&
+        Object.prototype.propertyIsEnumerable.call(e, i[n]) &&
+        (t[i[n]] = e[i[n]]);
+  return t;
+};
+const Xo = e => {
+    var { prefixCls: r, className: t, avatar: i, title: n, description: a } = e,
+      s = ka(e, ['prefixCls', 'className', 'avatar', 'title', 'description']);
+    const { getPrefixCls: l } = I.useContext(Ae),
+      c = l('list', r),
+      o = le(`${c}-item-meta`, t),
+      h = se.createElement(
+        'div',
+        { className: `${c}-item-meta-content` },
+        n && se.createElement('h4', { className: `${c}-item-meta-title` }, n),
+        a && se.createElement('div', { className: `${c}-item-meta-description` }, a)
+      );
+    return se.createElement(
+      'div',
+      Object.assign({}, s, { className: o }),
+      i && se.createElement('div', { className: `${c}-item-meta-avatar` }, i),
+      (n || a) && h
+    );
+  },
+  Zo = se.forwardRef((e, r) => {
+    const {
+        prefixCls: t,
+        children: i,
+        actions: n,
+        extra: a,
+        styles: s,
+        className: l,
+        classNames: c,
+        colStyle: o,
+      } = e,
+      h = ka(e, [
+        'prefixCls',
+        'children',
+        'actions',
+        'extra',
+        'styles',
+        'className',
+        'classNames',
+        'colStyle',
+      ]),
+      { grid: g, itemLayout: d } = I.useContext(ln),
+      { getPrefixCls: f, list: m } = I.useContext(Ae),
+      y = v => {
+        var b, x;
+        return le(
+          (x = (b = m?.item) === null || b === void 0 ? void 0 : b.classNames) === null ||
+          x === void 0
+            ? void 0
+            : x[v],
+          c?.[v]
+        );
+      },
+      w = v => {
+        var b, x;
+        return Object.assign(
+          Object.assign(
+            {},
+            (x = (b = m?.item) === null || b === void 0 ? void 0 : b.styles) === null ||
+            x === void 0
+              ? void 0
+              : x[v]
+          ),
+          s?.[v]
+        );
+      },
+      C = () => {
+        let v = !1;
+        return (
+          I.Children.forEach(i, b => {
+            typeof b == 'string' && (v = !0);
+          }),
+          v && I.Children.count(i) > 1
+        );
+      },
+      j = () => (d === 'vertical' ? !!a : !C()),
+      S = f('list', t),
+      u =
+        n &&
+        n.length > 0 &&
+        se.createElement(
+          'ul',
+          { className: le(`${S}-item-action`, y('actions')), key: 'actions', style: w('actions') },
+          n.map((v, b) =>
+            se.createElement(
+              'li',
+              { key: `${S}-item-action-${b}` },
+              v,
+              b !== n.length - 1 && se.createElement('em', { className: `${S}-item-action-split` })
+            )
+          )
+        ),
+      $ = g ? 'div' : 'li',
+      _ = se.createElement(
+        $,
+        Object.assign({}, h, g ? {} : { ref: r }, {
+          className: le(`${S}-item`, { [`${S}-item-no-flex`]: !j() }, l),
+        }),
+        d === 'vertical' && a
+          ? [
+              se.createElement('div', { className: `${S}-item-main`, key: 'content' }, i, u),
+              se.createElement(
+                'div',
+                { className: le(`${S}-item-extra`, y('extra')), key: 'extra', style: w('extra') },
+                a
+              ),
+            ]
+          : [i, u, Zr(a, { key: 'extra' })]
+      );
+    return g ? se.createElement(Ca, { ref: r, flex: 1, style: o }, _) : _;
+  }),
+  Wa = Zo;
+Wa.Meta = Xo;
+const Jo = e => {
+    const {
+        listBorderedCls: r,
+        componentCls: t,
+        paddingLG: i,
+        margin: n,
+        itemPaddingSM: a,
+        itemPaddingLG: s,
+        marginLG: l,
+        borderRadiusLG: c,
+      } = e,
+      o = G(
+        e
+          .calc(c)
+          .sub(e.lineWidth)
+          .equal()
+      );
+    return {
+      [r]: {
+        border: `${G(e.lineWidth)} ${e.lineType} ${e.colorBorder}`,
+        borderRadius: c,
+        [`${t}-header`]: { borderRadius: `${o} ${o} 0 0` },
+        [`${t}-footer`]: { borderRadius: `0 0 ${o} ${o}` },
+        [`${t}-header,${t}-footer,${t}-item`]: { paddingInline: i },
+        [`${t}-pagination`]: { margin: `${G(n)} ${G(l)}` },
+      },
+      [`${r}${t}-sm`]: { [`${t}-item,${t}-header,${t}-footer`]: { padding: a } },
+      [`${r}${t}-lg`]: { [`${t}-item,${t}-header,${t}-footer`]: { padding: s } },
+    };
+  },
+  el = e => {
+    const { componentCls: r, screenSM: t, screenMD: i, marginLG: n, marginSM: a, margin: s } = e;
+    return {
+      [`@media screen and (max-width:${i}px)`]: {
+        [r]: { [`${r}-item`]: { [`${r}-item-action`]: { marginInlineStart: n } } },
+        [`${r}-vertical`]: { [`${r}-item`]: { [`${r}-item-extra`]: { marginInlineStart: n } } },
+      },
+      [`@media screen and (max-width: ${t}px)`]: {
+        [r]: { [`${r}-item`]: { flexWrap: 'wrap', [`${r}-action`]: { marginInlineStart: a } } },
+        [`${r}-vertical`]: {
+          [`${r}-item`]: {
+            flexWrap: 'wrap-reverse',
+            [`${r}-item-main`]: { minWidth: e.contentWidth },
+            [`${r}-item-extra`]: { margin: `auto auto ${G(s)}` },
+          },
+        },
+      },
+    };
+  },
+  tl = e => {
+    const {
+      componentCls: r,
+      antCls: t,
+      controlHeight: i,
+      minHeight: n,
+      paddingSM: a,
+      marginLG: s,
+      padding: l,
+      itemPadding: c,
+      colorPrimary: o,
+      itemPaddingSM: h,
+      itemPaddingLG: g,
+      paddingXS: d,
+      margin: f,
+      colorText: m,
+      colorTextDescription: y,
+      motionDurationSlow: w,
+      lineWidth: C,
+      headerBg: j,
+      footerBg: S,
+      emptyTextPadding: u,
+      metaMarginBottom: $,
+      avatarMarginRight: _,
+      titleMarginBottom: v,
+      descriptionFontSize: b,
+    } = e;
+    return {
+      [r]: Object.assign(Object.assign({}, Mt(e)), {
+        position: 'relative',
+        '--rc-virtual-list-scrollbar-bg': e.colorSplit,
+        '*': { outline: 'none' },
+        [`${r}-header`]: { background: j },
+        [`${r}-footer`]: { background: S },
+        [`${r}-header, ${r}-footer`]: { paddingBlock: a },
+        [`${r}-pagination`]: {
+          marginBlockStart: s,
+          [`${t}-pagination-options`]: { textAlign: 'start' },
+        },
+        [`${r}-spin`]: { minHeight: n, textAlign: 'center' },
+        [`${r}-items`]: { margin: 0, padding: 0, listStyle: 'none' },
+        [`${r}-item`]: {
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          padding: c,
+          color: m,
+          [`${r}-item-meta`]: {
+            display: 'flex',
+            flex: 1,
+            alignItems: 'flex-start',
+            maxWidth: '100%',
+            [`${r}-item-meta-avatar`]: { marginInlineEnd: _ },
+            [`${r}-item-meta-content`]: { flex: '1 0', width: 0, color: m },
+            [`${r}-item-meta-title`]: {
+              margin: `0 0 ${G(e.marginXXS)} 0`,
+              color: m,
+              fontSize: e.fontSize,
+              lineHeight: e.lineHeight,
+              '> a': { color: m, transition: `all ${w}`, '&:hover': { color: o } },
+            },
+            [`${r}-item-meta-description`]: { color: y, fontSize: b, lineHeight: e.lineHeight },
+          },
+          [`${r}-item-action`]: {
+            flex: '0 0 auto',
+            marginInlineStart: e.marginXXL,
+            padding: 0,
+            fontSize: 0,
+            listStyle: 'none',
+            '& > li': {
+              position: 'relative',
+              display: 'inline-block',
+              padding: `0 ${G(d)}`,
+              color: y,
+              fontSize: e.fontSize,
+              lineHeight: e.lineHeight,
+              textAlign: 'center',
+              '&:first-child': { paddingInlineStart: 0 },
+            },
+            [`${r}-item-action-split`]: {
+              position: 'absolute',
+              insetBlockStart: '50%',
+              insetInlineEnd: 0,
+              width: C,
+              height: e
+                .calc(e.fontHeight)
+                .sub(e.calc(e.marginXXS).mul(2))
+                .equal(),
+              transform: 'translateY(-50%)',
+              backgroundColor: e.colorSplit,
+            },
+          },
+        },
+        [`${r}-empty`]: {
+          padding: `${G(l)} 0`,
+          color: y,
+          fontSize: e.fontSizeSM,
+          textAlign: 'center',
+        },
+        [`${r}-empty-text`]: {
+          padding: u,
+          color: e.colorTextDisabled,
+          fontSize: e.fontSize,
+          textAlign: 'center',
+        },
+        [`${r}-item-no-flex`]: { display: 'block' },
+      }),
+      [`${r}-grid ${t}-col > ${r}-item`]: {
+        display: 'block',
+        maxWidth: '100%',
+        marginBlockEnd: f,
+        paddingBlock: 0,
+        borderBlockEnd: 'none',
+      },
+      [`${r}-vertical ${r}-item`]: {
+        alignItems: 'initial',
+        [`${r}-item-main`]: { display: 'block', flex: 1 },
+        [`${r}-item-extra`]: { marginInlineStart: s },
+        [`${r}-item-meta`]: {
+          marginBlockEnd: $,
+          [`${r}-item-meta-title`]: {
+            marginBlockStart: 0,
+            marginBlockEnd: v,
+            color: m,
+            fontSize: e.fontSizeLG,
+            lineHeight: e.lineHeightLG,
+          },
+        },
+        [`${r}-item-action`]: {
+          marginBlockStart: l,
+          marginInlineStart: 'auto',
+          '> li': { padding: `0 ${G(l)}`, '&:first-child': { paddingInlineStart: 0 } },
+        },
+      },
+      [`${r}-split ${r}-item`]: {
+        borderBlockEnd: `${G(e.lineWidth)} ${e.lineType} ${e.colorSplit}`,
+        '&:last-child': { borderBlockEnd: 'none' },
+      },
+      [`${r}-split ${r}-header`]: {
+        borderBlockEnd: `${G(e.lineWidth)} ${e.lineType} ${e.colorSplit}`,
+      },
+      [`${r}-split${r}-empty ${r}-footer`]: {
+        borderTop: `${G(e.lineWidth)} ${e.lineType} ${e.colorSplit}`,
+      },
+      [`${r}-loading ${r}-spin-nested-loading`]: { minHeight: i },
+      [`${r}-split${r}-something-after-last-item ${t}-spin-container > ${r}-items > ${r}-item:last-child`]: {
+        borderBlockEnd: `${G(e.lineWidth)} ${e.lineType} ${e.colorSplit}`,
+      },
+      [`${r}-lg ${r}-item`]: { padding: g },
+      [`${r}-sm ${r}-item`]: { padding: h },
+      [`${r}:not(${r}-vertical)`]: {
+        [`${r}-item-no-flex`]: { [`${r}-item-action`]: { float: 'right' } },
+      },
+    };
+  },
+  rl = e => ({
+    contentWidth: 220,
+    itemPadding: `${G(e.paddingContentVertical)} 0`,
+    itemPaddingSM: `${G(e.paddingContentVerticalSM)} ${G(e.paddingContentHorizontal)}`,
+    itemPaddingLG: `${G(e.paddingContentVerticalLG)} ${G(e.paddingContentHorizontalLG)}`,
+    headerBg: 'transparent',
+    footerBg: 'transparent',
+    emptyTextPadding: e.padding,
+    metaMarginBottom: e.padding,
+    avatarMarginRight: e.padding,
+    titleMarginBottom: e.paddingSM,
+    descriptionFontSize: e.fontSize,
+  }),
+  nl = Ot(
+    'List',
+    e => {
+      const r = Xr(e, {
+        listBorderedCls: `${e.componentCls}-bordered`,
+        minHeight: e.controlHeightLG,
+      });
+      return [tl(r), Jo(r), el(r)];
+    },
+    rl
+  );
+var il = function(e, r) {
+  var t = {};
+  for (var i in e) Object.prototype.hasOwnProperty.call(e, i) && r.indexOf(i) < 0 && (t[i] = e[i]);
+  if (e != null && typeof Object.getOwnPropertySymbols == 'function')
+    for (var n = 0, i = Object.getOwnPropertySymbols(e); n < i.length; n++)
+      r.indexOf(i[n]) < 0 &&
+        Object.prototype.propertyIsEnumerable.call(e, i[n]) &&
+        (t[i[n]] = e[i[n]]);
+  return t;
+};
+function al(e, r) {
+  const {
+      pagination: t = !1,
+      prefixCls: i,
+      bordered: n = !1,
+      split: a = !0,
+      className: s,
+      rootClassName: l,
+      style: c,
+      children: o,
+      itemLayout: h,
+      loadMore: g,
+      grid: d,
+      dataSource: f = [],
+      size: m,
+      header: y,
+      footer: w,
+      loading: C = !1,
+      rowKey: j,
+      renderItem: S,
+      locale: u,
+    } = e,
+    $ = il(e, [
+      'pagination',
+      'prefixCls',
+      'bordered',
+      'split',
+      'className',
+      'rootClassName',
+      'style',
+      'children',
+      'itemLayout',
+      'loadMore',
+      'grid',
+      'dataSource',
+      'size',
+      'header',
+      'footer',
+      'loading',
+      'rowKey',
+      'renderItem',
+      'locale',
+    ]),
+    _ = t && typeof t == 'object' ? t : {},
+    [v, b] = I.useState(_.defaultCurrent || 1),
+    [x, P] = I.useState(_.defaultPageSize || 10),
+    { getPrefixCls: M, direction: A, className: O, style: U } = ha('list'),
+    { renderEmpty: T } = I.useContext(Ae),
+    L = { current: 1, total: 0, position: 'bottom' },
+    N = ee => (ae, pe) => {
+      var be;
+      b(ae), P(pe), t && ((be = t?.[ee]) === null || be === void 0 || be.call(t, ae, pe));
+    },
+    z = N('onChange'),
+    ne = N('onShowSizeChange'),
+    D = (ee, ae) => {
+      if (!S) return null;
+      let pe;
+      return (
+        typeof j == 'function' ? (pe = j(ee)) : j ? (pe = ee[j]) : (pe = ee.key),
+        pe || (pe = `list-item-${ae}`),
+        I.createElement(I.Fragment, { key: pe }, S(ee, ae))
+      );
+    },
+    F = !!(g || t || w),
+    k = M('list', i),
+    [K, Q, X] = nl(k);
+  let V = C;
+  typeof V == 'boolean' && (V = { spinning: V });
+  const ge = !!V?.spinning,
+    E = fa(m);
+  let W = '';
+  switch (E) {
+    case 'large':
+      W = 'lg';
+      break;
+    case 'small':
+      W = 'sm';
+      break;
+  }
+  const Y = le(
+      k,
+      {
+        [`${k}-vertical`]: h === 'vertical',
+        [`${k}-${W}`]: W,
+        [`${k}-split`]: a,
+        [`${k}-bordered`]: n,
+        [`${k}-loading`]: ge,
+        [`${k}-grid`]: !!d,
+        [`${k}-something-after-last-item`]: F,
+        [`${k}-rtl`]: A === 'rtl',
+      },
+      O,
+      s,
+      l,
+      Q,
+      X
+    ),
+    Z = ps(L, { total: f.length, current: v, pageSize: x }, t || {}),
+    fe = Math.ceil(Z.total / Z.pageSize);
+  Z.current = Math.min(Z.current, fe);
+  const ve =
+    t &&
+    I.createElement(
+      'div',
+      { className: le(`${k}-pagination`) },
+      I.createElement(Qs, Object.assign({ align: 'end' }, Z, { onChange: z, onShowSizeChange: ne }))
+    );
+  let me = Vr(f);
+  t &&
+    f.length > (Z.current - 1) * Z.pageSize &&
+    (me = Vr(f).splice((Z.current - 1) * Z.pageSize, Z.pageSize));
+  const ie = Object.keys(d || {}).some(ee => ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'].includes(ee)),
+    B = Xs(ie),
+    ce = I.useMemo(
+      () => {
+        for (let ee = 0; ee < bn.length; ee += 1) {
+          const ae = bn[ee];
+          if (B[ae]) return ae;
+        }
+      },
+      [B]
+    ),
+    ye = I.useMemo(
+      () => {
+        if (!d) return;
+        const ee = ce && d[ce] ? d[ce] : d.column;
+        if (ee) return { width: `${100 / ee}%`, maxWidth: `${100 / ee}%` };
+      },
+      [JSON.stringify(d), ce]
+    );
+  let J = ge && I.createElement('div', { style: { minHeight: 53 } });
+  if (me.length > 0) {
+    const ee = me.map(D);
+    J = d
+      ? I.createElement(
+          $a,
+          { gutter: d.gutter },
+          I.Children.map(ee, ae => I.createElement('div', { key: ae?.key, style: ye }, ae))
+        )
+      : I.createElement('ul', { className: `${k}-items` }, ee);
+  } else
+    !o &&
+      !ge &&
+      (J = I.createElement(
+        'div',
+        { className: `${k}-empty-text` },
+        u?.emptyText || T?.('List') || I.createElement(Zs, { componentName: 'List' })
+      ));
+  const ue = Z.position,
+    Se = I.useMemo(() => ({ grid: d, itemLayout: h }), [JSON.stringify(d), h]);
+  return K(
+    I.createElement(
+      ln.Provider,
+      { value: Se },
+      I.createElement(
+        'div',
+        Object.assign({ ref: r, style: Object.assign(Object.assign({}, U), c), className: Y }, $),
+        (ue === 'top' || ue === 'both') && ve,
+        y && I.createElement('div', { className: `${k}-header` }, y),
+        I.createElement(Jr, Object.assign({}, V), J, o),
+        w && I.createElement('div', { className: `${k}-footer` }, w),
+        g || ((ue === 'bottom' || ue === 'both') && ve)
+      )
+    )
+  );
+}
+const sl = I.forwardRef(al),
+  Be = sl;
+Be.Item = Wa;
+var ol = [
+    'prefixCls',
+    'className',
+    'checked',
+    'defaultChecked',
+    'disabled',
+    'loadingIcon',
+    'checkedChildren',
+    'unCheckedChildren',
+    'onClick',
+    'onChange',
+    'onKeyDown',
+  ],
+  za = I.forwardRef(function(e, r) {
+    var t,
+      i = e.prefixCls,
+      n = i === void 0 ? 'rc-switch' : i,
+      a = e.className,
+      s = e.checked,
+      l = e.defaultChecked,
+      c = e.disabled,
+      o = e.loadingIcon,
+      h = e.checkedChildren,
+      g = e.unCheckedChildren,
+      d = e.onClick,
+      f = e.onChange,
+      m = e.onKeyDown,
+      y = gs(e, ol),
+      w = pa(!1, { value: s, defaultValue: l }),
+      C = ms(w, 2),
+      j = C[0],
+      S = C[1];
+    function u(b, x) {
+      var P = j;
+      return c || ((P = b), S(P), f?.(P, x)), P;
+    }
+    function $(b) {
+      b.which === gn.LEFT ? u(!1, b) : b.which === gn.RIGHT && u(!0, b), m?.(b);
+    }
+    function _(b) {
+      var x = u(!j, b);
+      d?.(x, b);
+    }
+    var v = le(
+      n,
+      a,
+      ((t = {}), pn(t, ''.concat(n, '-checked'), j), pn(t, ''.concat(n, '-disabled'), c), t)
+    );
+    return I.createElement(
+      'button',
+      vs({}, y, {
+        type: 'button',
+        role: 'switch',
+        'aria-checked': j,
+        disabled: c,
+        className: v,
+        ref: r,
+        onKeyDown: $,
+        onClick: _,
+      }),
+      o,
+      I.createElement(
+        'span',
+        { className: ''.concat(n, '-inner') },
+        I.createElement('span', { className: ''.concat(n, '-inner-checked') }, h),
+        I.createElement('span', { className: ''.concat(n, '-inner-unchecked') }, g)
+      )
+    );
+  });
+za.displayName = 'Switch';
+const ll = e => {
+    const {
+        componentCls: r,
+        trackHeightSM: t,
+        trackPadding: i,
+        trackMinWidthSM: n,
+        innerMinMarginSM: a,
+        innerMaxMarginSM: s,
+        handleSizeSM: l,
+        calc: c,
+      } = e,
+      o = `${r}-inner`,
+      h = G(
+        c(l)
+          .add(c(i).mul(2))
+          .equal()
+      ),
+      g = G(
+        c(s)
+          .mul(2)
+          .equal()
+      );
+    return {
+      [r]: {
+        [`&${r}-small`]: {
+          minWidth: n,
+          height: t,
+          lineHeight: G(t),
+          [`${r}-inner`]: {
+            paddingInlineStart: s,
+            paddingInlineEnd: a,
+            [`${o}-checked, ${o}-unchecked`]: { minHeight: t },
+            [`${o}-checked`]: {
+              marginInlineStart: `calc(-100% + ${h} - ${g})`,
+              marginInlineEnd: `calc(100% - ${h} + ${g})`,
+            },
+            [`${o}-unchecked`]: {
+              marginTop: c(t)
+                .mul(-1)
+                .equal(),
+              marginInlineStart: 0,
+              marginInlineEnd: 0,
+            },
+          },
+          [`${r}-handle`]: { width: l, height: l },
+          [`${r}-loading-icon`]: {
+            top: c(c(l).sub(e.switchLoadingIconSize))
+              .div(2)
+              .equal(),
+            fontSize: e.switchLoadingIconSize,
+          },
+          [`&${r}-checked`]: {
+            [`${r}-inner`]: {
+              paddingInlineStart: a,
+              paddingInlineEnd: s,
+              [`${o}-checked`]: { marginInlineStart: 0, marginInlineEnd: 0 },
+              [`${o}-unchecked`]: {
+                marginInlineStart: `calc(100% - ${h} + ${g})`,
+                marginInlineEnd: `calc(-100% + ${h} - ${g})`,
+              },
+            },
+            [`${r}-handle`]: {
+              insetInlineStart: `calc(100% - ${G(
+                c(l)
+                  .add(i)
+                  .equal()
+              )})`,
+            },
+          },
+          [`&:not(${r}-disabled):active`]: {
+            [`&:not(${r}-checked) ${o}`]: {
+              [`${o}-unchecked`]: {
+                marginInlineStart: c(e.marginXXS)
+                  .div(2)
+                  .equal(),
+                marginInlineEnd: c(e.marginXXS)
+                  .mul(-1)
+                  .div(2)
+                  .equal(),
+              },
+            },
+            [`&${r}-checked ${o}`]: {
+              [`${o}-checked`]: {
+                marginInlineStart: c(e.marginXXS)
+                  .mul(-1)
+                  .div(2)
+                  .equal(),
+                marginInlineEnd: c(e.marginXXS)
+                  .div(2)
+                  .equal(),
+              },
+            },
+          },
+        },
+      },
+    };
+  },
+  cl = e => {
+    const { componentCls: r, handleSize: t, calc: i } = e;
+    return {
+      [r]: {
+        [`${r}-loading-icon${e.iconCls}`]: {
+          position: 'relative',
+          top: i(i(t).sub(e.fontSize))
+            .div(2)
+            .equal(),
+          color: e.switchLoadingIconColor,
+          verticalAlign: 'top',
+        },
+        [`&${r}-checked ${r}-loading-icon`]: { color: e.switchColor },
+      },
+    };
+  },
+  ul = e => {
+    const {
+        componentCls: r,
+        trackPadding: t,
+        handleBg: i,
+        handleShadow: n,
+        handleSize: a,
+        calc: s,
+      } = e,
+      l = `${r}-handle`;
+    return {
+      [r]: {
+        [l]: {
+          position: 'absolute',
+          top: t,
+          insetInlineStart: t,
+          width: a,
+          height: a,
+          transition: `all ${e.switchDuration} ease-in-out`,
+          '&::before': {
+            position: 'absolute',
+            top: 0,
+            insetInlineEnd: 0,
+            bottom: 0,
+            insetInlineStart: 0,
+            backgroundColor: i,
+            borderRadius: s(a)
+              .div(2)
+              .equal(),
+            boxShadow: n,
+            transition: `all ${e.switchDuration} ease-in-out`,
+            content: '""',
+          },
+        },
+        [`&${r}-checked ${l}`]: {
+          insetInlineStart: `calc(100% - ${G(
+            s(a)
+              .add(t)
+              .equal()
+          )})`,
+        },
+        [`&:not(${r}-disabled):active`]: {
+          [`${l}::before`]: { insetInlineEnd: e.switchHandleActiveInset, insetInlineStart: 0 },
+          [`&${r}-checked ${l}::before`]: {
+            insetInlineEnd: 0,
+            insetInlineStart: e.switchHandleActiveInset,
+          },
+        },
+      },
+    };
+  },
+  dl = e => {
+    const {
+        componentCls: r,
+        trackHeight: t,
+        trackPadding: i,
+        innerMinMargin: n,
+        innerMaxMargin: a,
+        handleSize: s,
+        calc: l,
+      } = e,
+      c = `${r}-inner`,
+      o = G(
+        l(s)
+          .add(l(i).mul(2))
+          .equal()
+      ),
+      h = G(
+        l(a)
+          .mul(2)
+          .equal()
+      );
+    return {
+      [r]: {
+        [c]: {
+          display: 'block',
+          overflow: 'hidden',
+          borderRadius: 100,
+          height: '100%',
+          paddingInlineStart: a,
+          paddingInlineEnd: n,
+          transition: `padding-inline-start ${e.switchDuration} ease-in-out, padding-inline-end ${
+            e.switchDuration
+          } ease-in-out`,
+          [`${c}-checked, ${c}-unchecked`]: {
+            display: 'block',
+            color: e.colorTextLightSolid,
+            fontSize: e.fontSizeSM,
+            transition: `margin-inline-start ${e.switchDuration} ease-in-out, margin-inline-end ${
+              e.switchDuration
+            } ease-in-out`,
+            pointerEvents: 'none',
+            minHeight: t,
+          },
+          [`${c}-checked`]: {
+            marginInlineStart: `calc(-100% + ${o} - ${h})`,
+            marginInlineEnd: `calc(100% - ${o} + ${h})`,
+          },
+          [`${c}-unchecked`]: {
+            marginTop: l(t)
+              .mul(-1)
+              .equal(),
+            marginInlineStart: 0,
+            marginInlineEnd: 0,
+          },
+        },
+        [`&${r}-checked ${c}`]: {
+          paddingInlineStart: n,
+          paddingInlineEnd: a,
+          [`${c}-checked`]: { marginInlineStart: 0, marginInlineEnd: 0 },
+          [`${c}-unchecked`]: {
+            marginInlineStart: `calc(100% - ${o} + ${h})`,
+            marginInlineEnd: `calc(-100% + ${o} - ${h})`,
+          },
+        },
+        [`&:not(${r}-disabled):active`]: {
+          [`&:not(${r}-checked) ${c}`]: {
+            [`${c}-unchecked`]: {
+              marginInlineStart: l(i)
+                .mul(2)
+                .equal(),
+              marginInlineEnd: l(i)
+                .mul(-1)
+                .mul(2)
+                .equal(),
+            },
+          },
+          [`&${r}-checked ${c}`]: {
+            [`${c}-checked`]: {
+              marginInlineStart: l(i)
+                .mul(-1)
+                .mul(2)
+                .equal(),
+              marginInlineEnd: l(i)
+                .mul(2)
+                .equal(),
+            },
+          },
+        },
+      },
+    };
+  },
+  hl = e => {
+    const { componentCls: r, trackHeight: t, trackMinWidth: i } = e;
+    return {
+      [r]: Object.assign(
+        Object.assign(
+          Object.assign(Object.assign({}, Mt(e)), {
+            position: 'relative',
+            display: 'inline-block',
+            boxSizing: 'border-box',
+            minWidth: i,
+            height: t,
+            lineHeight: G(t),
+            verticalAlign: 'middle',
+            background: e.colorTextQuaternary,
+            border: '0',
+            borderRadius: 100,
+            cursor: 'pointer',
+            transition: `all ${e.motionDurationMid}`,
+            userSelect: 'none',
+            [`&:hover:not(${r}-disabled)`]: { background: e.colorTextTertiary },
+          }),
+          ys(e)
+        ),
+        {
+          [`&${r}-checked`]: {
+            background: e.switchColor,
+            [`&:hover:not(${r}-disabled)`]: { background: e.colorPrimaryHover },
+          },
+          [`&${r}-loading, &${r}-disabled`]: {
+            cursor: 'not-allowed',
+            opacity: e.switchDisabledOpacity,
+            '*': { boxShadow: 'none', cursor: 'not-allowed' },
+          },
+          [`&${r}-rtl`]: { direction: 'rtl' },
+        }
+      ),
+    };
+  },
+  fl = e => {
+    const { fontSize: r, lineHeight: t, controlHeight: i, colorWhite: n } = e,
+      a = r * t,
+      s = i / 2,
+      l = 2,
+      c = a - l * 2,
+      o = s - l * 2;
+    return {
+      trackHeight: a,
+      trackHeightSM: s,
+      trackMinWidth: c * 2 + l * 4,
+      trackMinWidthSM: o * 2 + l * 2,
+      trackPadding: l,
+      handleBg: n,
+      handleSize: c,
+      handleSizeSM: o,
+      handleShadow: `0 2px 4px 0 ${new bs('#00230b').setA(0.2).toRgbString()}`,
+      innerMinMargin: c / 2,
+      innerMaxMargin: c + l + l * 2,
+      innerMinMarginSM: o / 2,
+      innerMaxMarginSM: o + l + l * 2,
+    };
+  },
+  pl = Ot(
+    'Switch',
+    e => {
+      const r = Xr(e, {
+        switchDuration: e.motionDurationMid,
+        switchColor: e.colorPrimary,
+        switchDisabledOpacity: e.opacityLoading,
+        switchLoadingIconSize: e
+          .calc(e.fontSizeIcon)
+          .mul(0.75)
+          .equal(),
+        switchLoadingIconColor: `rgba(0, 0, 0, ${e.opacityLoading})`,
+        switchHandleActiveInset: '-30%',
+      });
+      return [hl(r), dl(r), ul(r), cl(r), ll(r)];
+    },
+    fl
+  );
+var gl = function(e, r) {
+  var t = {};
+  for (var i in e) Object.prototype.hasOwnProperty.call(e, i) && r.indexOf(i) < 0 && (t[i] = e[i]);
+  if (e != null && typeof Object.getOwnPropertySymbols == 'function')
+    for (var n = 0, i = Object.getOwnPropertySymbols(e); n < i.length; n++)
+      r.indexOf(i[n]) < 0 &&
+        Object.prototype.propertyIsEnumerable.call(e, i[n]) &&
+        (t[i[n]] = e[i[n]]);
+  return t;
+};
+const ml = I.forwardRef((e, r) => {
+    const {
+        prefixCls: t,
+        size: i,
+        disabled: n,
+        loading: a,
+        className: s,
+        rootClassName: l,
+        style: c,
+        checked: o,
+        value: h,
+        defaultChecked: g,
+        defaultValue: d,
+        onChange: f,
+      } = e,
+      m = gl(e, [
+        'prefixCls',
+        'size',
+        'disabled',
+        'loading',
+        'className',
+        'rootClassName',
+        'style',
+        'checked',
+        'value',
+        'defaultChecked',
+        'defaultValue',
+        'onChange',
+      ]),
+      [y, w] = pa(!1, { value: o ?? h, defaultValue: g ?? d }),
+      { getPrefixCls: C, direction: j, switch: S } = I.useContext(Ae),
+      u = I.useContext(_s),
+      $ = n ?? u || a,
+      _ = C('switch', t),
+      v = I.createElement(
+        'div',
+        { className: `${_}-handle` },
+        a && I.createElement(xs, { className: `${_}-loading-icon` })
+      ),
+      [b, x, P] = pl(_),
+      M = fa(i),
+      A = le(
+        S?.className,
+        { [`${_}-small`]: M === 'small', [`${_}-loading`]: a, [`${_}-rtl`]: j === 'rtl' },
+        s,
+        l,
+        x,
+        P
+      ),
+      O = Object.assign(Object.assign({}, S?.style), c),
+      U = (...T) => {
+        w(T[0]), f?.apply(void 0, T);
+      };
+    return b(
+      I.createElement(
+        Ss,
+        { component: 'Switch', disabled: $ },
+        I.createElement(
+          za,
+          Object.assign({}, m, {
+            checked: y,
+            onChange: U,
+            prefixCls: _,
+            className: A,
+            style: O,
+            disabled: $,
+            ref: r,
+            loadingIcon: v,
+          })
+        )
+      )
+    );
+  }),
+  cn = ml;
+cn.__ANT_SWITCH = !0;
+var kt, xn;
+function vl() {
+  return (
+    xn ||
+      ((xn = 1),
+      (kt = function(r, t, i, n) {
+        var a = i ? i.call(n, r, t) : void 0;
+        if (a !== void 0) return !!a;
+        if (r === t) return !0;
+        if (typeof r != 'object' || !r || typeof t != 'object' || !t) return !1;
+        var s = Object.keys(r),
+          l = Object.keys(t);
+        if (s.length !== l.length) return !1;
+        for (var c = Object.prototype.hasOwnProperty.bind(t), o = 0; o < s.length; o++) {
+          var h = s[o];
+          if (!c(h)) return !1;
+          var g = r[h],
+            d = t[h];
+          if (((a = i ? i.call(n, g, d, h) : void 0), a === !1 || (a === void 0 && g !== d)))
+            return !1;
+        }
+        return !0;
+      })),
+    kt
+  );
+}
+var Wt, wn;
+function yl() {
+  if (wn) return Wt;
+  wn = 1;
+  function e(c) {
+    return c && typeof c == 'object' && 'default' in c ? c.default : c;
+  }
+  var r = en(),
+    t = e(r),
+    i = e(vl());
+  function n(c, o, h) {
+    return (
+      o in c
+        ? Object.defineProperty(c, o, { value: h, enumerable: !0, configurable: !0, writable: !0 })
+        : (c[o] = h),
+      c
+    );
+  }
+  function a(c, o) {
+    (c.prototype = Object.create(o.prototype)), (c.prototype.constructor = c), (c.__proto__ = o);
+  }
+  var s = !!(typeof window < 'u' && window.document && window.document.createElement);
+  function l(c, o, h) {
+    if (typeof c != 'function') throw new Error('Expected reducePropsToState to be a function.');
+    if (typeof o != 'function')
+      throw new Error('Expected handleStateChangeOnClient to be a function.');
+    if (typeof h < 'u' && typeof h != 'function')
+      throw new Error('Expected mapStateOnServer to either be undefined or a function.');
+    function g(d) {
+      return d.displayName || d.name || 'Component';
+    }
+    return function(f) {
+      if (typeof f != 'function')
+        throw new Error('Expected WrappedComponent to be a React component.');
+      var m = [],
+        y;
+      function w() {
+        (y = c(
+          m.map(function(j) {
+            return j.props;
+          })
+        )),
+          C.canUseDOM ? o(y) : h && (y = h(y));
+      }
+      var C = (function(j) {
+        a(S, j);
+        function S() {
+          return j.apply(this, arguments) || this;
+        }
+        (S.peek = function() {
+          return y;
+        }),
+          (S.rewind = function() {
+            if (S.canUseDOM)
+              throw new Error(
+                'You may only call rewind() on the server. Call peek() to read the current state.'
+              );
+            var _ = y;
+            return (y = void 0), (m = []), _;
+          });
+        var u = S.prototype;
+        return (
+          (u.shouldComponentUpdate = function(_) {
+            return !i(_, this.props);
+          }),
+          (u.componentWillMount = function() {
+            m.push(this), w();
+          }),
+          (u.componentDidUpdate = function() {
+            w();
+          }),
+          (u.componentWillUnmount = function() {
+            var _ = m.indexOf(this);
+            m.splice(_, 1), w();
+          }),
+          (u.render = function() {
+            return t.createElement(f, this.props);
+          }),
+          S
+        );
+      })(r.Component);
+      return n(C, 'displayName', 'SideEffect(' + g(f) + ')'), n(C, 'canUseDOM', s), C;
+    };
+  }
+  return (Wt = l), Wt;
+}
+var zt, Cn;
+function bl() {
+  if (Cn) return zt;
+  Cn = 1;
+  var e = en(),
+    r = ws(),
+    t = yl();
+  function i(s) {
+    var l = s[s.length - 1];
+    if (l) return l.title;
+  }
+  function n(s) {
+    var l = s || '';
+    l !== document.title && (document.title = l);
+  }
+  function a() {}
+  return (
+    (a.prototype = Object.create(e.Component.prototype)),
+    (a.displayName = 'DocumentTitle'),
+    (a.propTypes = { title: r.string.isRequired }),
+    (a.prototype.render = function() {
+      return this.props.children ? e.Children.only(this.props.children) : null;
+    }),
+    (zt = t(i, n)(a)),
+    zt
+  );
+}
+var _l = bl();
+const Sl = ga(_l);
+var je = {},
+  Je = {},
+  $n;
+function Fa() {
+  if ($n) return Je;
+  ($n = 1), Object.defineProperty(Je, '__esModule', { value: !0 });
+  function e(r) {
+    for (var t = [], i = 0, n = Object.keys(r); i < n.length; i++) {
+      var a = n[i],
+        s = r[a];
+      t.push({
+        minWidth: s.minWidth != null ? s.minWidth : 0,
+        maxWidth: s.maxWidth != null ? s.maxWidth : 1 / 0,
+        minHeight: s.minHeight != null ? s.minHeight : 0,
+        maxHeight: s.maxHeight != null ? s.maxHeight : 1 / 0,
+        className: a,
+      });
+    }
+    return function(l) {
+      for (var c = l.height, o = l.width, h = {}, g = 0, d = t; g < d.length; g++) {
+        var f = d[g],
+          m = f.className,
+          y = f.minWidth,
+          w = f.maxWidth,
+          C = f.minHeight,
+          j = f.maxHeight;
+        c != null && o != null
+          ? (h[m] = y <= o && o <= w && C <= c && c <= j)
+          : c == null && o != null
+            ? (h[m] = y <= o && o <= w)
+            : c != null && o == null
+              ? (h[m] = C <= c && c <= j)
+              : (h[m] = !0);
+      }
+      return h;
+    };
+  }
+  return (Je.default = e), Je;
+}
+var et = {},
+  tt = {},
+  Ft = { exports: {} },
+  jn;
+function Ha() {
+  if (jn) return Ft.exports;
+  jn = 1;
+  var e = (Ft.exports = {});
+  return (
+    (e.forEach = function(r, t) {
+      for (var i = 0; i < r.length; i++) {
+        var n = t(r[i]);
+        if (n) return n;
+      }
+    }),
+    Ft.exports
+  );
+}
+var Ht, In;
+function xl() {
+  return (
+    In ||
+      ((In = 1),
+      (Ht = function(e) {
+        var r = e.stateHandler.getState;
+        function t(s) {
+          var l = r(s);
+          return l && !!l.isDetectable;
+        }
+        function i(s) {
+          r(s).isDetectable = !0;
+        }
+        function n(s) {
+          return !!r(s).busy;
+        }
+        function a(s, l) {
+          r(s).busy = !!l;
+        }
+        return { isDetectable: t, markAsDetectable: i, isBusy: n, markBusy: a };
+      })),
+    Ht
+  );
+}
+var Bt, An;
+function wl() {
+  return (
+    An ||
+      ((An = 1),
+      (Bt = function(e) {
+        var r = {};
+        function t(s) {
+          var l = e.get(s);
+          return l === void 0 ? [] : r[l] || [];
+        }
+        function i(s, l) {
+          var c = e.get(s);
+          r[c] || (r[c] = []), r[c].push(l);
+        }
+        function n(s, l) {
+          for (var c = t(s), o = 0, h = c.length; o < h; ++o)
+            if (c[o] === l) {
+              c.splice(o, 1);
+              break;
+            }
+        }
+        function a(s) {
+          var l = t(s);
+          l && (l.length = 0);
+        }
+        return { get: t, add: i, removeListener: n, removeAllListeners: a };
+      })),
+    Bt
+  );
+}
+var Vt, Pn;
+function Cl() {
+  return (
+    Pn ||
+      ((Pn = 1),
+      (Vt = function() {
+        var e = 1;
+        function r() {
+          return e++;
+        }
+        return { generate: r };
+      })),
+    Vt
+  );
+}
+var Gt, On;
+function $l() {
+  return (
+    On ||
+      ((On = 1),
+      (Gt = function(e) {
+        var r = e.idGenerator,
+          t = e.stateHandler.getState;
+        function i(a) {
+          var s = t(a);
+          return s && s.id !== void 0 ? s.id : null;
+        }
+        function n(a) {
+          var s = t(a);
+          if (!s) throw new Error('setId required the element to have a resize detection state.');
+          var l = r.generate();
+          return (s.id = l), l;
+        }
+        return { get: i, set: n };
+      })),
+    Gt
+  );
+}
+var Ut, Mn;
+function jl() {
+  return (
+    Mn ||
+      ((Mn = 1),
+      (Ut = function(e) {
+        function r() {}
+        var t = { log: r, warn: r, error: r };
+        if (!e && window.console) {
+          var i = function(n, a) {
+            n[a] = function() {
+              var l = console[a];
+              if (l.apply) l.apply(console, arguments);
+              else for (var c = 0; c < arguments.length; c++) l(arguments[c]);
+            };
+          };
+          i(t, 'log'), i(t, 'warn'), i(t, 'error');
+        }
+        return t;
+      })),
+    Ut
+  );
+}
+var Yt = { exports: {} },
+  En;
+function Ba() {
+  if (En) return Yt.exports;
+  En = 1;
+  var e = (Yt.exports = {});
+  return (
+    (e.isIE = function(r) {
+      function t() {
+        var n = navigator.userAgent.toLowerCase();
+        return (
+          n.indexOf('msie') !== -1 || n.indexOf('trident') !== -1 || n.indexOf(' edge/') !== -1
+        );
+      }
+      if (!t()) return !1;
+      if (!r) return !0;
+      var i = (function() {
+        var n,
+          a = 3,
+          s = document.createElement('div'),
+          l = s.getElementsByTagName('i');
+        do s.innerHTML = '<!--[if gt IE ' + ++a + ']><i></i><![endif]-->';
+        while (l[0]);
+        return a > 4 ? a : n;
+      })();
+      return r === i;
+    }),
+    (e.isLegacyOpera = function() {
+      return !!window.opera;
+    }),
+    Yt.exports
+  );
+}
+var Kt = { exports: {} },
+  Dn;
+function Il() {
+  if (Dn) return Kt.exports;
+  Dn = 1;
+  var e = (Kt.exports = {});
+  e.getOption = r;
+  function r(t, i, n) {
+    var a = t[i];
+    return a == null && n !== void 0 ? n : a;
+  }
+  return Kt.exports;
+}
+var Qt, Nn;
+function Al() {
+  if (Nn) return Qt;
+  Nn = 1;
+  var e = Il();
+  Qt = function(i) {
+    i = i || {};
+    var n = i.reporter,
+      a = e.getOption(i, 'async', !0),
+      s = e.getOption(i, 'auto', !0);
+    s &&
+      !a &&
+      (n &&
+        n.warn(
+          'Invalid options combination. auto=true and async=false is invalid. Setting async=true.'
+        ),
+      (a = !0));
+    var l = r(),
+      c,
+      o = !1;
+    function h(w, C) {
+      !o && s && a && l.size() === 0 && f(), l.add(w, C);
+    }
+    function g() {
+      for (o = !0; l.size(); ) {
+        var w = l;
+        (l = r()), w.process();
+      }
+      o = !1;
+    }
+    function d(w) {
+      o || (w === void 0 && (w = a), c && (m(c), (c = null)), w ? f() : g());
+    }
+    function f() {
+      c = y(g);
+    }
+    function m(w) {
+      var C = clearTimeout;
+      return C(w);
+    }
+    function y(w) {
+      var C = function(j) {
+        return setTimeout(j, 0);
+      };
+      return C(w);
+    }
+    return { add: h, force: d };
+  };
+  function r() {
+    var t = {},
+      i = 0,
+      n = 0,
+      a = 0;
+    function s(o, h) {
+      h || ((h = o), (o = 0)),
+        o > n ? (n = o) : o < a && (a = o),
+        t[o] || (t[o] = []),
+        t[o].push(h),
+        i++;
+    }
+    function l() {
+      for (var o = a; o <= n; o++)
+        for (var h = t[o], g = 0; g < h.length; g++) {
+          var d = h[g];
+          d();
+        }
+    }
+    function c() {
+      return i;
+    }
+    return { add: s, process: l, size: c };
+  }
+  return Qt;
+}
+var Xt, Rn;
+function Pl() {
+  if (Rn) return Xt;
+  Rn = 1;
+  var e = '_erd';
+  function r(n) {
+    return (n[e] = {}), t(n);
+  }
+  function t(n) {
+    return n[e];
+  }
+  function i(n) {
+    delete n[e];
+  }
+  return (Xt = { initState: r, getState: t, cleanState: i }), Xt;
+}
+var Zt, qn;
+function Ol() {
+  if (qn) return Zt;
+  qn = 1;
+  var e = Ba();
+  return (
+    (Zt = function(r) {
+      r = r || {};
+      var t = r.reporter,
+        i = r.batchProcessor,
+        n = r.stateHandler.getState;
+      if (!t) throw new Error('Missing required dependency: reporter.');
+      function a(o, h) {
+        if (!l(o)) throw new Error('Element is not detectable by this strategy.');
+        function g() {
+          h(o);
+        }
+        if (e.isIE(8)) (n(o).object = { proxy: g }), o.attachEvent('onresize', g);
+        else {
+          var d = l(o);
+          d.contentDocument.defaultView.addEventListener('resize', g);
+        }
+      }
+      function s(o, h, g) {
+        g || ((g = h), (h = o), (o = null)), (o = o || {}), o.debug;
+        function d(f, m) {
+          var y =
+              'display: block; position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; padding: 0; margin: 0; opacity: 0; z-index: -1000; pointer-events: none;',
+            w = !1,
+            C = window.getComputedStyle(f),
+            j = f.offsetWidth,
+            S = f.offsetHeight;
+          n(f).startSize = { width: j, height: S };
+          function u() {
+            function $() {
+              if (C.position === 'static') {
+                f.style.position = 'relative';
+                var b = function(x, P, M, A) {
+                  function O(T) {
+                    return T.replace(/[^-\d\.]/g, '');
+                  }
+                  var U = M[A];
+                  U !== 'auto' &&
+                    O(U) !== '0' &&
+                    (x.warn(
+                      'An element that is positioned static has style.' +
+                        A +
+                        '=' +
+                        U +
+                        ' which is ignored due to the static positioning. The element will need to be positioned relative, so the style.' +
+                        A +
+                        ' will be set to 0. Element: ',
+                      P
+                    ),
+                    (P.style[A] = 0));
+                };
+                b(t, f, C, 'top'), b(t, f, C, 'right'), b(t, f, C, 'bottom'), b(t, f, C, 'left');
+              }
+            }
+            function _() {
+              w || $();
+              function b(P, M) {
+                if (!P.contentDocument) {
+                  setTimeout(function() {
+                    b(P, M);
+                  }, 100);
+                  return;
+                }
+                M(P.contentDocument);
+              }
+              var x = this;
+              b(x, function(M) {
+                m(f);
+              });
+            }
+            C.position !== '' && ($(), (w = !0));
+            var v = document.createElement('object');
+            (v.style.cssText = y),
+              (v.tabIndex = -1),
+              (v.type = 'text/html'),
+              (v.onload = _),
+              e.isIE() || (v.data = 'about:blank'),
+              f.appendChild(v),
+              (n(f).object = v),
+              e.isIE() && (v.data = 'about:blank');
+          }
+          i ? i.add(u) : u();
+        }
+        e.isIE(8) ? g(h) : d(h, g);
+      }
+      function l(o) {
+        return n(o).object;
+      }
+      function c(o) {
+        e.isIE(8) ? o.detachEvent('onresize', n(o).object.proxy) : o.removeChild(l(o)),
+          delete n(o).object;
+      }
+      return { makeDetectable: s, addListener: a, uninstall: c };
+    }),
+    Zt
+  );
+}
+var Jt, Ln;
+function Ml() {
+  if (Ln) return Jt;
+  Ln = 1;
+  var e = Ha().forEach;
+  return (
+    (Jt = function(r) {
+      r = r || {};
+      var t = r.reporter,
+        i = r.batchProcessor,
+        n = r.stateHandler.getState;
+      r.stateHandler.hasState;
+      var a = r.idHandler;
+      if (!i) throw new Error('Missing required dependency: batchProcessor');
+      if (!t) throw new Error('Missing required dependency: reporter.');
+      var s = o(),
+        l = 'erd_scroll_detection_scrollbar_style',
+        c = 'erd_scroll_detection_container';
+      h(l, c);
+      function o() {
+        var S = 500,
+          u = 500,
+          $ = document.createElement('div');
+        $.style.cssText =
+          'position: absolute; width: ' +
+          S * 2 +
+          'px; height: ' +
+          u * 2 +
+          'px; visibility: hidden; margin: 0; padding: 0;';
+        var _ = document.createElement('div');
+        (_.style.cssText =
+          'position: absolute; width: ' +
+          S +
+          'px; height: ' +
+          u +
+          'px; overflow: scroll; visibility: none; top: ' +
+          -S * 3 +
+          'px; left: ' +
+          -u * 3 +
+          'px; visibility: hidden; margin: 0; padding: 0;'),
+          _.appendChild($),
+          document.body.insertBefore(_, document.body.firstChild);
+        var v = S - _.clientWidth,
+          b = u - _.clientHeight;
+        return document.body.removeChild(_), { width: v, height: b };
+      }
+      function h(S, u) {
+        function $(x, P) {
+          P =
+            P ||
+            function(A) {
+              document.head.appendChild(A);
+            };
+          var M = document.createElement('style');
+          return (M.innerHTML = x), (M.id = S), P(M), M;
+        }
+        if (!document.getElementById(S)) {
+          var _ = u + '_animation',
+            v = u + '_animation_active',
+            b = `/* Created by the element-resize-detector library. */
+`;
+          (b +=
+            '.' +
+            u +
+            ` > div::-webkit-scrollbar { display: none; }
+
+`),
+            (b +=
+              '.' +
+              v +
+              ' { -webkit-animation-duration: 0.1s; animation-duration: 0.1s; -webkit-animation-name: ' +
+              _ +
+              '; animation-name: ' +
+              _ +
+              `; }
+`),
+            (b +=
+              '@-webkit-keyframes ' +
+              _ +
+              ` { 0% { opacity: 1; } 50% { opacity: 0; } 100% { opacity: 1; } }
+`),
+            (b +=
+              '@keyframes ' +
+              _ +
+              ' { 0% { opacity: 1; } 50% { opacity: 0; } 100% { opacity: 1; } }'),
+            $(b);
+        }
+      }
+      function g(S) {
+        S.className += ' ' + c + '_animation_active';
+      }
+      function d(S, u, $) {
+        if (S.addEventListener) S.addEventListener(u, $);
+        else if (S.attachEvent) S.attachEvent('on' + u, $);
+        else return t.error("[scroll] Don't know how to add event listeners.");
+      }
+      function f(S, u, $) {
+        if (S.removeEventListener) S.removeEventListener(u, $);
+        else if (S.detachEvent) S.detachEvent('on' + u, $);
+        else return t.error("[scroll] Don't know how to remove event listeners.");
+      }
+      function m(S) {
+        return n(S).container.childNodes[0].childNodes[0].childNodes[0];
+      }
+      function y(S) {
+        return n(S).container.childNodes[0].childNodes[0].childNodes[1];
+      }
+      function w(S, u) {
+        var $ = n(S).listeners;
+        if (!$.push) throw new Error('Cannot add listener to an element that is not detectable.');
+        n(S).listeners.push(u);
+      }
+      function C(S, u, $) {
+        $ || (($ = u), (u = S), (S = null)), (S = S || {});
+        function _() {
+          if (S.debug) {
+            var E = Array.prototype.slice.call(arguments);
+            if ((E.unshift(a.get(u), 'Scroll: '), t.log.apply)) t.log.apply(null, E);
+            else for (var W = 0; W < E.length; W++) t.log(E[W]);
+          }
+        }
+        function v(E) {
+          function W(Y) {
+            return Y === Y.ownerDocument.body || Y.ownerDocument.body.contains(Y);
+          }
+          return !W(E) || getComputedStyle(E) === null;
+        }
+        function b(E) {
+          var W = n(E).container.childNodes[0],
+            Y = getComputedStyle(W);
+          return !Y.width || Y.width.indexOf('px') === -1;
+        }
+        function x() {
+          var E = getComputedStyle(u),
+            W = {};
+          return (
+            (W.position = E.position),
+            (W.width = u.offsetWidth),
+            (W.height = u.offsetHeight),
+            (W.top = E.top),
+            (W.right = E.right),
+            (W.bottom = E.bottom),
+            (W.left = E.left),
+            (W.widthCSS = E.width),
+            (W.heightCSS = E.height),
+            W
+          );
+        }
+        function P() {
+          var E = x();
+          (n(u).startSize = { width: E.width, height: E.height }),
+            _('Element start size', n(u).startSize);
+        }
+        function M() {
+          n(u).listeners = [];
+        }
+        function A() {
+          if ((_('storeStyle invoked.'), !n(u))) {
+            _('Aborting because element has been uninstalled');
+            return;
+          }
+          var E = x();
+          n(u).style = E;
+        }
+        function O(E, W, Y) {
+          (n(E).lastWidth = W), (n(E).lastHeight = Y);
+        }
+        function U(E) {
+          return m(E).childNodes[0];
+        }
+        function T() {
+          return 2 * s.width + 1;
+        }
+        function L() {
+          return 2 * s.height + 1;
+        }
+        function N(E) {
+          return E + 10 + T();
+        }
+        function z(E) {
+          return E + 10 + L();
+        }
+        function ne(E) {
+          return E * 2 + T();
+        }
+        function D(E) {
+          return E * 2 + L();
+        }
+        function F(E, W, Y) {
+          var Z = m(E),
+            fe = y(E),
+            ve = N(W),
+            me = z(Y),
+            ie = ne(W),
+            B = D(Y);
+          (Z.scrollLeft = ve), (Z.scrollTop = me), (fe.scrollLeft = ie), (fe.scrollTop = B);
+        }
+        function k() {
+          var E = n(u).container;
+          if (!E) {
+            (E = document.createElement('div')),
+              (E.className = c),
+              (E.style.cssText =
+                'visibility: hidden; display: inline; width: 0px; height: 0px; z-index: -1; overflow: hidden; margin: 0; padding: 0;'),
+              (n(u).container = E),
+              g(E),
+              u.appendChild(E);
+            var W = function() {
+              n(u).onRendered && n(u).onRendered();
+            };
+            d(E, 'animationstart', W), (n(u).onAnimationStart = W);
+          }
+          return E;
+        }
+        function K() {
+          function E() {
+            var xe = n(u).style;
+            if (xe.position === 'static') {
+              u.style.position = 'relative';
+              var $e = function(qe, Ee, ls, Ke) {
+                function cs(us) {
+                  return us.replace(/[^-\d\.]/g, '');
+                }
+                var Lt = ls[Ke];
+                Lt !== 'auto' &&
+                  cs(Lt) !== '0' &&
+                  (qe.warn(
+                    'An element that is positioned static has style.' +
+                      Ke +
+                      '=' +
+                      Lt +
+                      ' which is ignored due to the static positioning. The element will need to be positioned relative, so the style.' +
+                      Ke +
+                      ' will be set to 0. Element: ',
+                    Ee
+                  ),
+                  (Ee.style[Ke] = 0));
+              };
+              $e(t, u, xe, 'top'),
+                $e(t, u, xe, 'right'),
+                $e(t, u, xe, 'bottom'),
+                $e(t, u, xe, 'left');
+            }
+          }
+          function W(xe, $e, qe, Ee) {
+            return (
+              (xe = xe ? xe + 'px' : '0'),
+              ($e = $e ? $e + 'px' : '0'),
+              (qe = qe ? qe + 'px' : '0'),
+              (Ee = Ee ? Ee + 'px' : '0'),
+              'left: ' + xe + '; top: ' + $e + '; right: ' + Ee + '; bottom: ' + qe + ';'
+            );
+          }
+          if ((_('Injecting elements'), !n(u))) {
+            _('Aborting because element has been uninstalled');
+            return;
+          }
+          E();
+          var Y = n(u).container;
+          Y || (Y = k());
+          var Z = s.width,
+            fe = s.height,
+            ve =
+              'position: absolute; flex: none; overflow: hidden; z-index: -1; visibility: hidden; width: 100%; height: 100%; left: 0px; top: 0px;',
+            me =
+              'position: absolute; flex: none; overflow: hidden; z-index: -1; visibility: hidden; ' +
+              W(-(1 + Z), -(1 + fe), -fe, -Z),
+            ie =
+              'position: absolute; flex: none; overflow: scroll; z-index: -1; visibility: hidden; width: 100%; height: 100%;',
+            B =
+              'position: absolute; flex: none; overflow: scroll; z-index: -1; visibility: hidden; width: 100%; height: 100%;',
+            ce = 'position: absolute; left: 0; top: 0;',
+            ye = 'position: absolute; width: 200%; height: 200%;',
+            J = document.createElement('div'),
+            ue = document.createElement('div'),
+            Se = document.createElement('div'),
+            ee = document.createElement('div'),
+            ae = document.createElement('div'),
+            pe = document.createElement('div');
+          (J.dir = 'ltr'),
+            (J.style.cssText = ve),
+            (J.className = c),
+            (ue.className = c),
+            (ue.style.cssText = me),
+            (Se.style.cssText = ie),
+            (ee.style.cssText = ce),
+            (ae.style.cssText = B),
+            (pe.style.cssText = ye),
+            Se.appendChild(ee),
+            ae.appendChild(pe),
+            ue.appendChild(Se),
+            ue.appendChild(ae),
+            J.appendChild(ue),
+            Y.appendChild(J);
+          function be() {
+            n(u).onExpand && n(u).onExpand();
+          }
+          function fn() {
+            n(u).onShrink && n(u).onShrink();
+          }
+          d(Se, 'scroll', be),
+            d(ae, 'scroll', fn),
+            (n(u).onExpandScroll = be),
+            (n(u).onShrinkScroll = fn);
+        }
+        function Q() {
+          function E(ie, B, ce) {
+            var ye = U(ie),
+              J = N(B),
+              ue = z(ce);
+            (ye.style.width = J + 'px'), (ye.style.height = ue + 'px');
+          }
+          function W(ie) {
+            var B = u.offsetWidth,
+              ce = u.offsetHeight;
+            _('Storing current size', B, ce),
+              O(u, B, ce),
+              i.add(0, function() {
+                if (!n(u)) {
+                  _('Aborting because element has been uninstalled');
+                  return;
+                }
+                if (!Y()) {
+                  _('Aborting because element container has not been initialized');
+                  return;
+                }
+                if (S.debug) {
+                  var J = u.offsetWidth,
+                    ue = u.offsetHeight;
+                  (J !== B || ue !== ce) &&
+                    t.warn(a.get(u), 'Scroll: Size changed before updating detector elements.');
+                }
+                E(u, B, ce);
+              }),
+              i.add(1, function() {
+                if (!n(u)) {
+                  _('Aborting because element has been uninstalled');
+                  return;
+                }
+                if (!Y()) {
+                  _('Aborting because element container has not been initialized');
+                  return;
+                }
+                F(u, B, ce);
+              }),
+              ie &&
+                i.add(2, function() {
+                  if (!n(u)) {
+                    _('Aborting because element has been uninstalled');
+                    return;
+                  }
+                  if (!Y()) {
+                    _('Aborting because element container has not been initialized');
+                    return;
+                  }
+                  ie();
+                });
+          }
+          function Y() {
+            return !!n(u).container;
+          }
+          function Z() {
+            function ie() {
+              return n(u).lastNotifiedWidth === void 0;
+            }
+            _('notifyListenersIfNeeded invoked');
+            var B = n(u);
+            if (ie() && B.lastWidth === B.startSize.width && B.lastHeight === B.startSize.height)
+              return _(
+                'Not notifying: Size is the same as the start size, and there has been no notification yet.'
+              );
+            if (B.lastWidth === B.lastNotifiedWidth && B.lastHeight === B.lastNotifiedHeight)
+              return _('Not notifying: Size already notified');
+            _('Current size not notified, notifying...'),
+              (B.lastNotifiedWidth = B.lastWidth),
+              (B.lastNotifiedHeight = B.lastHeight),
+              e(n(u).listeners, function(ce) {
+                ce(u);
+              });
+          }
+          function fe() {
+            if ((_('startanimation triggered.'), b(u))) {
+              _('Ignoring since element is still unrendered...');
+              return;
+            }
+            _('Element rendered.');
+            var ie = m(u),
+              B = y(u);
+            (ie.scrollLeft === 0 ||
+              ie.scrollTop === 0 ||
+              B.scrollLeft === 0 ||
+              B.scrollTop === 0) &&
+              (_('Scrollbars out of sync. Updating detector elements...'), W(Z));
+          }
+          function ve() {
+            if ((_('Scroll detected.'), b(u))) {
+              _('Scroll event fired while unrendered. Ignoring...');
+              return;
+            }
+            var ie = u.offsetWidth,
+              B = u.offsetHeight;
+            ie !== n(u).lastWidth || B !== n(u).lastHeight
+              ? (_('Element size changed.'), W(Z))
+              : _('Element size has not changed (' + ie + 'x' + B + ').');
+          }
+          if ((_('registerListenersAndPositionElements invoked.'), !n(u))) {
+            _('Aborting because element has been uninstalled');
+            return;
+          }
+          (n(u).onRendered = fe), (n(u).onExpand = ve), (n(u).onShrink = ve);
+          var me = n(u).style;
+          E(u, me.width, me.height);
+        }
+        function X() {
+          if ((_('finalizeDomMutation invoked.'), !n(u))) {
+            _('Aborting because element has been uninstalled');
+            return;
+          }
+          var E = n(u).style;
+          O(u, E.width, E.height), F(u, E.width, E.height);
+        }
+        function V() {
+          $(u);
+        }
+        function ge() {
+          _('Installing...'),
+            M(),
+            P(),
+            i.add(0, A),
+            i.add(1, K),
+            i.add(2, Q),
+            i.add(3, X),
+            i.add(4, V);
+        }
+        _('Making detectable...'),
+          v(u)
+            ? (_('Element is detached'),
+              k(),
+              _('Waiting until element is attached...'),
+              (n(u).onRendered = function() {
+                _('Element is now attached'), ge();
+              }))
+            : ge();
+      }
+      function j(S) {
+        var u = n(S);
+        u &&
+          (u.onExpandScroll && f(m(S), 'scroll', u.onExpandScroll),
+          u.onShrinkScroll && f(y(S), 'scroll', u.onShrinkScroll),
+          u.onAnimationStart && f(u.container, 'animationstart', u.onAnimationStart),
+          u.container && S.removeChild(u.container));
+      }
+      return { makeDetectable: C, addListener: w, uninstall: j };
+    }),
+    Jt
+  );
+}
+var er, Tn;
+function El() {
+  if (Tn) return er;
+  Tn = 1;
+  var e = Ha().forEach,
+    r = xl(),
+    t = wl(),
+    i = Cl(),
+    n = $l(),
+    a = jl(),
+    s = Ba(),
+    l = Al(),
+    c = Pl(),
+    o = Ol(),
+    h = Ml();
+  function g(y) {
+    return Array.isArray(y) || y.length !== void 0;
+  }
+  function d(y) {
+    if (Array.isArray(y)) return y;
+    var w = [];
+    return (
+      e(y, function(C) {
+        w.push(C);
+      }),
+      w
+    );
+  }
+  function f(y) {
+    return y && y.nodeType === 1;
+  }
+  er = function(y) {
+    y = y || {};
+    var w;
+    if (y.idHandler)
+      w = {
+        get: function(T) {
+          return y.idHandler.get(T, !0);
+        },
+        set: y.idHandler.set,
+      };
+    else {
+      var C = i(),
+        j = n({ idGenerator: C, stateHandler: c });
+      w = j;
+    }
+    var S = y.reporter;
+    if (!S) {
+      var u = S === !1;
+      S = a(u);
+    }
+    var $ = m(y, 'batchProcessor', l({ reporter: S })),
+      _ = {};
+    (_.callOnAdd = !!m(y, 'callOnAdd', !0)), (_.debug = !!m(y, 'debug', !1));
+    var v = t(w),
+      b = r({ stateHandler: c }),
+      x,
+      P = m(y, 'strategy', 'object'),
+      M = { reporter: S, batchProcessor: $, stateHandler: c, idHandler: w };
+    if (
+      (P === 'scroll' &&
+        (s.isLegacyOpera()
+          ? (S.warn(
+              'Scroll strategy is not supported on legacy Opera. Changing to object strategy.'
+            ),
+            (P = 'object'))
+          : s.isIE(9) &&
+            (S.warn('Scroll strategy is not supported on IE9. Changing to object strategy.'),
+            (P = 'object'))),
+      P === 'scroll')
+    )
+      x = h(M);
+    else if (P === 'object') x = o(M);
+    else throw new Error('Invalid strategy name: ' + P);
+    var A = {};
+    function O(T, L, N) {
+      function z(Q) {
+        var X = v.get(Q);
+        e(X, function(ge) {
+          ge(Q);
+        });
+      }
+      function ne(Q, X, V) {
+        v.add(X, V), Q && V(X);
+      }
+      if ((N || ((N = L), (L = T), (T = {})), !L))
+        throw new Error('At least one element required.');
+      if (!N) throw new Error('Listener required.');
+      if (f(L)) L = [L];
+      else if (g(L)) L = d(L);
+      else
+        return S.error('Invalid arguments. Must be a DOM element or a collection of DOM elements.');
+      var D = 0,
+        F = m(T, 'callOnAdd', _.callOnAdd),
+        k = m(T, 'onReady', function() {}),
+        K = m(T, 'debug', _.debug);
+      e(L, function(X) {
+        c.getState(X) || (c.initState(X), w.set(X));
+        var V = w.get(X);
+        if ((K && S.log('Attaching listener to element', V, X), !b.isDetectable(X))) {
+          if ((K && S.log(V, 'Not detectable.'), b.isBusy(X))) {
+            K && S.log(V, 'System busy making it detectable'),
+              ne(F, X, N),
+              (A[V] = A[V] || []),
+              A[V].push(function() {
+                D++, D === L.length && k();
+              });
+            return;
+          }
+          return (
+            K && S.log(V, 'Making detectable...'),
+            b.markBusy(X, !0),
+            x.makeDetectable({ debug: K }, X, function(E) {
+              if ((K && S.log(V, 'onElementDetectable'), c.getState(E))) {
+                b.markAsDetectable(E), b.markBusy(E, !1), x.addListener(E, z), ne(F, E, N);
+                var W = c.getState(E);
+                if (W && W.startSize) {
+                  var Y = E.offsetWidth,
+                    Z = E.offsetHeight;
+                  (W.startSize.width !== Y || W.startSize.height !== Z) && z(E);
+                }
+                A[V] &&
+                  e(A[V], function(fe) {
+                    fe();
+                  });
+              } else K && S.log(V, 'Element uninstalled before being detectable.');
+              delete A[V], D++, D === L.length && k();
+            })
+          );
+        }
+        K && S.log(V, 'Already detecable, adding listener.'), ne(F, X, N), D++;
+      }),
+        D === L.length && k();
+    }
+    function U(T) {
+      if (!T) return S.error('At least one element is required.');
+      if (f(T)) T = [T];
+      else if (g(T)) T = d(T);
+      else
+        return S.error('Invalid arguments. Must be a DOM element or a collection of DOM elements.');
+      e(T, function(L) {
+        v.removeAllListeners(L), x.uninstall(L), c.cleanState(L);
+      });
+    }
+    return {
+      listenTo: O,
+      removeListener: v.removeListener,
+      removeAllListeners: v.removeAllListeners,
+      uninstall: U,
+    };
+  };
+  function m(y, w, C) {
+    var j = y[w];
+    return j == null && C !== void 0 ? C : j;
+  }
+  return er;
+}
+var kn;
+function Dl() {
+  if (kn) return tt;
+  (kn = 1), Object.defineProperty(tt, '__esModule', { value: !0 });
+  var e = El(),
+    r = (function() {
+      function n(a) {
+        var s = this;
+        (this.handler = a),
+          (this.listenedElement = null),
+          (this.hasResizeObserver = typeof window.ResizeObserver < 'u'),
+          this.hasResizeObserver
+            ? (this.rz = new ResizeObserver(function(l) {
+                s.handler(t(l[0].target));
+              }))
+            : (this.erd = e({ strategy: 'scroll' }));
+      }
+      return (
+        (n.prototype.observe = function(a) {
+          var s = this;
+          this.listenedElement !== a &&
+            (this.listenedElement && this.disconnect(),
+            a &&
+              (this.hasResizeObserver
+                ? this.rz.observe(a)
+                : this.erd.listenTo(a, function(l) {
+                    s.handler(t(l));
+                  })),
+            (this.listenedElement = a));
+        }),
+        (n.prototype.disconnect = function() {
+          this.listenedElement &&
+            (this.hasResizeObserver
+              ? this.rz.disconnect()
+              : this.erd.uninstall(this.listenedElement),
+            (this.listenedElement = null));
+        }),
+        n
+      );
+    })();
+  tt.default = r;
+  function t(n) {
+    return {
+      width: i(window.getComputedStyle(n).width),
+      height: i(window.getComputedStyle(n).height),
+    };
+  }
+  function i(n) {
+    var a = /^([0-9\.]+)px$/.exec(n);
+    return a ? parseFloat(a[1]) : 0;
+  }
+  return tt;
+}
+var rt = {},
+  Wn;
+function Va() {
+  if (Wn) return rt;
+  (Wn = 1), Object.defineProperty(rt, '__esModule', { value: !0 });
+  var e = Object.prototype.hasOwnProperty;
+  function r(t, i) {
+    var n = Object.keys(t),
+      a = Object.keys(i);
+    if (n.length !== a.length) return !1;
+    for (var s = 0; s < n.length; s++) if (!e.call(i, n[s]) || t[n[s]] !== i[n[s]]) return !1;
+    return !0;
+  }
+  return (rt.default = r), rt;
+}
+var zn;
+function Nl() {
+  if (zn) return et;
+  (zn = 1), Object.defineProperty(et, '__esModule', { value: !0 });
+  var e = Dl(),
+    r = Fa(),
+    t = Va(),
+    i = (function() {
+      function n(a, s) {
+        var l = this;
+        (this.result = {}),
+          (this.rol = new e.default(function(c) {
+            var o = r.default(a)(c);
+            t.default(l.result, o) || (s(o), (l.result = o));
+          }));
+      }
+      return (
+        (n.prototype.observe = function(a) {
+          this.rol.observe(a);
+        }),
+        (n.prototype.disconnect = function() {
+          this.rol.disconnect();
+        }),
+        n
+      );
+    })();
+  return (et.default = i), et;
+}
+var Fn;
+function Rl() {
+  if (Fn) return je;
+  Fn = 1;
+  var e =
+      (je && je.__extends) ||
+      (function() {
+        var g =
+          Object.setPrototypeOf ||
+          ({ __proto__: [] } instanceof Array &&
+            function(d, f) {
+              d.__proto__ = f;
+            }) ||
+          function(d, f) {
+            for (var m in f) f.hasOwnProperty(m) && (d[m] = f[m]);
+          };
+        return function(d, f) {
+          g(d, f);
+          function m() {
+            this.constructor = d;
+          }
+          d.prototype = f === null ? Object.create(f) : ((m.prototype = f.prototype), new m());
+        };
+      })(),
+    r =
+      (je && je.__assign) ||
+      Object.assign ||
+      function(g) {
+        for (var d, f = 1, m = arguments.length; f < m; f++) {
+          d = arguments[f];
+          for (var y in d) Object.prototype.hasOwnProperty.call(d, y) && (g[y] = d[y]);
+        }
+        return g;
+      };
+  Object.defineProperty(je, '__esModule', { value: !0 });
+  var t = en(),
+    i = Cs(),
+    n = Fa(),
+    a = Nl(),
+    s = Va(),
+    l = (function(g) {
+      e(d, g);
+      function d(f) {
+        var m = g.call(this, f) || this;
+        return (
+          (m.cqCore = null),
+          (m.state = { params: f.initialSize ? n.default(f.query)(f.initialSize) : {} }),
+          m
+        );
+      }
+      return (
+        (d.prototype.componentDidMount = function() {
+          this._startObserving(this.props.query);
+        }),
+        (d.prototype.UNSAFE_componentWillReceiveProps = function(f) {
+          this.cqCore &&
+            !h(this.props.query, f.query) &&
+            (this.cqCore.disconnect(), (this.cqCore = null), this._startObserving(f.query));
+        }),
+        (d.prototype.componentDidUpdate = function() {
+          this.cqCore.observe(i.findDOMNode(this));
+        }),
+        (d.prototype.componentWillUnmount = function() {
+          this.cqCore.disconnect(), (this.cqCore = null);
+        }),
+        (d.prototype.render = function() {
+          return this.props.children(this.state.params);
+        }),
+        (d.prototype._startObserving = function(f) {
+          var m = this;
+          (this.cqCore = new a.default(f, function(y) {
+            m.setState({ params: y });
+          })),
+            this.cqCore.observe(i.findDOMNode(this));
+        }),
+        d
+      );
+    })(t.Component);
+  je.ContainerQuery = l;
+  function c(g, d, f) {
+    return (
+      (m = (function(y) {
+        e(w, y);
+        function w(C) {
+          var j = y.call(this, C) || this;
+          return (j.cqCore = null), (j.state = { params: f ? n.default(d)(f) : {} }), j;
+        }
+        return (
+          (w.prototype.componentDidMount = function() {
+            var C = this;
+            (this.cqCore = new a.default(d, function(j) {
+              C.setState({ params: j });
+            })),
+              this.cqCore.observe(i.findDOMNode(this));
+          }),
+          (w.prototype.componentDidUpdate = function() {
+            this.cqCore.observe(i.findDOMNode(this));
+          }),
+          (w.prototype.componentWillUnmount = function() {
+            this.cqCore.disconnect(), (this.cqCore = null);
+          }),
+          (w.prototype.render = function() {
+            return t.createElement(g, r({}, this.props, { containerQuery: this.state.params }));
+          }),
+          w
+        );
+      })(t.Component)),
+      (m.displayName = g.displayName ? 'ContainerQuery(' + g.displayName + ')' : 'ContainerQuery'),
+      m
+    );
+    var m;
+  }
+  je.applyContainerQuery = c;
+  var o = Object.prototype.hasOwnProperty;
+  function h(g, d) {
+    var f = Object.keys(g),
+      m = Object.keys(d);
+    if (f.length !== m.length) return !1;
+    for (var y = 0; y < f.length; y++)
+      if (!o.call(d, f[y]) || !s.default(g[f[y]], d[f[y]])) return !1;
+    return !0;
+  }
+  return je;
+}
+var ql = Rl();
+const Ll =
+  'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAACXBIWXMAAAsSAAALEgHS3X78AAAA2klEQVRIic2V4Q2DIBCFn8b/ZQNHqCO4QRnBEdpJ6giO0BEcwRHsBu0E1x+AoQTwiFj7kosS8H2eh1xBRPBIABj0laMrgMk7Q0S+kJSmPuCDIpABADQJGYyhicoZdzq2qAfwWEZWOl3iZ4mpMb6l8/a5JM1NGVuVQ7sD3CLbuiG0t1UhzxzAoRnccwAOzeAJYGZ4CETqEQO0TAD0ujoVMDIBImS+BqhjD3L1Vz+aaUKnXIAW3/1ApJqvAS46Numnp+lrb8CQyfNte7lNX0J1Nm6zdzVDHeXL7vsAkpLOkYhpVbAAAAAASUVORK5CYII=';
+var Le = {},
+  tr,
+  Hn;
+function Tl() {
+  if (Hn) return tr;
+  Hn = 1;
+  var e = Ue(),
+    r = co(),
+    t = uo(),
+    i = 'Expected a function',
+    n = Math.max,
+    a = Math.min;
+  function s(l, c, o) {
+    var h,
+      g,
+      d,
+      f,
+      m,
+      y,
+      w = 0,
+      C = !1,
+      j = !1,
+      S = !0;
+    if (typeof l != 'function') throw new TypeError(i);
+    (c = t(c) || 0),
+      e(o) &&
+        ((C = !!o.leading),
+        (j = 'maxWait' in o),
+        (d = j ? n(t(o.maxWait) || 0, c) : d),
+        (S = 'trailing' in o ? !!o.trailing : S));
+    function u(O) {
+      var U = h,
+        T = g;
+      return (h = g = void 0), (w = O), (f = l.apply(T, U)), f;
+    }
+    function $(O) {
+      return (w = O), (m = setTimeout(b, c)), C ? u(O) : f;
+    }
+    function _(O) {
+      var U = O - y,
+        T = O - w,
+        L = c - U;
+      return j ? a(L, d - T) : L;
+    }
+    function v(O) {
+      var U = O - y,
+        T = O - w;
+      return y === void 0 || U >= c || U < 0 || (j && T >= d);
+    }
+    function b() {
+      var O = r();
+      if (v(O)) return x(O);
+      m = setTimeout(b, _(O));
+    }
+    function x(O) {
+      return (m = void 0), S && h ? u(O) : ((h = g = void 0), f);
+    }
+    function P() {
+      m !== void 0 && clearTimeout(m), (w = 0), (h = y = g = m = void 0);
+    }
+    function M() {
+      return m === void 0 ? f : x(r());
+    }
+    function A() {
+      var O = r(),
+        U = v(O);
+      if (((h = arguments), (g = this), (y = O), U)) {
+        if (m === void 0) return $(y);
+        if (j) return clearTimeout(m), (m = setTimeout(b, c)), u(y);
+      }
+      return m === void 0 && (m = setTimeout(b, c)), f;
+    }
+    return (A.cancel = P), (A.flush = M), A;
+  }
+  return (tr = s), tr;
+}
+var rr = {},
+  nt = {},
+  Bn;
+function kl() {
+  if (Bn) return nt;
+  (Bn = 1), Object.defineProperty(nt, '__esModule', { value: !0 });
+  var e = (function() {
+    function r(t, i, n) {
+      n === void 0 && (n = {}), (this.execute = t), (this.applicator = i), (this.options = n);
+    }
+    return (
+      Object.defineProperty(r.prototype, 'bound', {
+        get: function() {
+          return this.options.bound != null ? this.options.bound : !1;
+        },
+        enumerable: !0,
+        configurable: !0,
+      }),
+      Object.defineProperty(r.prototype, 'setter', {
+        get: function() {
+          return this.options.setter != null ? this.options.setter : !1;
+        },
+        enumerable: !0,
+        configurable: !0,
+      }),
+      Object.defineProperty(r.prototype, 'getter', {
+        get: function() {
+          return this.options.getter != null ? this.options.getter : !1;
+        },
+        enumerable: !0,
+        configurable: !0,
+      }),
+      Object.defineProperty(r.prototype, 'property', {
+        get: function() {
+          return this.options.property != null ? this.options.property : !1;
+        },
+        enumerable: !0,
+        configurable: !0,
+      }),
+      Object.defineProperty(r.prototype, 'method', {
+        get: function() {
+          return this.options.method != null ? this.options.method : !0;
+        },
+        enumerable: !0,
+        configurable: !0,
+      }),
+      Object.defineProperty(r.prototype, 'optionalParams', {
+        get: function() {
+          return this.options.optionalParams != null ? this.options.optionalParams : !1;
+        },
+        enumerable: !0,
+        configurable: !0,
+      }),
+      r
+    );
+  })();
+  return (nt.DecoratorConfig = e), nt;
+}
+var We = {},
+  it = {},
+  nr = {},
+  at = {},
+  Vn;
+function Ga() {
+  if (Vn) return at;
+  (Vn = 1), Object.defineProperty(at, '__esModule', { value: !0 });
+  function e(r) {
+    return r === void 0 && (r = ''), 'lodash-decorators -> ' + r;
+  }
+  return (at.log = e), at;
+}
+var st = {},
+  Gn;
+function Wl() {
+  if (Gn) return st;
+  (Gn = 1), Object.defineProperty(st, '__esModule', { value: !0 });
+  var e = Ye(),
+    r = Ma(),
+    t = Ga();
+  function i(n, a, s, l) {
+    if ((l === void 0 && (l = !0), e(n))) return n;
+    if (r(n)) {
+      if (a && e(a[n])) return a[n];
+      if (s && e(s[n])) return s[n];
+    }
+    if (l)
+      throw new ReferenceError(t.log('Can not resolve method ' + n + ' on any target Objects'));
+  }
+  return (st.resolveFunction = i), st;
+}
+var ot = {},
+  Un;
+function zl() {
+  if (Un) return ot;
+  (Un = 1), Object.defineProperty(ot, '__esModule', { value: !0 });
+  var e = ho(),
+    r = (function() {
+      function t() {
+        this._weakMap = new WeakMap();
+      }
+      return (
+        (t.prototype.set = function(i, n) {
+          for (var a = this._weakMap, s = 0, l = i.length - 1; s < l; s++) {
+            var c = i[s],
+              o = a.get(c);
+            o || ((o = new Map()), a.set(c, o)), (a = o);
+          }
+          a.set(i[i.length - 1], n);
+        }),
+        (t.prototype.get = function(i) {
+          for (
+            var n = this._weakMap, a = 0, s = i.length;
+            a < s && ((n = n.get(i[a])), !e(n));
+            a++
+          );
+          return n;
+        }),
+        (t.prototype.has = function(i) {
+          return !e(this.get(i));
+        }),
+        t
+      );
+    })();
+  return (ot.CompositeKeyWeakMap = r), ot;
+}
+var lt = {},
+  Yn;
+function Fl() {
+  if (Yn) return lt;
+  (Yn = 1), Object.defineProperty(lt, '__esModule', { value: !0 });
+  function e(r, t) {
+    return function() {
+      for (var i = [], n = 0; n < arguments.length; n++) i[n] = arguments[n];
+      return r.call.apply(r, [this].concat(i)), i[t];
+    };
+  }
+  return (lt.returnAtIndex = e), lt;
+}
+var ct = {},
+  ir,
+  Kn;
+function Hl() {
+  if (Kn) return ir;
+  Kn = 1;
+  var e = fo(),
+    r = po();
+  function t(i, n) {
+    return i && e(i, r(n));
+  }
+  return (ir = t), ir;
+}
+var Qn;
+function Ua() {
+  if (Qn) return ct;
+  (Qn = 1), Object.defineProperty(ct, '__esModule', { value: !0 });
+  var e = Hl();
+  function r(t, i) {
+    return (
+      e(i, function(n, a) {
+        return (t[a] = n);
+      }),
+      t
+    );
+  }
+  return (ct.copyMetadata = r), ct;
+}
+var ut = {},
+  Xn;
+function Bl() {
+  if (Xn) return ut;
+  (Xn = 1), Object.defineProperty(ut, '__esModule', { value: !0 });
+  var e = Ua();
+  function r(t, i) {
+    return e.copyMetadata(t.bind(i), t);
+  }
+  return (ut.bind = r), ut;
+}
+var dt = {},
+  ze = {},
+  ar,
+  Zn;
+function Vl() {
+  if (Zn) return ar;
+  Zn = 1;
+  var e = go(),
+    r = Ea(),
+    t = yo(),
+    i = ao(),
+    n = mo(),
+    a = vo(),
+    s = 200;
+  function l(c, o, h, g) {
+    var d = -1,
+      f = r,
+      m = !0,
+      y = c.length,
+      w = [],
+      C = o.length;
+    if (!y) return w;
+    h && (o = i(o, n(h))),
+      g ? ((f = t), (m = !1)) : o.length >= s && ((f = a), (m = !1), (o = new e(o)));
+    e: for (; ++d < y; ) {
+      var j = c[d],
+        S = h == null ? j : h(j);
+      if (((j = g || j !== 0 ? j : 0), m && S === S)) {
+        for (var u = C; u--; ) if (o[u] === S) continue e;
+        w.push(j);
+      } else f(o, S, g) || w.push(j);
+    }
+    return w;
+  }
+  return (ar = l), ar;
+}
+var sr, Jn;
+function Gl() {
+  if (Jn) return sr;
+  Jn = 1;
+  var e = Vl(),
+    r = nn(),
+    t = bo(),
+    i = r(function(n, a) {
+      return t(n) ? e(n, a) : [];
+    });
+  return (sr = i), sr;
+}
+var or, ei;
+function Ul() {
+  if (ei) return or;
+  ei = 1;
+  var e = so(),
+    r = Oa(),
+    t = _o(),
+    i = '[object DOMException]',
+    n = '[object Error]';
+  function a(s) {
+    if (!r(s)) return !1;
+    var l = e(s);
+    return l == n || l == i || (typeof s.message == 'string' && typeof s.name == 'string' && !t(s));
+  }
+  return (or = a), or;
+}
+var lr, ti;
+function Yl() {
+  if (ti) return lr;
+  ti = 1;
+  var e = an(),
+    r = nn(),
+    t = Ul(),
+    i = r(function(n, a) {
+      try {
+        return e(n, void 0, a);
+      } catch (s) {
+        return t(s) ? s : new Error(s);
+      }
+    });
+  return (lr = i), lr;
+}
+var ri;
+function Ya() {
+  if (ri) return ze;
+  (ri = 1), Object.defineProperty(ze, '__esModule', { value: !0 });
+  var e = Gl(),
+    r = Yl(),
+    t = Ue();
+  function i(a, s, l) {
+    l === void 0 && (l = []);
+    for (
+      var c = e.apply(void 0, [Object.getOwnPropertyNames(s)].concat(l)), o = 0, h = c;
+      o < h.length;
+      o++
+    ) {
+      var g = h[o];
+      r(n, a, s, g);
+    }
+    return a;
+  }
+  ze.assignAll = i;
+  function n(a, s, l) {
+    var c = Object.getOwnPropertyDescriptor(a, l);
+    if (!c || c.configurable) {
+      var o = Object.getOwnPropertyDescriptor(s, l);
+      t(o) ? Object.defineProperty(a, l, o) : (a[l] = s[l]);
+    }
+  }
+  return (ze.assignProperty = n), ze;
+}
+var ni;
+function Kl() {
+  if (ni) return dt;
+  (ni = 1), Object.defineProperty(dt, '__esModule', { value: !0 });
+  var e = Ya(),
+    r = ['length', 'name', 'arguments', 'called', 'prototype'];
+  function t(i, n) {
+    function a() {
+      for (var s = [], l = 0; l < arguments.length; l++) s[l] = arguments[l];
+      return n.call.apply(n, [this, i].concat(s));
+    }
+    return (
+      (a.prototype = i.prototype),
+      Object.defineProperty(a, 'name', {
+        configurable: !0,
+        enumerable: !1,
+        value: i.name,
+        writable: !1,
+      }),
+      e.assignAll(a, i, r)
+    );
+  }
+  return (dt.wrapConstructor = t), dt;
+}
+var ht = {},
+  ii;
+function Ql() {
+  if (ii) return ht;
+  (ii = 1), Object.defineProperty(ht, '__esModule', { value: !0 });
+  var e = Ue(),
+    r = Ye(),
+    t = Ma();
+  function i() {
+    for (var n = [], a = 0; a < arguments.length; a++) n[a] = arguments[a];
+    return (
+      n.length >= 2 &&
+      e(n[0]) &&
+      t(n[1]) &&
+      r(n[0].constructor) &&
+      n[0].constructor.prototype === n[0]
+    );
+  }
+  return (ht.isMethodOrPropertyDecoratorArgs = i), ht;
+}
+var ft = {},
+  ai;
+function Xl() {
+  if (ai) return ft;
+  (ai = 1), Object.defineProperty(ft, '__esModule', { value: !0 });
+  function e(r, t) {
+    return (
+      r === t ||
+      (r.constructor !== t.constructor && Object.getPrototypeOf(this).constructor === t.constructor)
+    );
+  }
+  return (ft.isPrototypeAccess = e), ft;
+}
+var si;
+function Re() {
+  return (
+    si ||
+      ((si = 1),
+      (function(e) {
+        function r(t) {
+          for (var i in t) e.hasOwnProperty(i) || (e[i] = t[i]);
+        }
+        Object.defineProperty(e, '__esModule', { value: !0 }),
+          r(Ga()),
+          r(Wl()),
+          r(zl()),
+          r(Fl()),
+          r(Ua()),
+          r(Bl()),
+          r(Kl()),
+          r(Ya()),
+          r(Ql()),
+          r(Xl());
+      })(nr)),
+    nr
+  );
+}
+var oi;
+function Ka() {
+  if (oi) return it;
+  (oi = 1), Object.defineProperty(it, '__esModule', { value: !0 });
+  var e = Re();
+  return (it.InstanceChainMap = new e.CompositeKeyWeakMap()), it;
+}
+var li;
+function Zl() {
+  if (li) return We;
+  (li = 1), Object.defineProperty(We, '__esModule', { value: !0 });
+  var e = Ye(),
+    r = Ka(),
+    t = Re(),
+    i = (function() {
+      function n() {}
+      return (
+        (n.prototype.createDecorator = function(a) {
+          var s = this,
+            l = a.applicator,
+            c = a.optionalParams;
+          return function() {
+            for (var o = [], h = 0; h < arguments.length; h++) o[h] = arguments[h];
+            var g = o,
+              d = function(f, m, y) {
+                var w = s._resolveDescriptor(f, m, y),
+                  C = w.value,
+                  j = w.get,
+                  S = w.set;
+                return (
+                  r.InstanceChainMap.has([f, m]) ||
+                    (e(C)
+                      ? (w.value = t.copyMetadata(
+                          l.apply({ config: a, target: f, value: C, args: g }),
+                          C
+                        ))
+                      : e(j) && a.getter
+                        ? (w.get = t.copyMetadata(
+                            l.apply({ config: a, target: f, value: j, args: g }),
+                            j
+                          ))
+                        : e(S) &&
+                          a.setter &&
+                          (w.set = t.copyMetadata(
+                            l.apply({ config: a, target: f, value: S, args: g }),
+                            S
+                          ))),
+                  w
+                );
+              };
+            return c && t.isMethodOrPropertyDecoratorArgs.apply(void 0, o)
+              ? ((g = []), d(o[0], o[1], o[2]))
+              : d;
+          };
+        }),
+        (n.prototype.createInstanceDecorator = function(a) {
+          var s = this,
+            l = a.applicator,
+            c = a.bound,
+            o = a.optionalParams;
+          return function() {
+            for (var h = [], g = 0; g < arguments.length; g++) h[g] = arguments[g];
+            var d = h,
+              f = function(m, y, w) {
+                var C = s._resolveDescriptor(m, y, w),
+                  j = C.value,
+                  S = C.writable,
+                  u = C.enumerable,
+                  $ = C.configurable,
+                  _ = C.get,
+                  v = C.set,
+                  b = !r.InstanceChainMap.has([m, y]),
+                  x = r.InstanceChainMap.get([m, y]) || { fns: [], properties: [] },
+                  P = b && e(_),
+                  M = b && e(v),
+                  A = b && e(j),
+                  O = b && !P && !M && !A,
+                  U = P ? _ : A ? j : void 0;
+                if (
+                  (x.properties.push(y),
+                  x.fns.push(function(N, z, ne) {
+                    return s._isApplicable(ne, a)
+                      ? (c && (N = t.bind(N, z)),
+                        t.copyMetadata(
+                          l.apply({ args: d, target: m, instance: z, value: N, config: a }),
+                          N
+                        ))
+                      : N;
+                  }),
+                  r.InstanceChainMap.set([m, y], x),
+                  !b)
+                )
+                  return C;
+                (x.isSetter = M), (x.isGetter = P), (x.isMethod = A), (x.isProperty = O);
+                var T = function(N, z, ne) {
+                    return x.fns.reduce(function(D, F) {
+                      return F(D, ne, z);
+                    }, N);
+                  },
+                  L = function(N) {
+                    var z = _ || void 0,
+                      ne = v || void 0;
+                    if (P || M)
+                      P && (z = T(_, { value: _, getter: !0 }, N)),
+                        M && (ne = T(v, { value: v, setter: !0 }, N)),
+                        Object.defineProperty(N, y, {
+                          enumerable: u,
+                          configurable: $,
+                          get: z,
+                          set: ne,
+                        });
+                    else if (A || O) {
+                      var D = A
+                        ? T(j, { value: j, method: !0 }, N)
+                        : T(j, { value: j, property: !0 }, N);
+                      Object.defineProperty(N, y, {
+                        writable: S,
+                        enumerable: u,
+                        configurable: $,
+                        value: D,
+                      });
+                    }
+                  };
+                return (
+                  (A || O) && (delete C.value, delete C.writable),
+                  (C.get = function() {
+                    if (t.isPrototypeAccess(this, m)) return U;
+                    L(this);
+                    var N = Object.getOwnPropertyDescriptor(this, y);
+                    return N.get ? N.get.call(this) : N.value;
+                  }),
+                  (C.set = function(N) {
+                    L(this);
+                    var z = Object.getOwnPropertyDescriptor(this, y);
+                    z.set ? z.set.call(this, N) : (O || A) && (this[y] = N);
+                  }),
+                  C
+                );
+              };
+            return o && t.isMethodOrPropertyDecoratorArgs.apply(void 0, h)
+              ? ((d = []), f(h[0], h[1], h[2]))
+              : f;
+          };
+        }),
+        (n.prototype._isApplicable = function(a, s) {
+          return !(
+            (a.getter && !s.getter) ||
+            (a.setter && !s.setter) ||
+            (a.method && !s.method) ||
+            (a.property && !s.property)
+          );
+        }),
+        (n.prototype._resolveDescriptor = function(a, s, l) {
+          return l || Object.getOwnPropertyDescriptor(a, s) || {};
+        }),
+        n
+      );
+    })();
+  return (We.InternalDecoratorFactory = i), (We.DecoratorFactory = new i()), We;
+}
+var ci;
+function Jl() {
+  return (
+    ci ||
+      ((ci = 1),
+      (function(e) {
+        function r(t) {
+          for (var i in t) e.hasOwnProperty(i) || (e[i] = t[i]);
+        }
+        Object.defineProperty(e, '__esModule', { value: !0 }), r(kl()), r(Zl()), r(Ka());
+      })(rr)),
+    rr
+  );
+}
+var cr = {},
+  pt = {},
+  ui;
+function _e() {
+  if (ui) return pt;
+  (ui = 1), Object.defineProperty(pt, '__esModule', { value: !0 });
+  var e = (function() {
+    function r() {}
+    return r;
+  })();
+  return (pt.Applicator = e), pt;
+}
+var gt = {};
+/*! *****************************************************************************
+Copyright (c) Microsoft Corporation.
+
+Permission to use, copy, modify, and/or distribute this software for any
+purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
+REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
+AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
+OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+PERFORMANCE OF THIS SOFTWARE.
+***************************************************************************** */ var Ur = function(
+  e,
+  r
+) {
+  return (
+    (Ur =
+      Object.setPrototypeOf ||
+      ({ __proto__: [] } instanceof Array &&
+        function(t, i) {
+          t.__proto__ = i;
+        }) ||
+      function(t, i) {
+        for (var n in i) i.hasOwnProperty(n) && (t[n] = i[n]);
+      }),
+    Ur(e, r)
+  );
+};
+function ec(e, r) {
+  Ur(e, r);
+  function t() {
+    this.constructor = e;
+  }
+  e.prototype = r === null ? Object.create(r) : ((t.prototype = r.prototype), new t());
+}
+var Yr = function() {
+  return (
+    (Yr =
+      Object.assign ||
+      function(r) {
+        for (var t, i = 1, n = arguments.length; i < n; i++) {
+          t = arguments[i];
+          for (var a in t) Object.prototype.hasOwnProperty.call(t, a) && (r[a] = t[a]);
+        }
+        return r;
+      }),
+    Yr.apply(this, arguments)
+  );
+};
+function tc(e, r) {
+  var t = {};
+  for (var i in e) Object.prototype.hasOwnProperty.call(e, i) && r.indexOf(i) < 0 && (t[i] = e[i]);
+  if (e != null && typeof Object.getOwnPropertySymbols == 'function')
+    for (var n = 0, i = Object.getOwnPropertySymbols(e); n < i.length; n++)
+      r.indexOf(i[n]) < 0 &&
+        Object.prototype.propertyIsEnumerable.call(e, i[n]) &&
+        (t[i[n]] = e[i[n]]);
+  return t;
+}
+function rc(e, r, t, i) {
+  var n = arguments.length,
+    a = n < 3 ? r : i === null ? (i = Object.getOwnPropertyDescriptor(r, t)) : i,
+    s;
+  if (typeof Reflect == 'object' && typeof Reflect.decorate == 'function')
+    a = Reflect.decorate(e, r, t, i);
+  else
+    for (var l = e.length - 1; l >= 0; l--)
+      (s = e[l]) && (a = (n < 3 ? s(a) : n > 3 ? s(r, t, a) : s(r, t)) || a);
+  return n > 3 && a && Object.defineProperty(r, t, a), a;
+}
+function nc(e, r) {
+  return function(t, i) {
+    r(t, i, e);
+  };
+}
+function ic(e, r) {
+  if (typeof Reflect == 'object' && typeof Reflect.metadata == 'function')
+    return Reflect.metadata(e, r);
+}
+function ac(e, r, t, i) {
+  function n(a) {
+    return a instanceof t
+      ? a
+      : new t(function(s) {
+          s(a);
+        });
+  }
+  return new (t || (t = Promise))(function(a, s) {
+    function l(h) {
+      try {
+        o(i.next(h));
+      } catch (g) {
+        s(g);
+      }
+    }
+    function c(h) {
+      try {
+        o(i.throw(h));
+      } catch (g) {
+        s(g);
+      }
+    }
+    function o(h) {
+      h.done ? a(h.value) : n(h.value).then(l, c);
+    }
+    o((i = i.apply(e, r || [])).next());
+  });
+}
+function sc(e, r) {
+  var t = {
+      label: 0,
+      sent: function() {
+        if (a[0] & 1) throw a[1];
+        return a[1];
+      },
+      trys: [],
+      ops: [],
+    },
+    i,
+    n,
+    a,
+    s;
+  return (
+    (s = { next: l(0), throw: l(1), return: l(2) }),
+    typeof Symbol == 'function' &&
+      (s[Symbol.iterator] = function() {
+        return this;
+      }),
+    s
+  );
+  function l(o) {
+    return function(h) {
+      return c([o, h]);
+    };
+  }
+  function c(o) {
+    if (i) throw new TypeError('Generator is already executing.');
+    for (; t; )
+      try {
+        if (
+          ((i = 1),
+          n &&
+            (a =
+              o[0] & 2 ? n.return : o[0] ? n.throw || ((a = n.return) && a.call(n), 0) : n.next) &&
+            !(a = a.call(n, o[1])).done)
+        )
+          return a;
+        switch (((n = 0), a && (o = [o[0] & 2, a.value]), o[0])) {
+          case 0:
+          case 1:
+            a = o;
+            break;
+          case 4:
+            return t.label++, { value: o[1], done: !1 };
+          case 5:
+            t.label++, (n = o[1]), (o = [0]);
+            continue;
+          case 7:
+            (o = t.ops.pop()), t.trys.pop();
+            continue;
+          default:
+            if (
+              ((a = t.trys), !(a = a.length > 0 && a[a.length - 1]) && (o[0] === 6 || o[0] === 2))
+            ) {
+              t = 0;
+              continue;
+            }
+            if (o[0] === 3 && (!a || (o[1] > a[0] && o[1] < a[3]))) {
+              t.label = o[1];
+              break;
+            }
+            if (o[0] === 6 && t.label < a[1]) {
+              (t.label = a[1]), (a = o);
+              break;
+            }
+            if (a && t.label < a[2]) {
+              (t.label = a[2]), t.ops.push(o);
+              break;
+            }
+            a[2] && t.ops.pop(), t.trys.pop();
+            continue;
+        }
+        o = r.call(e, t);
+      } catch (h) {
+        (o = [6, h]), (n = 0);
+      } finally {
+        i = a = 0;
+      }
+    if (o[0] & 5) throw o[1];
+    return { value: o[0] ? o[1] : void 0, done: !0 };
+  }
+}
+function oc(e, r, t, i) {
+  i === void 0 && (i = t), (e[i] = r[t]);
+}
+function lc(e, r) {
+  for (var t in e) t !== 'default' && !r.hasOwnProperty(t) && (r[t] = e[t]);
+}
+function Kr(e) {
+  var r = typeof Symbol == 'function' && Symbol.iterator,
+    t = r && e[r],
+    i = 0;
+  if (t) return t.call(e);
+  if (e && typeof e.length == 'number')
+    return {
+      next: function() {
+        return e && i >= e.length && (e = void 0), { value: e && e[i++], done: !e };
+      },
+    };
+  throw new TypeError(r ? 'Object is not iterable.' : 'Symbol.iterator is not defined.');
+}
+function Qa(e, r) {
+  var t = typeof Symbol == 'function' && e[Symbol.iterator];
+  if (!t) return e;
+  var i = t.call(e),
+    n,
+    a = [],
+    s;
+  try {
+    for (; (r === void 0 || r-- > 0) && !(n = i.next()).done; ) a.push(n.value);
+  } catch (l) {
+    s = { error: l };
+  } finally {
+    try {
+      n && !n.done && (t = i.return) && t.call(i);
+    } finally {
+      if (s) throw s.error;
+    }
+  }
+  return a;
+}
+function cc() {
+  for (var e = [], r = 0; r < arguments.length; r++) e = e.concat(Qa(arguments[r]));
+  return e;
+}
+function uc() {
+  for (var e = 0, r = 0, t = arguments.length; r < t; r++) e += arguments[r].length;
+  for (var i = Array(e), n = 0, r = 0; r < t; r++)
+    for (var a = arguments[r], s = 0, l = a.length; s < l; s++, n++) i[n] = a[s];
+  return i;
+}
+function Ge(e) {
+  return this instanceof Ge ? ((this.v = e), this) : new Ge(e);
+}
+function dc(e, r, t) {
+  if (!Symbol.asyncIterator) throw new TypeError('Symbol.asyncIterator is not defined.');
+  var i = t.apply(e, r || []),
+    n,
+    a = [];
+  return (
+    (n = {}),
+    s('next'),
+    s('throw'),
+    s('return'),
+    (n[Symbol.asyncIterator] = function() {
+      return this;
+    }),
+    n
+  );
+  function s(d) {
+    i[d] &&
+      (n[d] = function(f) {
+        return new Promise(function(m, y) {
+          a.push([d, f, m, y]) > 1 || l(d, f);
+        });
+      });
+  }
+  function l(d, f) {
+    try {
+      c(i[d](f));
+    } catch (m) {
+      g(a[0][3], m);
+    }
+  }
+  function c(d) {
+    d.value instanceof Ge ? Promise.resolve(d.value.v).then(o, h) : g(a[0][2], d);
+  }
+  function o(d) {
+    l('next', d);
+  }
+  function h(d) {
+    l('throw', d);
+  }
+  function g(d, f) {
+    d(f), a.shift(), a.length && l(a[0][0], a[0][1]);
+  }
+}
+function hc(e) {
+  var r, t;
+  return (
+    (r = {}),
+    i('next'),
+    i('throw', function(n) {
+      throw n;
+    }),
+    i('return'),
+    (r[Symbol.iterator] = function() {
+      return this;
+    }),
+    r
+  );
+  function i(n, a) {
+    r[n] = e[n]
+      ? function(s) {
+          return (t = !t) ? { value: Ge(e[n](s)), done: n === 'return' } : a ? a(s) : s;
+        }
+      : a;
+  }
+}
+function fc(e) {
+  if (!Symbol.asyncIterator) throw new TypeError('Symbol.asyncIterator is not defined.');
+  var r = e[Symbol.asyncIterator],
+    t;
+  return r
+    ? r.call(e)
+    : ((e = typeof Kr == 'function' ? Kr(e) : e[Symbol.iterator]()),
+      (t = {}),
+      i('next'),
+      i('throw'),
+      i('return'),
+      (t[Symbol.asyncIterator] = function() {
+        return this;
+      }),
+      t);
+  function i(a) {
+    t[a] =
+      e[a] &&
+      function(s) {
+        return new Promise(function(l, c) {
+          (s = e[a](s)), n(l, c, s.done, s.value);
+        });
+      };
+  }
+  function n(a, s, l, c) {
+    Promise.resolve(c).then(function(o) {
+      a({ value: o, done: l });
+    }, s);
+  }
+}
+function pc(e, r) {
+  return Object.defineProperty ? Object.defineProperty(e, 'raw', { value: r }) : (e.raw = r), e;
+}
+function gc(e) {
+  if (e && e.__esModule) return e;
+  var r = {};
+  if (e != null) for (var t in e) Object.hasOwnProperty.call(e, t) && (r[t] = e[t]);
+  return (r.default = e), r;
+}
+function mc(e) {
+  return e && e.__esModule ? e : { default: e };
+}
+function vc(e, r) {
+  if (!r.has(e)) throw new TypeError('attempted to get private field on non-instance');
+  return r.get(e);
+}
+function yc(e, r, t) {
+  if (!r.has(e)) throw new TypeError('attempted to set private field on non-instance');
+  return r.set(e, t), t;
+}
+const bc = Object.freeze(
+    Object.defineProperty(
+      {
+        __proto__: null,
+        get __assign() {
+          return Yr;
+        },
+        __asyncDelegator: hc,
+        __asyncGenerator: dc,
+        __asyncValues: fc,
+        __await: Ge,
+        __awaiter: ac,
+        __classPrivateFieldGet: vc,
+        __classPrivateFieldSet: yc,
+        __createBinding: oc,
+        __decorate: rc,
+        __exportStar: lc,
+        __extends: ec,
+        __generator: sc,
+        __importDefault: mc,
+        __importStar: gc,
+        __makeTemplateObject: pc,
+        __metadata: ic,
+        __param: nc,
+        __read: Qa,
+        __rest: tc,
+        __spread: cc,
+        __spreadArrays: uc,
+        __values: Kr,
+      },
+      Symbol.toStringTag,
+      { value: 'Module' }
+    )
+  ),
+  Ce = $s(bc);
+var di;
+function _c() {
+  if (di) return gt;
+  (di = 1), Object.defineProperty(gt, '__esModule', { value: !0 });
+  var e = Ce,
+    r = Da(),
+    t = _e(),
+    i = Re(),
+    n = (function(a) {
+      e.__extends(s, a);
+      function s(l) {
+        l === void 0 && (l = {});
+        var c = a.call(this) || this;
+        return (c._config = l), c;
+      }
+      return (
+        Object.defineProperty(s.prototype, 'post', {
+          get: function() {
+            return this._config.post === !0;
+          },
+          enumerable: !0,
+          configurable: !0,
+        }),
+        (s.prototype.apply = function(l) {
+          var c = l.config.execute,
+            o = l.value,
+            h = o === void 0 ? r : o,
+            g = l.args,
+            d = l.target,
+            f = this;
+          return function() {
+            for (var m = this, y = [], w = 0; w < arguments.length; w++) y[w] = arguments[w];
+            var C = g
+              .map(function(j) {
+                return i.resolveFunction(j, m, d);
+              })
+              .slice();
+            return f.post ? C.push(h) : C.unshift(h), c.apply(void 0, C).apply(this, y);
+          };
+        }),
+        s
+      );
+    })(t.Applicator);
+  return (gt.ComposeApplicator = n), gt;
+}
+var mt = {},
+  hi;
+function Sc() {
+  if (hi) return mt;
+  (hi = 1), Object.defineProperty(mt, '__esModule', { value: !0 });
+  var e = Ce,
+    r = _e(),
+    t = Re(),
+    i = (function(n) {
+      e.__extends(a, n);
+      function a() {
+        return (n !== null && n.apply(this, arguments)) || this;
+      }
+      return (
+        (a.prototype.apply = function(s) {
+          var l = s.args,
+            c = s.target,
+            o = s.config.execute;
+          return function() {
+            for (var h = [], g = 0; g < arguments.length; g++) h[g] = arguments[g];
+            return o
+              .apply(void 0, [t.resolveFunction(l[0], this, c)].concat(l.slice(1)))
+              .apply(this, h);
+          };
+        }),
+        a
+      );
+    })(r.Applicator);
+  return (mt.PartialApplicator = i), mt;
+}
+var vt = {},
+  ur,
+  fi;
+function Xa() {
+  if (fi) return ur;
+  fi = 1;
+  var e = So(),
+    r = e && new e();
+  return (ur = r), ur;
+}
+var dr, pi;
+function Za() {
+  if (pi) return dr;
+  pi = 1;
+  var e = Da(),
+    r = Xa(),
+    t = r
+      ? function(i, n) {
+          return r.set(i, n), i;
+        }
+      : e;
+  return (dr = t), dr;
+}
+var hr, gi;
+function Rt() {
+  if (gi) return hr;
+  gi = 1;
+  var e = sn(),
+    r = Ue();
+  function t(i) {
+    return function() {
+      var n = arguments;
+      switch (n.length) {
+        case 0:
+          return new i();
+        case 1:
+          return new i(n[0]);
+        case 2:
+          return new i(n[0], n[1]);
+        case 3:
+          return new i(n[0], n[1], n[2]);
+        case 4:
+          return new i(n[0], n[1], n[2], n[3]);
+        case 5:
+          return new i(n[0], n[1], n[2], n[3], n[4]);
+        case 6:
+          return new i(n[0], n[1], n[2], n[3], n[4], n[5]);
+        case 7:
+          return new i(n[0], n[1], n[2], n[3], n[4], n[5], n[6]);
+      }
+      var a = e(i.prototype),
+        s = i.apply(a, n);
+      return r(s) ? s : a;
+    };
+  }
+  return (hr = t), hr;
+}
+var fr, mi;
+function xc() {
+  if (mi) return fr;
+  mi = 1;
+  var e = Rt(),
+    r = Dt(),
+    t = 1;
+  function i(n, a, s) {
+    var l = a & t,
+      c = e(n);
+    function o() {
+      var h = this && this !== r && this instanceof o ? c : n;
+      return h.apply(l ? s : this, arguments);
+    }
+    return o;
+  }
+  return (fr = i), fr;
+}
+var pr, vi;
+function Ja() {
+  if (vi) return pr;
+  vi = 1;
+  var e = Math.max;
+  function r(t, i, n, a) {
+    for (
+      var s = -1,
+        l = t.length,
+        c = n.length,
+        o = -1,
+        h = i.length,
+        g = e(l - c, 0),
+        d = Array(h + g),
+        f = !a;
+      ++o < h;
+
+    )
+      d[o] = i[o];
+    for (; ++s < c; ) (f || s < l) && (d[n[s]] = t[s]);
+    for (; g--; ) d[o++] = t[s++];
+    return d;
+  }
+  return (pr = r), pr;
+}
+var gr, yi;
+function es() {
+  if (yi) return gr;
+  yi = 1;
+  var e = Math.max;
+  function r(t, i, n, a) {
+    for (
+      var s = -1,
+        l = t.length,
+        c = -1,
+        o = n.length,
+        h = -1,
+        g = i.length,
+        d = e(l - o, 0),
+        f = Array(d + g),
+        m = !a;
+      ++s < d;
+
+    )
+      f[s] = t[s];
+    for (var y = s; ++h < g; ) f[y + h] = i[h];
+    for (; ++c < o; ) (m || s < l) && (f[y + n[c]] = t[s++]);
+    return f;
+  }
+  return (gr = r), gr;
+}
+var mr, bi;
+function wc() {
+  if (bi) return mr;
+  bi = 1;
+  function e(r, t) {
+    for (var i = r.length, n = 0; i--; ) r[i] === t && ++n;
+    return n;
+  }
+  return (mr = e), mr;
+}
+var vr, _i;
+function un() {
+  if (_i) return vr;
+  _i = 1;
+  function e() {}
+  return (vr = e), vr;
+}
+var yr, Si;
+function dn() {
+  if (Si) return yr;
+  Si = 1;
+  var e = sn(),
+    r = un(),
+    t = 4294967295;
+  function i(n) {
+    (this.__wrapped__ = n),
+      (this.__actions__ = []),
+      (this.__dir__ = 1),
+      (this.__filtered__ = !1),
+      (this.__iteratees__ = []),
+      (this.__takeCount__ = t),
+      (this.__views__ = []);
+  }
+  return (i.prototype = e(r.prototype)), (i.prototype.constructor = i), (yr = i), yr;
+}
+var br, xi;
+function ts() {
+  if (xi) return br;
+  xi = 1;
+  var e = Xa(),
+    r = xo(),
+    t = e
+      ? function(i) {
+          return e.get(i);
+        }
+      : r;
+  return (br = t), br;
+}
+var _r, wi;
+function Cc() {
+  if (wi) return _r;
+  wi = 1;
+  var e = {};
+  return (_r = e), _r;
+}
+var Sr, Ci;
+function $c() {
+  if (Ci) return Sr;
+  Ci = 1;
+  var e = Cc(),
+    r = Object.prototype,
+    t = r.hasOwnProperty;
+  function i(n) {
+    for (var a = n.name + '', s = e[a], l = t.call(e, a) ? s.length : 0; l--; ) {
+      var c = s[l],
+        o = c.func;
+      if (o == null || o == n) return c.name;
+    }
+    return a;
+  }
+  return (Sr = i), Sr;
+}
+var xr, $i;
+function rs() {
+  if ($i) return xr;
+  $i = 1;
+  var e = sn(),
+    r = un();
+  function t(i, n) {
+    (this.__wrapped__ = i),
+      (this.__actions__ = []),
+      (this.__chain__ = !!n),
+      (this.__index__ = 0),
+      (this.__values__ = void 0);
+  }
+  return (t.prototype = e(r.prototype)), (t.prototype.constructor = t), (xr = t), xr;
+}
+var wr, ji;
+function jc() {
+  if (ji) return wr;
+  ji = 1;
+  var e = dn(),
+    r = rs(),
+    t = Na();
+  function i(n) {
+    if (n instanceof e) return n.clone();
+    var a = new r(n.__wrapped__, n.__chain__);
+    return (
+      (a.__actions__ = t(n.__actions__)),
+      (a.__index__ = n.__index__),
+      (a.__values__ = n.__values__),
+      a
+    );
+  }
+  return (wr = i), wr;
+}
+var Cr, Ii;
+function Ic() {
+  if (Ii) return Cr;
+  Ii = 1;
+  var e = dn(),
+    r = rs(),
+    t = un(),
+    i = oo(),
+    n = Oa(),
+    a = jc(),
+    s = Object.prototype,
+    l = s.hasOwnProperty;
+  function c(o) {
+    if (n(o) && !i(o) && !(o instanceof e)) {
+      if (o instanceof r) return o;
+      if (l.call(o, '__wrapped__')) return a(o);
+    }
+    return new r(o);
+  }
+  return (c.prototype = t.prototype), (c.prototype.constructor = c), (Cr = c), Cr;
+}
+var $r, Ai;
+function Ac() {
+  if (Ai) return $r;
+  Ai = 1;
+  var e = dn(),
+    r = ts(),
+    t = $c(),
+    i = Ic();
+  function n(a) {
+    var s = t(a),
+      l = i[s];
+    if (typeof l != 'function' || !(s in e.prototype)) return !1;
+    if (a === l) return !0;
+    var c = r(l);
+    return !!c && a === c[0];
+  }
+  return ($r = n), $r;
+}
+var jr, Pi;
+function ns() {
+  if (Pi) return jr;
+  Pi = 1;
+  var e = Za(),
+    r = wo(),
+    t = r(e);
+  return (jr = t), jr;
+}
+var Ir, Oi;
+function Pc() {
+  if (Oi) return Ir;
+  Oi = 1;
+  var e = /\{\n\/\* \[wrapped with (.+)\] \*/,
+    r = /,? & /;
+  function t(i) {
+    var n = i.match(e);
+    return n ? n[1].split(r) : [];
+  }
+  return (Ir = t), Ir;
+}
+var Ar, Mi;
+function Oc() {
+  if (Mi) return Ar;
+  Mi = 1;
+  var e = /\{(?:\n\/\* \[wrapped with .+\] \*\/)?\n?/;
+  function r(t, i) {
+    var n = i.length;
+    if (!n) return t;
+    var a = n - 1;
+    return (
+      (i[a] = (n > 1 ? '& ' : '') + i[a]),
+      (i = i.join(n > 2 ? ', ' : ' ')),
+      t.replace(
+        e,
+        `{
+/* [wrapped with ` +
+          i +
+          `] */
+`
+      )
+    );
+  }
+  return (Ar = r), Ar;
+}
+var Pr, Ei;
+function Mc() {
+  if (Ei) return Pr;
+  Ei = 1;
+  var e = Co(),
+    r = Ea(),
+    t = 1,
+    i = 2,
+    n = 8,
+    a = 16,
+    s = 32,
+    l = 64,
+    c = 128,
+    o = 256,
+    h = 512,
+    g = [
+      ['ary', c],
+      ['bind', t],
+      ['bindKey', i],
+      ['curry', n],
+      ['curryRight', a],
+      ['flip', h],
+      ['partial', s],
+      ['partialRight', l],
+      ['rearg', o],
+    ];
+  function d(f, m) {
+    return (
+      e(g, function(y) {
+        var w = '_.' + y[0];
+        m & y[1] && !r(f, w) && f.push(w);
+      }),
+      f.sort()
+    );
+  }
+  return (Pr = d), Pr;
+}
+var Or, Di;
+function is() {
+  if (Di) return Or;
+  Di = 1;
+  var e = Pc(),
+    r = Oc(),
+    t = $o(),
+    i = Mc();
+  function n(a, s, l) {
+    var c = s + '';
+    return t(a, r(c, i(e(c), l)));
+  }
+  return (Or = n), Or;
+}
+var Mr, Ni;
+function as() {
+  if (Ni) return Mr;
+  Ni = 1;
+  var e = Ac(),
+    r = ns(),
+    t = is(),
+    i = 4,
+    n = 8,
+    a = 32,
+    s = 64;
+  function l(c, o, h, g, d, f, m, y, w, C) {
+    var j = o & n,
+      S = j ? m : void 0,
+      u = j ? void 0 : m,
+      $ = j ? f : void 0,
+      _ = j ? void 0 : f;
+    (o |= j ? a : s), (o &= ~(j ? s : a)), o & i || (o &= -4);
+    var v = [c, o, d, $, S, _, u, y, w, C],
+      b = h.apply(void 0, v);
+    return e(c) && r(b, v), (b.placeholder = g), t(b, c, o);
+  }
+  return (Mr = l), Mr;
+}
+var Er, Ri;
+function hn() {
+  if (Ri) return Er;
+  Ri = 1;
+  function e(r) {
+    var t = r;
+    return t.placeholder;
+  }
+  return (Er = e), Er;
+}
+var Dr, qi;
+function Ec() {
+  if (qi) return Dr;
+  qi = 1;
+  var e = Na(),
+    r = lo(),
+    t = Math.min;
+  function i(n, a) {
+    for (var s = n.length, l = t(a.length, s), c = e(n); l--; ) {
+      var o = a[l];
+      n[l] = r(o, s) ? c[o] : void 0;
+    }
+    return n;
+  }
+  return (Dr = i), Dr;
+}
+var Nr, Li;
+function qt() {
+  if (Li) return Nr;
+  Li = 1;
+  var e = '__lodash_placeholder__';
+  function r(t, i) {
+    for (var n = -1, a = t.length, s = 0, l = []; ++n < a; ) {
+      var c = t[n];
+      (c === i || c === e) && ((t[n] = e), (l[s++] = n));
+    }
+    return l;
+  }
+  return (Nr = r), Nr;
+}
+var Rr, Ti;
+function ss() {
+  if (Ti) return Rr;
+  Ti = 1;
+  var e = Ja(),
+    r = es(),
+    t = wc(),
+    i = Rt(),
+    n = as(),
+    a = hn(),
+    s = Ec(),
+    l = qt(),
+    c = Dt(),
+    o = 1,
+    h = 2,
+    g = 8,
+    d = 16,
+    f = 128,
+    m = 512;
+  function y(w, C, j, S, u, $, _, v, b, x) {
+    var P = C & f,
+      M = C & o,
+      A = C & h,
+      O = C & (g | d),
+      U = C & m,
+      T = A ? void 0 : i(w);
+    function L() {
+      for (var N = arguments.length, z = Array(N), ne = N; ne--; ) z[ne] = arguments[ne];
+      if (O)
+        var D = a(L),
+          F = t(z, D);
+      if ((S && (z = e(z, S, u, O)), $ && (z = r(z, $, _, O)), (N -= F), O && N < x)) {
+        var k = l(z, D);
+        return n(w, C, y, L.placeholder, j, z, k, v, b, x - N);
+      }
+      var K = M ? j : this,
+        Q = A ? K[w] : w;
+      return (
+        (N = z.length),
+        v ? (z = s(z, v)) : U && N > 1 && z.reverse(),
+        P && b < N && (z.length = b),
+        this && this !== c && this instanceof L && (Q = T || i(Q)),
+        Q.apply(K, z)
+      );
+    }
+    return L;
+  }
+  return (Rr = y), Rr;
+}
+var qr, ki;
+function Dc() {
+  if (ki) return qr;
+  ki = 1;
+  var e = an(),
+    r = Rt(),
+    t = ss(),
+    i = as(),
+    n = hn(),
+    a = qt(),
+    s = Dt();
+  function l(c, o, h) {
+    var g = r(c);
+    function d() {
+      for (var f = arguments.length, m = Array(f), y = f, w = n(d); y--; ) m[y] = arguments[y];
+      var C = f < 3 && m[0] !== w && m[f - 1] !== w ? [] : a(m, w);
+      if (((f -= C.length), f < h))
+        return i(c, o, t, d.placeholder, void 0, m, C, void 0, void 0, h - f);
+      var j = this && this !== s && this instanceof d ? g : c;
+      return e(j, this, m);
+    }
+    return d;
+  }
+  return (qr = l), qr;
+}
+var Lr, Wi;
+function Nc() {
+  if (Wi) return Lr;
+  Wi = 1;
+  var e = an(),
+    r = Rt(),
+    t = Dt(),
+    i = 1;
+  function n(a, s, l, c) {
+    var o = s & i,
+      h = r(a);
+    function g() {
+      for (
+        var d = -1,
+          f = arguments.length,
+          m = -1,
+          y = c.length,
+          w = Array(y + f),
+          C = this && this !== t && this instanceof g ? h : a;
+        ++m < y;
+
+      )
+        w[m] = c[m];
+      for (; f--; ) w[m++] = arguments[++d];
+      return e(C, o ? l : this, w);
+    }
+    return g;
+  }
+  return (Lr = n), Lr;
+}
+var Tr, zi;
+function Rc() {
+  if (zi) return Tr;
+  zi = 1;
+  var e = Ja(),
+    r = es(),
+    t = qt(),
+    i = '__lodash_placeholder__',
+    n = 1,
+    a = 2,
+    s = 4,
+    l = 8,
+    c = 128,
+    o = 256,
+    h = Math.min;
+  function g(d, f) {
+    var m = d[1],
+      y = f[1],
+      w = m | y,
+      C = w < (n | a | c),
+      j =
+        (y == c && m == l) ||
+        (y == c && m == o && d[7].length <= f[8]) ||
+        (y == (c | o) && f[7].length <= f[8] && m == l);
+    if (!(C || j)) return d;
+    y & n && ((d[2] = f[2]), (w |= m & n ? 0 : s));
+    var S = f[3];
+    if (S) {
+      var u = d[3];
+      (d[3] = u ? e(u, S, f[4]) : S), (d[4] = u ? t(d[3], i) : f[4]);
+    }
+    return (
+      (S = f[5]),
+      S && ((u = d[5]), (d[5] = u ? r(u, S, f[6]) : S), (d[6] = u ? t(d[5], i) : f[6])),
+      (S = f[7]),
+      S && (d[7] = S),
+      y & c && (d[8] = d[8] == null ? f[8] : h(d[8], f[8])),
+      d[9] == null && (d[9] = f[9]),
+      (d[0] = f[0]),
+      (d[1] = w),
+      d
+    );
+  }
+  return (Tr = g), Tr;
+}
+var kr, Fi;
+function qc() {
+  if (Fi) return kr;
+  Fi = 1;
+  var e = Za(),
+    r = xc(),
+    t = Dc(),
+    i = ss(),
+    n = Nc(),
+    a = ts(),
+    s = Rc(),
+    l = ns(),
+    c = is(),
+    o = jo(),
+    h = 'Expected a function',
+    g = 1,
+    d = 2,
+    f = 8,
+    m = 16,
+    y = 32,
+    w = 64,
+    C = Math.max;
+  function j(S, u, $, _, v, b, x, P) {
+    var M = u & d;
+    if (!M && typeof S != 'function') throw new TypeError(h);
+    var A = _ ? _.length : 0;
+    if (
+      (A || ((u &= -97), (_ = v = void 0)),
+      (x = x === void 0 ? x : C(o(x), 0)),
+      (P = P === void 0 ? P : o(P)),
+      (A -= v ? v.length : 0),
+      u & w)
+    ) {
+      var O = _,
+        U = v;
+      _ = v = void 0;
+    }
+    var T = M ? void 0 : a(S),
+      L = [S, u, $, _, v, O, U, b, x, P];
+    if (
+      (T && s(L, T),
+      (S = L[0]),
+      (u = L[1]),
+      ($ = L[2]),
+      (_ = L[3]),
+      (v = L[4]),
+      (P = L[9] = L[9] === void 0 ? (M ? 0 : S.length) : C(L[9] - A, 0)),
+      !P && u & (f | m) && (u &= -25),
+      !u || u == g)
+    )
+      var N = r(S, u, $);
+    else
+      u == f || u == m
+        ? (N = t(S, u, P))
+        : (u == y || u == (g | y)) && !v.length
+          ? (N = n(S, u, $, _))
+          : (N = i.apply(void 0, L));
+    var z = T ? e : l;
+    return c(z(N, L), S, u);
+  }
+  return (kr = j), kr;
+}
+var Wr, Hi;
+function Lc() {
+  if (Hi) return Wr;
+  Hi = 1;
+  var e = nn(),
+    r = qc(),
+    t = hn(),
+    i = qt(),
+    n = 32,
+    a = e(function(s, l) {
+      var c = i(l, t(a));
+      return r(s, n, void 0, l, c);
+    });
+  return (a.placeholder = {}), (Wr = a), Wr;
+}
+var Bi;
+function Tc() {
+  if (Bi) return vt;
+  (Bi = 1), Object.defineProperty(vt, '__esModule', { value: !0 });
+  var e = Ce,
+    r = Lc(),
+    t = _e(),
+    i = (function(n) {
+      e.__extends(a, n);
+      function a() {
+        return (n !== null && n.apply(this, arguments)) || this;
+      }
+      return (
+        (a.prototype.apply = function(s) {
+          var l = s.config.execute,
+            c = s.value,
+            o = s.args;
+          return r.apply(void 0, [l, c].concat(o));
+        }),
+        a
+      );
+    })(t.Applicator);
+  return (vt.PartialedApplicator = i), vt;
+}
+var yt = {},
+  Vi;
+function kc() {
+  if (Vi) return yt;
+  (Vi = 1), Object.defineProperty(yt, '__esModule', { value: !0 });
+  var e = Ce,
+    r = Ye(),
+    t = _e(),
+    i = Re(),
+    n = (function(a) {
+      e.__extends(s, a);
+      function s() {
+        return (a !== null && a.apply(this, arguments)) || this;
+      }
+      return (
+        (s.prototype.apply = function(l) {
+          var c = l.args,
+            o = l.target,
+            h = l.value,
+            g = l.config.execute;
+          return function() {
+            for (var d = [], f = 0; f < arguments.length; f++) d[f] = arguments[f];
+            var m = h,
+              y = 0;
+            return (
+              r(m) || ((m = i.resolveFunction(c[0], this, o)), (y = 1)),
+              g.apply(void 0, [m].concat(c.slice(y))).apply(this, d)
+            );
+          };
+        }),
+        s
+      );
+    })(t.Applicator);
+  return (yt.PartialValueApplicator = n), yt;
+}
+var bt = {},
+  Gi;
+function Wc() {
+  if (Gi) return bt;
+  (Gi = 1), Object.defineProperty(bt, '__esModule', { value: !0 });
+  var e = Ce,
+    r = _e(),
+    t = (function(i) {
+      e.__extends(n, i);
+      function n() {
+        return (i !== null && i.apply(this, arguments)) || this;
+      }
+      return (
+        (n.prototype.apply = function(a) {
+          var s = a.config,
+            l = s.execute;
+          s.bound;
+          var c = a.args,
+            o = a.value;
+          return l.apply(void 0, c.concat([o]));
+        }),
+        n
+      );
+    })(r.Applicator);
+  return (bt.PostValueApplicator = t), bt;
+}
+var _t = {},
+  Ui;
+function zc() {
+  if (Ui) return _t;
+  (Ui = 1), Object.defineProperty(_t, '__esModule', { value: !0 });
+  var e = Ce,
+    r = _e(),
+    t = (function(i) {
+      e.__extends(n, i);
+      function n() {
+        return (i !== null && i.apply(this, arguments)) || this;
+      }
+      return (
+        (n.prototype.apply = function(a) {
+          var s = a.value,
+            l = a.config.execute,
+            c = a.args;
+          return l.apply(void 0, [s].concat(c));
+        }),
+        n
+      );
+    })(r.Applicator);
+  return (_t.PreValueApplicator = t), _t;
+}
+var St = {},
+  Yi;
+function Fc() {
+  if (Yi) return St;
+  (Yi = 1), Object.defineProperty(St, '__esModule', { value: !0 });
+  var e = Ce,
+    r = _e(),
+    t = Re(),
+    i = (function(n) {
+      e.__extends(a, n);
+      function a() {
+        return (n !== null && n.apply(this, arguments)) || this;
+      }
+      return (
+        (a.prototype.apply = function(s) {
+          var l = s.args,
+            c = s.config.execute,
+            o = s.target,
+            h = s.value;
+          return function() {
+            for (var g = [], d = 0; d < arguments.length; d++) g[d] = arguments[d];
+            return c(t.resolveFunction(l[0], this, o), h).apply(this, g);
+          };
+        }),
+        a
+      );
+    })(r.Applicator);
+  return (St.WrapApplicator = i), St;
+}
+var xt = {},
+  Ki;
+function Hc() {
+  if (Ki) return xt;
+  (Ki = 1), Object.defineProperty(xt, '__esModule', { value: !0 });
+  var e = Ce,
+    r = _e(),
+    t = (function(i) {
+      e.__extends(n, i);
+      function n() {
+        return (i !== null && i.apply(this, arguments)) || this;
+      }
+      return (
+        (n.prototype.apply = function(a) {
+          var s = a.value,
+            l = a.config.execute,
+            c = a.args,
+            o = a.instance;
+          return a.target, o ? l.apply(void 0, [s, o].concat(c)) : s;
+        }),
+        n
+      );
+    })(r.Applicator);
+  return (xt.BindApplicator = t), xt;
+}
+var wt = {},
+  Qi;
+function Bc() {
+  if (Qi) return wt;
+  (Qi = 1), Object.defineProperty(wt, '__esModule', { value: !0 });
+  var e = Ce,
+    r = _e(),
+    t = (function(i) {
+      e.__extends(n, i);
+      function n() {
+        return (i !== null && i.apply(this, arguments)) || this;
+      }
+      return (
+        (n.prototype.apply = function(a) {
+          var s = a.args;
+          a.target;
+          var l = a.config.execute,
+            c = a.value;
+          return function() {
+            for (var o = [], h = 0; h < arguments.length; h++) o[h] = arguments[h];
+            return l.apply(void 0, [c.bind(this)].concat(o, s));
+          };
+        }),
+        n
+      );
+    })(r.Applicator);
+  return (wt.InvokeApplicator = t), wt;
+}
+var Ct = {},
+  Xi;
+function Vc() {
+  if (Xi) return Ct;
+  (Xi = 1), Object.defineProperty(Ct, '__esModule', { value: !0 });
+  var e = Ce,
+    r = Ye(),
+    t = Ue(),
+    i = _e(),
+    n = Re(),
+    a = (function(s) {
+      e.__extends(l, s);
+      function l() {
+        return (s !== null && s.apply(this, arguments)) || this;
+      }
+      return (
+        (l.prototype.apply = function(c) {
+          var o = c.value,
+            h = c.instance,
+            g = c.config.execute,
+            d = c.args,
+            f = c.target,
+            m = n.resolveFunction(r(d[0]) ? d[0] : t(d[0]) ? d[0].resolver : d[0], h, f, !1);
+          m && h && (m = m.bind(h));
+          var y = m ? g(o, m) : g(o);
+          if (t(d[0])) {
+            var w = d[0],
+              C = w.cache,
+              j = w.type;
+            C ? (y.cache = C) : r(j) && (y.cache = new j());
+          }
+          return y;
+        }),
+        l
+      );
+    })(i.Applicator);
+  return (Ct.MemoizeApplicator = a), Ct;
+}
+var Zi;
+function Gc() {
+  return (
+    Zi ||
+      ((Zi = 1),
+      (function(e) {
+        function r(t) {
+          for (var i in t) e.hasOwnProperty(i) || (e[i] = t[i]);
+        }
+        Object.defineProperty(e, '__esModule', { value: !0 }),
+          r(_e()),
+          r(_c()),
+          r(Sc()),
+          r(Tc()),
+          r(kc()),
+          r(Wc()),
+          r(zc()),
+          r(Fc()),
+          r(Hc()),
+          r(Bc()),
+          r(Vc());
+      })(cr)),
+    cr
+  );
+}
+var Ji;
+function Uc() {
+  if (Ji) return Le;
+  (Ji = 1), Object.defineProperty(Le, '__esModule', { value: !0 });
+  var e = Tl(),
+    r = Jl(),
+    t = Gc(),
+    i = r.DecoratorFactory.createInstanceDecorator(
+      new r.DecoratorConfig(e, new t.PreValueApplicator(), { setter: !0 })
+    );
+  function n(a, s) {
+    return i(a, s);
+  }
+  return (Le.Debounce = n), (Le.debounce = n), (Le.default = i), Le;
+}
+var Yc = Uc();
+const Kc = ga(Yc),
+  Qc = (e, r) => {
+    if (oe.isEmpty(e)) return !1;
+    const t = (window._paq = window._paq || []);
+    t.push(['enableLinkTracking']);
+    const { u: i = '', setSiteId: n = '' } = r,
+      { pathUrl: a = window.location.href, pathName: s = '', eventInfo: l } = e;
+    a && (t.push(['setCustomUrl', a]), t.push(['setDocumentTitle', s]), t.push(['trackPageView'])),
+      l && t.push(['trackEvent', ...l]),
+      t.push(['setTrackerUrl', i + 'matomo.php']),
+      t.push(['setSiteId', n]);
+    const c = document;
+    if (oe.isEmpty(c.getElementsByClassName('matomoScript'))) {
+      const o = c.createElement('script');
+      o.className = 'matomoScript';
+      const h = c.getElementsByTagName('script')[0];
+      (o.async = !0), (o.src = i + 'matomo.js'), h.parentNode.insertBefore(o, h);
+    }
+  },
+  Xc = Ia.Option,
+  { TextArea: Zc } = he,
+  Jc = ja.RangePicker,
+  eu = /^[0-9a-fA-F]{1,}$/,
+  tu = /^(25[0-5]|2[0-4]\d|[01]?\d\d?)\.(25[0-5]|2[0-4]\d|[01]?\d\d?)\.(25[0-5]|2[0-4]\d|[01]?\d\d?)\.(25[0-5]|2[0-4]\d|[01]?\d\d?)$/,
+  ru = /^([0-9]|[1-9]\d{1,3}|[1-5]\d{4}|6[0-4]\d{4}|65[0-4]\d{2}|655[0-2]\d|6553[0-5])$/,
+  ea = /^(?=.*\d{1,})(?=.*[A-Z]{1,})(?=.*[a-z]{1,}).{6,16}$/,
+  nu = ({
+    item: e,
+    marginBottom: r = 12,
+    marginTop: t = 0,
+    defaultValues: i = {},
+    style: n,
+    hasBr: a,
+    children: s,
+    onSelectChange: l,
+  }) => {
+    const [c, o] = I.useState(!1),
+      h = (u, $, _) => {
+        if (u === 'date')
+          return $ ? (oe.isString($) || oe.isNumber($) ? Ze($ * 1) : Ze($[0] * 1)) : null;
+        if (u === 'date_range')
+          return oe.isArray($)
+            ? $[0]
+              ? [Ze($[0], _ || 'YYYY-MM-DD HH:mm:ss'), Ze($[1], _ || 'YYYY-MM-DD HH:mm:ss')]
+              : []
+            : [];
+      },
+      g = (u, $, _, v, b = '', x) => {
+        if (b.startsWith('(') && b.endsWith(')')) {
+          const M = b.substr(1, b.length - 2).split(','),
+            A = x[M[0]] ? x[M[0]] : Number(M[0]),
+            O = x[M[1]] ? x[M[1]] : Number(M[1]);
+          (u <= A || u >= O) && v(`取值错误，(${A},${O})`);
+        } else if (b.startsWith('(') && b.endsWith(']')) {
+          const M = b.substr(1, b.length - 2).split(','),
+            A = x[M[0]] ? x[M[0]] : Number(M[0]),
+            O = x[M[1]] ? x[M[1]] : Number(M[1]);
+          (u <= A || u > O) && v(`取值错误，(${A},${O}]`);
+        } else if (b.startsWith('[') && b.endsWith(')')) {
+          const M = b.substr(1, b.length - 2).split(','),
+            A = x[M[0]] ? x[M[0]] : Number(M[0]),
+            O = x[M[1]] ? x[M[1]] : Number(M[1]);
+          (u < A || u >= O) && v(`取值错误，[${A},${O})`);
+        } else if (b.startsWith('[') && b.endsWith(']')) {
+          const M = b.substr(1, b.length - 2).split(','),
+            A = x[M[0]] ? x[M[0]] : Number(M[0]),
+            O = x[M[1]] ? x[M[1]] : Number(M[1]);
+          (u < A || u > O) && v(`取值错误，[${A},${O}]`);
+        } else if ($ === 0) {
+          const P = _ ? u : '';
+          u && P && Number(P) < Number(u) && v(`取值错误，应小于${P}`);
+        } else if ($ === 1) {
+          const P = _ ? u : '';
+          u && P && Number(P) > Number(u) && v(`取值错误，应大于${P}`);
+        }
+        v();
+      },
+      d = (u, $) => {
+        if (u.startsWith('>')) {
+          const _ = u.substr(1);
+          return `>${$[_] ? $[_] : Number(_)}`;
+        } else if (u.startsWith('<')) {
+          const _ = u.substr(1);
+          return `<${$[_] ? $[_] : Number(_)}`;
+        } else if (u.startsWith('(') && u.endsWith(')')) {
+          const v = u.substr(1, u.length - 2).split(','),
+            b = $[v[0]] ? $[v[0]] : Number(v[0]),
+            x = $[v[1]] ? $[v[1]] : Number(v[1]);
+          return `(${b || 0},${x || 0})`;
+        } else if (u.startsWith('(') && u.endsWith(']')) {
+          const v = u.substr(1, u.length - 2).split(','),
+            b = $[v[0]] ? $[v[0]] : Number(v[0]),
+            x = $[v[1]] ? $[v[1]] : Number(v[1]);
+          return `(${b || 0},${x || 0}]`;
+        } else if (u.startsWith('[') && u.endsWith(')')) {
+          const v = u.substr(1, u.length - 2).split(','),
+            b = $[v[0]] ? $[v[0]] : Number(v[0]),
+            x = $[v[1]] ? $[v[1]] : Number(v[1]);
+          return `[${b || 0},${x || 0})`;
+        } else if (u.startsWith('[') && u.endsWith(']')) {
+          const v = u.substr(1, u.length - 2).split(','),
+            b = $[v[0]] ? $[v[0]] : Number(v[0]),
+            x = $[v[1]] ? $[v[1]] : Number(v[1]);
+          return `[${b || 0},${x || 0}]`;
+        }
+        return '';
+      },
+      f = (u, $, _, v) => {
+        if ($.startsWith('>')) {
+          const b = $.substr(1),
+            x = v[b] ? v[b] : Number(b);
+          u < x && _(`取值错误，>${x}`);
+        } else if ($.startsWith('<')) {
+          const b = $.substr(1),
+            x = v[b] ? v[b] : Number(b);
+          u > x && _(`取值错误，<${x}`);
+        } else if ($.startsWith('(') && $.endsWith(')')) {
+          const x = $.substr(1, $.length - 2).split(','),
+            P = v[x[0]] ? v[x[0]] : Number(x[0]),
+            M = v[x[1]] ? v[x[1]] : Number(x[1]);
+          (u <= P || u >= M) && _(`取值错误，(${P},${M})`);
+        } else if ($.startsWith('(') && $.endsWith(']')) {
+          const x = $.substr(1, $.length - 2).split(','),
+            P = v[x[0]] ? v[x[0]] : Number(x[0]),
+            M = v[x[1]] ? v[x[1]] : Number(x[1]);
+          (u <= P || u > M) && _(`取值错误，(${P},${M}]`);
+        } else if ($.startsWith('[') && $.endsWith(')')) {
+          const x = $.substr(1, $.length - 2).split(','),
+            P = v[x[0]] ? v[x[0]] : Number(x[0]),
+            M = v[x[1]] ? v[x[1]] : Number(x[1]);
+          (u < P || u >= M) && _(`取值错误，[${P},${M})`);
+        } else if ($.startsWith('[') && $.endsWith(']')) {
+          const x = $.substr(1, $.length - 2).split(','),
+            P = v[x[0]] ? v[x[0]] : Number(x[0]),
+            M = v[x[1]] ? v[x[1]] : Number(x[1]);
+          (u < P || u > M) && _(`取值错误，[${P},${M}]`);
+        }
+        _();
+      },
+      m = u => {
+        l && l(u);
+      },
+      y = () =>
+        p.jsx(Oe, {
+          title: c ? '隐藏密码' : '显示密码',
+          children: p.jsx(Ie, { type: 'eye', style: { cursor: 'pointer' }, onClick: () => o(!c) }),
+        }),
+      w = (u, $) => {
+        const _ = [];
+        return (
+          u.required &&
+            _.push({ required: !0, message: p.jsxs('span', { children: [$, '为必填项'] }) }),
+          u.pattern && _.push({ pattern: u.pattern, message: '请输入正确格式' }),
+          u.rules && _.push(...u.rules),
+          _
+        );
+      },
+      C = u =>
+        u.pxWidth
+          ? p.jsxs('span', {
+              children: [
+                p.jsx('span', {
+                  style: { display: 'inline-block', width: u.pxWidth, textAlign: 'left' },
+                  children: u.label,
+                }),
+                u.labelSuffix,
+              ],
+            })
+          : p.jsxs('span', { children: [u.ulabel || u.label, u.labelSuffix] }),
+      j = (u, $, _ = [], v = 'value') => {
+        const b = C(u),
+          x = [...w(u, b), ..._],
+          P = u.formItemLayout || {};
+        return I.createElement(
+          te.Item,
+          {
+            style: { marginTop: t, marginBottom: r, ...n },
+            ...P,
+            name: u.field_name,
+            label: u.isHideLabel ? !1 : b,
+            initialValue: u.value,
+            rules: x,
+            valuePropName: v,
+            key: u.field_name,
+          },
+          $
+        );
+      },
+      S = (u, $, _ = [], v) => {
+        const b = [...w(u, v), ..._],
+          x = u.formItemLayout || {};
+        return I.createElement(
+          te.Item,
+          {
+            style: { marginTop: u?.marginTop || t, marginBottom: r, ...n },
+            ...x,
+            name: u.field_name,
+            label: p.jsxs('span', { children: [v, u.labelOther || ''] }),
+            initialValue: u.value,
+            rules: b,
+            key: u.field_name,
+          },
+          $,
+          p.jsx('span', { children: u.other || '' })
+        );
+      };
+    if (s) {
+      const u = C(e);
+      return I.createElement(
+        te.Item,
+        {
+          style: { marginTop: t, marginBottom: r, ...n },
+          ...e.formItemLayout,
+          name: e.field_name,
+          label: u || '',
+          initialValue: e.value,
+          rules: w(e, u),
+          key: e.field_name,
+        },
+        p.jsx('div', {})
+      );
+    }
+    switch (e.type) {
+      case 'hex':
+        return j(e, p.jsx(he, { style: { width: '200px', ...e.style }, ...e.props }), [
+          { pattern: new RegExp(eu), message: '请输入十六进制格式' },
+        ]);
+      case 'ip':
+        return j(
+          e,
+          p.jsx(he, {
+            placeholder: e.placeholder || '请输入IP',
+            style: { width: e.max ? null : '200px', ...e.style },
+            ...e.props,
+          }),
+          [{ pattern: new RegExp(tu), message: '请输正确的IP格式' }]
+        );
+      case 'password':
+        return e.showPasswordEye
+          ? j(
+              e,
+              p.jsx(he, {
+                type: c ? 'text' : 'password',
+                placeholder: e.placeholder || '请输入密码',
+                style: { width: e.width || '200px', ...e.style },
+                addonAfter: y(),
+                ...e.props,
+              }),
+              [
+                {
+                  pattern: e.isNoPattern ? !0 : new RegExp(ea),
+                  message: '密码过于简单(长度6-16)、必须包含数字、字母及大小写',
+                },
+              ]
+            )
+          : j(
+              e,
+              p.jsx(he, {
+                type: 'password',
+                placeholder: e.placeholder || '请输入密码',
+                style: { width: e.width || '200px', ...e.style },
+                ...e.props,
+              }),
+              [
+                {
+                  pattern: e.isNoPattern ? !0 : new RegExp(ea),
+                  message: '密码过于简单(长度6-16)、必须包含数字、字母及大小写',
+                },
+              ]
+            );
+      case 'port':
+        return j(
+          e,
+          p.jsx(he, {
+            placeholder: e.placeholder || '请输入端口',
+            style: { width: '200px', ...e.style },
+            ...e.props,
+          }),
+          [{ pattern: new RegExp(ru), message: '请输正确的端口格式' }]
+        );
+      case 'inputNumber':
+        return j(
+          e,
+          p.jsx(eo, {
+            placeholder: e.placeholder || '',
+            style: { width: '200px', ...e.style },
+            ...e.props,
+          })
+        );
+      case 'input': {
+        let v = '';
+        const b = [];
+        e.value_range &&
+          (b.push({ validator: (M, A, O) => f(A, e.value_range, O, i) }),
+          (v = d(e.value_range, i)));
+        const x = C(e),
+          P = p.jsx(he, {
+            disabled: e.disabled || !1,
+            placeholder: v || e.placeholder || '',
+            style: { width: e.max ? null : '200px', ...e.style, ...e.valueStyle },
+            ...e.props,
+            suffix: e.labelBefore || '',
+            addonBefore: e.addonBefore || '',
+            onBlur: e.onBlur && e.onBlur,
+          });
+        return e.tooltip
+          ? p.jsx(Oe, { title: e.tooltip, children: S(e, P, b, x || '') }, e.field_name)
+          : S(e, P, b, x || '');
+      }
+      case 'textarea':
+        return j(
+          e,
+          p.jsx(Zc, {
+            disabled: e.disabled || !1,
+            placeholder: e.placeholder || '',
+            onPressEnter: v => e.noEnter && v.preventDefault(),
+            style: { width: e.max ? null : '200px', ...e.style },
+            ...e.props,
+          })
+        );
+      case 'select': {
+        const v = e.config || {},
+          b = p.jsx(Ia, {
+            allowClear: !e.required,
+            placeholder: e.placeholder || '',
+            disabled: e.disabled || !1,
+            mode: e.mode || '',
+            onChange: e.onChange || m,
+            style: { width: '200px', ...e.style },
+            ...e.props,
+            children: (e.options || []).map(O =>
+              p.jsx(
+                Xc,
+                {
+                  value: O[v.value] || O.value,
+                  disabled: O.disabled || !1,
+                  children: O[v.label] || O.label,
+                },
+                O[v.value] || O.value
+              )
+            ),
+          }),
+          x = C(e),
+          P = [
+            { required: e.required, message: p.jsxs('span', { children: [x, '为必填项'] }) },
+            ...(e.rules || []),
+          ],
+          M = e.formItemLayout || {},
+          A = String(e.value) === '0' ? e.value : String(e.value) === '' ? null : e.value;
+        return e.tooltip
+          ? p.jsx(
+              Oe,
+              {
+                title: e.tooltip,
+                children: p.jsx(te.Item, {
+                  style: { marginTop: t, marginBottom: r, ...n },
+                  ...M,
+                  name: e.field_name,
+                  label: e.isHideLabel
+                    ? !1
+                    : p.jsxs('span', { children: [x || '下拉框', e?.labelOther || ''] }),
+                  initialValue: A,
+                  rules: P,
+                  children: b,
+                }),
+              },
+              e.field_name
+            )
+          : I.createElement(
+              te.Item,
+              {
+                style: { marginTop: t, marginBottom: r, ...n },
+                ...M,
+                name: e.field_name,
+                label: e.isHideLabel
+                  ? !1
+                  : p.jsxs('span', { children: [x || '下拉框', e?.labelOther || ''] }),
+                initialValue: A,
+                rules: P,
+                key: e.field_name,
+              },
+              b
+            );
+      }
+      case 'radio': {
+        const v = C(e);
+        return I.createElement(
+          te.Item,
+          {
+            style: { marginTop: t, marginBottom: r, ...n },
+            ...e.formItemLayout,
+            name: e.field_name,
+            label: v || '单选框',
+            initialValue: e.value,
+            rules: [
+              { required: e.required, message: p.jsxs('span', { children: [v, '为必填项'] }) },
+              ...(e.rules || []),
+            ],
+            key: e.field_name,
+          },
+          p.jsx(Ne.Group, {
+            ...e.props,
+            disabled: e.disabled,
+            children: e.options.map(
+              b =>
+                e.btn
+                  ? p.jsx(Ne.Button, { value: b.value, children: b.label }, b.value)
+                  : p.jsx(Ne, { value: b.value, children: b.label }, b.value)
+            ),
+          }),
+          e.other ? e.other() : ''
+        );
+      }
+      case 'radioButton': {
+        const v = C(e);
+        return I.createElement(
+          te.Item,
+          {
+            style: { marginTop: t, marginBottom: r, ...n },
+            ...e.formItemLayout,
+            name: e.field_name,
+            label: v || '单选框',
+            initialValue: e.value,
+            rules: [
+              { required: !0, message: p.jsxs('span', { children: [v, '为必填项'] }) },
+              ...(e.rules || []),
+            ],
+            key: e.field_name,
+          },
+          p.jsx(Ne.Group, {
+            ...e.props,
+            style: { width: '200px', ...e.style },
+            children: e.options.map(b =>
+              p.jsx(Ne.Button, { value: b.value, children: b.label || b.key || '' }, b.value)
+            ),
+          })
+        );
+      }
+      case 'date': {
+        const v = C(e);
+        return I.createElement(
+          te.Item,
+          {
+            style: { marginTop: t, marginBottom: r, ...n },
+            ...e.formItemLayout,
+            name: e.field_name,
+            label: v,
+            initialValue: h('date', e.value, e.paramsFormat),
+            rules: [
+              { required: e.required, message: p.jsxs('span', { children: [v, '为必填项'] }) },
+              ...(e.rules || []),
+            ],
+            key: e.field_name,
+          },
+          p.jsx(ja, {
+            style: { width: 200, ...e.style },
+            format: e.format || 'YYYY-MM-DD HH:mm:ss',
+            showTime: !0,
+            ...e.props,
+          })
+        );
+      }
+      case 'date_range': {
+        const v = C(e);
+        return I.createElement(
+          te.Item,
+          {
+            style: { marginTop: t, marginBottom: r, ...n },
+            ...e.formItemLayout,
+            name: e.field_name,
+            label: v,
+            initialValue: h('date_range', e.value, e.paramsFormat),
+            rules: [
+              { required: e.required, message: p.jsxs('span', { children: [v, '为必填项'] }) },
+              ...(e.rules || []),
+            ],
+            key: e.field_name,
+          },
+          p.jsx(Jc, {
+            style: e.style,
+            format: e.format || 'YYYY-MM-DD HH:mm:ss',
+            showTime: !0,
+            ...e.props,
+          })
+        );
+      }
+      case 'checkbox':
+        return I.createElement(
+          te.Item,
+          {
+            style: { marginTop: t, marginBottom: r, ...n },
+            ...e.formItemLayout,
+            name: e.field_name,
+            label: C(e),
+            initialValue: e.value || !1,
+            valuePropName: 'checked',
+            key: e.field_name,
+          },
+          e?.options ? p.jsx(_n.Group, { options: e?.options }) : p.jsx(_n, { ...e.props })
+        );
+      case 'switch':
+        return I.createElement(
+          te.Item,
+          {
+            style: { marginTop: t, marginBottom: r, ...n },
+            ...e.formItemLayout,
+            name: e.field_name,
+            label: C(e),
+            initialValue: e.value === 1 || e.value || !1,
+            valuePropName: 'checked',
+            key: e.field_name,
+          },
+          p.jsx(cn, { ...e.props })
+        );
+      case 'cascader': {
+        const v = C(e);
+        return I.createElement(
+          te.Item,
+          {
+            style: { marginTop: t, marginBottom: r, ...n },
+            ...e.formItemLayout,
+            name: e.field_name,
+            label: v || '下拉框',
+            initialValue: e.value,
+            rules: [
+              { required: e.required, message: p.jsxs('span', { children: [v, '为必填项'] }) },
+              ...(e.rules || []),
+            ],
+            key: e.field_name,
+          },
+          p.jsx(Js, {
+            fieldNames: e.options,
+            options: e.data,
+            disabled: e.disabled || !1,
+            allowClear: e.allowClear,
+            onChange: b => (e.onChange ? e.onChange(b, e.linkFields) : null),
+            style: { width: '200px', ...e.style },
+            ...e.props,
+          })
+        );
+      }
+      case 'number_range':
+        if (!e.field_name.includes(',')) return null;
+        const u = e.field_name.split(','),
+          $ = a ? 35 : 15,
+          _ = e.style && e.style.width ? parseInt(e.style.width, 10) / 2 - $ : 100;
+        return p.jsxs('span', {
+          style: { display: 'flex' },
+          children: [
+            p.jsx(te.Item, {
+              style: { marginTop: t, marginBottom: r, ...n },
+              ...e.formItemLayout,
+              name: u[0] || '',
+              label: C(e) || '下拉框',
+              initialValue: e.value,
+              rules: [
+                { message: '必填项', required: e.required },
+                { validator: (v, b, x) => g(b, 0, u[1], x, e.value_range, i) },
+              ],
+              children: p.jsx(he, {
+                disabled: e.disabled || !1,
+                placeholder: e.placeholder || '',
+                style: { ...e.style, width: _ },
+                ...e.props,
+                suffix: e.labelBefore || '',
+              }),
+            }),
+            p.jsx('span', {
+              style: { padding: '8px 10px 0px', display: 'inline-block' },
+              children: '~',
+            }),
+            p.jsx(te.Item, {
+              style: { marginTop: t, marginBottom: r, ...n },
+              ...e.formItemLayout,
+              name: u[1] || '',
+              initialValue: e.value,
+              rules: [
+                { message: '必填项', required: e.required },
+                { validator: (v, b, x) => g(b, 1, u[0], x, e.value_range, i) },
+              ],
+              children: p.jsx(he, {
+                disabled: e.disabled || !1,
+                placeholder: e.placeholder || '',
+                style: { ...e.style, width: _ },
+                ...e.props,
+                suffix: e.labelBefore || '',
+              }),
+            }),
+          ],
+        });
+      case 'text': {
+        const v = C(e);
+        return I.createElement(
+          te.Item,
+          {
+            style: { marginTop: t, marginBottom: r, ...n },
+            ...e.formItemLayout,
+            name: e.field_name,
+            label: v,
+            initialValue: e.value,
+            rules: [
+              { required: e.required, message: p.jsxs('span', { children: [v, '为必填项'] }) },
+              ...(e.rules || []),
+            ],
+            key: e.field_name,
+          },
+          p.jsx('span', { children: e.render ? e.render(e.value) : e.value })
+        );
+      }
+      default:
+        return p.jsx('div', {});
+    }
+  },
+  ta = { labelCol: { span: 4 }, wrapperCol: { span: 20 } },
+  { confirm: iu } = tn,
+  au = ({
+    hasLogined: e,
+    groupMode: r,
+    globalNodeType: t,
+    title: i,
+    modalVisible: n,
+    handleModalVisible: a,
+    handleLogin: s,
+    dispatch: l,
+    handleGetShowMenu: c,
+    loadFreq: o,
+    isSpectrumIng: h,
+    freqTipMsg: g,
+    programAlertNum: d,
+  }) => {
+    const [f] = te.useForm(),
+      [m, y] = I.useState(!(d > 0)),
+      [w, C] = I.useState(0),
+      [j, S] = I.useState(0),
+      [u, $] = I.useState(''),
+      [_, v] = I.useState([]),
+      b = I.useRef({}),
+      x = I.useRef({});
+    I.useRef(null);
+    const P = [
+        {
+          formItemLayout: ta,
+          label: '账号',
+          field_name: 'username',
+          type: 'input',
+          placeholder: '请输入账号',
+          span: 24,
+          required: !0,
+        },
+        {
+          formItemLayout: ta,
+          label: '密码',
+          field_name: 'password',
+          type: 'password',
+          span: 24,
+          required: !0,
+          isNoPattern: !0,
+        },
+      ],
+      M = D => {
+        y(!0),
+          js(D, F => {
+            if (!F) return;
+            const k = de(F, {});
+            k?.code == 1
+              ? (H.success(k?.message || '登录成功'),
+                l({ type: 'main/updateState', payload: { username: D.username || '' } }),
+                c(),
+                a(!1),
+                s(!0),
+                localStorage.setItem('username', D.username),
+                y(!1))
+              : (H.error(k?.message || '登录失败，请稍后重试'), y(!1));
+          });
+      },
+      A = I.useCallback(
+        (D, F) => {
+          if (D) return;
+          const k = { ...F };
+          e?.length > 0
+            ? iu({
+                title: `用户${e[0]?.client_ipaddr}已处于配置模式，是否强行登录`,
+                okText: '是',
+                cancelText: '否',
+                onOk: () => {
+                  M(k);
+                },
+                onCancel: () => {
+                  a(!1);
+                },
+              })
+            : M(k);
+        },
+        [e, a]
+      ),
+      O = () => {
+        f.validateFields()
+          .then(D => {
+            A(null, D);
+          })
+          .catch(D => {
+            A(D, null);
+          });
+      },
+      U = D => {
+        x.current[D] &&
+          x.current[D].send &&
+          x.current[D].readyState === 1 &&
+          x.current[D].send(
+            'node=0,type=spectrum_scan,cmd=init,scrw=1920,scrh=980,imgw=1340,imgh=227,CH=0'
+          );
+      },
+      T = (D, F) => {
+        const k = de(D.data, {});
+        if (k.type === 'overview') {
+          x.current[F].close();
+          const K = k.overview || [];
+          let Q = 0;
+          for (const X of K)
+            if (X.status !== '扫频就绪') {
+              (Q = 1), H.warning(`用户${e}数据采集中，请稍后尝试登录`), a(!1);
+              break;
+            }
+          Q === 0 && (Q = -1), (b.current[F] = Q), $(JSON.stringify(b.current));
+        } else k.type === 'warning' && H.warning(k.message);
+      },
+      L = D => {
+        for (const F of D)
+          (x.current[F] = new WebSocket(`ws://${F}:8090/img`)),
+            (x.current[F].onmessage = k => T(k, F)),
+            (x.current[F].onopen = () => U(F));
+      },
+      N = () => {
+        if (t === 'master')
+          Ps({}, D => {
+            const F = D.data || [],
+              k = [];
+            for (const K of F) k.push(K.node_ip), (b.current[K.node_ip] = 0);
+            v(k), L(k);
+          });
+        else {
+          const D = re.isLocal ? re.localTestUrl : window.location.hostname;
+          (b.current[D] = 0), v([D]), L([D]);
+        }
+      },
+      z = () => {
+        As({ command: 'get' }, F => {
+          F.code === 1 ? (a(!1), H.warning(`用户${e}数据采集中，请稍后尝试登录`)) : S(-1);
+        });
+      },
+      ne = () => {
+        r === '1'
+          ? Is({ command: 'get', params: {} }, F => {
+              F.code === 0 && F.data.jz_status !== 0
+                ? (a(!1), H.warning(`用户${e}正在发射校准中，请稍后尝试登录`))
+                : C(-1);
+            })
+          : C(-1);
+      };
+    return (
+      I.useEffect(() => {
+        ne(), z(), N();
+      }, []),
+      I.useEffect(
+        () => {
+          const D = de(u, {});
+          m &&
+            w === -1 &&
+            j === -1 &&
+            oe.keys(D).length > 0 &&
+            oe.keys(D).filter(F => D[F] === -1).length === _?.length &&
+            (y(!1), H.info('设备空闲，请登录'));
+        },
+        [w, j, u, _]
+      ),
+      p.jsx(Pt, {
+        title: i || '登录',
+        visible: n,
+        width: 400,
+        maxHeight: 140,
+        submitId: 'login_submit_btn',
+        onCancel: () => a(!1),
+        onOk: O,
+        loading: m,
+        noFooter: h,
+        children: p.jsx(Jr, {
+          spinning: m,
+          tip: p.jsx('span', { children: '正在检测设备是否被占用，请稍等...' }),
+          children: p.jsx(te, {
+            form: f,
+            style: { overflow: 'auto', padding: 10 },
+            children: p.jsx($a, {
+              type: 'flex',
+              justify: 'space-between',
+              children: P.map(D =>
+                p.jsx(
+                  Ca,
+                  {
+                    span: D.span || 24,
+                    children: p.jsx(nu, { item: { ...D, value: '', style: { width: '100%' } } }),
+                  },
+                  D.field_name
+                )
+              ),
+            }),
+          }),
+        }),
+      })
+    );
+  },
+  su = Et.connect(({ main: e }) => ({
+    hasLogined: e.hasLogined,
+    groupMode: e.groupMode,
+    globalNodeType: e.globalNodeType,
+  }))(au),
+  ou = 'index-module__menu--JYHlX',
+  lu = 'index-module__userBox--kqKiY',
+  cu = 'index-module__globalHeaderNotice--m08g-',
+  Qr = { menu: ou, userBox: lu, globalHeaderNotice: cu };
+var ra, na;
+const uu = {
+  master: [{ key: 'disslove', name: '一键解散', disabled: !1 }],
+  normal: [
+    { key: 'setMaster', name: '设为集群主节点', disabled: !1 },
+    { key: 'joinCluster', name: '加入集群', disabled: !1 },
+  ],
+  slave: [],
+};
+function du(e, r) {
+  const t = e.path || e.name,
+    i = Math.random() * 100 - 1;
+  return e === ''
+    ? p.jsx(De.Divider, {}, i + 'umd')
+    : e.children
+      ? p.jsx(
+          De.SubMenu,
+          {
+            title: p.jsxs('span', {
+              children: [e.icon && p.jsx(Ie, { type: e.icon }), e.text ? we(e.text) : we(e.name)],
+            }),
+            children: e.children.map(n =>
+              p.jsxs(
+                De.Item,
+                {
+                  children: [
+                    p.jsx(Ie, { type: n.icon || n.name }),
+                    '  ',
+                    p.jsx('span', { children: n.text ? we(n.text) : we(n.name) }),
+                  ],
+                },
+                n.name
+              )
+            ),
+          },
+          t
+        )
+      : t === 'cluster'
+        ? p.jsx(
+            De.SubMenu,
+            {
+              title: p.jsxs('span', {
+                children: [e.icon && p.jsx(Ie, { type: e.icon }), e.text ? we(e.text) : we(e.name)],
+              }),
+              children: (uu[r] || []).map(n =>
+                p.jsx(
+                  De.Item,
+                  { children: p.jsx('span', { children: n.text ? we(n.text) : we(n.name) }) },
+                  n.key
+                )
+              ),
+            },
+            'cluster'
+          )
+        : p.jsxs(
+            De.Item,
+            {
+              children: [
+                p.jsx(Ie, { type: e.icon || e.name }),
+                p.jsx('span', { children: e.text ? we(e.text) : we(e.name) }),
+              ],
+            },
+            t
+          );
+}
+let hu = ((ra = Et.connect(({ main: e }) => ({
+  user: e.user,
+  modeConfig: e.modeConfig,
+  globalNodeType: e.globalNodeType,
+}))),
+ra(
+  (na = class extends I.Component {
+    constructor(r) {
+      super(r),
+        (this.state = {
+          userMenu: r.userMenu || [],
+          userName: r.user?.name || '',
+          isLoginedFlag: r.isLoginedFlag || !1,
+          modeConfig: r.modeConfig || 0,
+        });
+    }
+    componentWillReceiveProps(r) {
+      oe.isEqual(this.props.userMenu, r.userMenu) || this.setState({ userMenu: r.userMenu }),
+        oe.isEqual(this.props.user?.name, r.user?.name) ||
+          this.setState({ userName: r.user?.name }),
+        this.props.isLoginedFlag !== r.isLoginedFlag &&
+          this.setState({ isLoginedFlag: r.isLoginedFlag }),
+        oe.isEqual(this.props.modeConfig, r.modeConfig) ||
+          this.setState({ modeConfig: r.modeConfig });
+    }
+    shouldComponentUpdate(r, t) {
+      return !oe.isEqual(this.state, t) || !oe.isEqual(this.props.globalNodeType, r.globalNodeType);
+    }
+    render() {
+      const { onMenuClick: r, globalNodeType: t } = this.props,
+        { isLoginedFlag: i, userMenu: n = [], userName: a, modeConfig: s } = this.state,
+        l = i ? 'icon-guanliyuan' : 'icon-yonghuming',
+        c = i ? 'icon-leidashezhi' : 'icon-radar-line',
+        o = p.jsx(De, {
+          className: Qr.menu,
+          selectedKeys: [],
+          onClick: r,
+          children: n.map(h => du(h, t)),
+        });
+      return p.jsx(rn.Consumer, {
+        children: h => {
+          const g = h?.theme?.custom || {},
+            { textColor: d } = g;
+          return p.jsx('div', {
+            className: Qr.userBox,
+            style: { color: d },
+            children: p.jsx(to, {
+              overlay: o,
+              trigger: ['click'],
+              children: p.jsx('span', {
+                title: a,
+                children: p.jsx(Ie, { size: 18, color: d, type: s === 0 ? l : c, customIcon: !0 }),
+              }),
+            }),
+          });
+        },
+      });
+    }
+  })
+) || na);
+var ia, Fe, zr;
+function R(e, r, t) {
+  return (
+    (r = fu(r)) in e
+      ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 })
+      : (e[r] = t),
+    e
+  );
+}
+function fu(e) {
+  var r = pu(e, 'string');
+  return typeof r == 'symbol' ? r : r + '';
+}
+function pu(e, r) {
+  if (typeof e != 'object' || !e) return e;
+  var t = e[Symbol.toPrimitive];
+  if (t !== void 0) {
+    var i = t.call(e, r);
+    if (typeof i != 'object') return i;
+    throw new TypeError('@@toPrimitive must return a primitive value.');
+  }
+  return (r === 'string' ? String : Number)(e);
+}
+function gu(e, r, t, i, n) {
+  var a = {};
+  return (
+    Object.keys(i).forEach(function(s) {
+      a[s] = i[s];
+    }),
+    (a.enumerable = !!a.enumerable),
+    (a.configurable = !!a.configurable),
+    ('value' in a || a.initializer) && (a.writable = !0),
+    (a = t
+      .slice()
+      .reverse()
+      .reduce(function(s, l) {
+        return l(e, r, s) || s;
+      }, a)),
+    n &&
+      a.initializer !== void 0 &&
+      ((a.value = a.initializer ? a.initializer.call(n) : void 0), (a.initializer = void 0)),
+    a.initializer === void 0 ? (Object.defineProperty(e, r, a), null) : a
+  );
+}
+const aa = { interval: 3e4, maxRetries: 2 };
+let $t = null,
+  jt = null,
+  It = null;
+const { confirm: Fr } = tn,
+  { TabPane: Hr } = Pa,
+  { TextArea: mu } = he;
+let vu = ((ia = Kc(600)),
+(Fe = ((zr = class extends I.PureComponent {
+  constructor(r) {
+    super(r),
+      R(this, 'handleGetDelayTime', () => {
+        this.delayTimeTimer ||
+          (this.delayTimeTimer = setInterval(() => {
+            this.setState({ delayTime: this.getRandomNumber() });
+          }, 3e3));
+      }),
+      R(this, 'handleCleaarDelayTimeTimer', () => {
+        this.delayTimeTimer && clearInterval(this.delayTimeTimer);
+      }),
+      R(this, 'getRandomNumber', () => {
+        const t = Math.random() * 2 + 1;
+        return `${Number(t.toFixed(1))} ms`;
+      }),
+      R(this, 'handleGetProgramName', () => {
+        Os({ Command: 'get_vmpun2_name' }, i => {
+          const n = de(i, {});
+          n.code === 0 && this.setState({ programName: n.data });
+        });
+      }),
+      R(this, 'handleCheckToken', () => {
+        this.handleClearTimeoutCheckToken();
+        const { dispatch: t } = this.props;
+        Tt({ session_id: 1, Command: 'update_lock_token', scope: 'part' }, n => {
+          const a = de(n, {}),
+            s = localStorage.getItem('token') || '';
+          if (a.code === 0) {
+            const c = a.data.map(o => o.token).includes(s);
+            !c && this.state.isLoginedFlag && this.renderMessage(a?.data),
+              this.setState({ isLoginedFlag: c }, () => {
+                t({
+                  type: 'main/updateState',
+                  payload: { loginFlag: c, token: s || null, hasLogined: a?.data },
+                }),
+                  this.handleGetShowMenu(c),
+                  !c && this.props.loginFlag && t({ type: 'main/updateLogout', payload: {} });
+              });
+          } else
+            this.setState({ isLoginedFlag: !1 }, () => {
+              t({ type: 'main/updateState', payload: { loginFlag: !1, token: s || null } }),
+                t({ type: 'main/updateLogout', payload: {} });
+            });
+          this.handleTimeoutCheckToken();
+        });
+      }),
+      R(this, 'renderMessage', t => {
+        const { msgCount: i = 0 } = this.state,
+          n = t?.[0]?.client_ipaddr;
+        i > 0 ||
+          (H.warning(`用户${n}登录，您已被动退出`),
+          localStorage.getItem('reLoginStatus') && localStorage.removeItem('reLoginStatus'),
+          this.setState(a => ({ msgCount: a.msgCount + 1 })));
+      }),
+      R(this, 'handleTimeoutCheckToken', () => {
+        $t = setTimeout(() => {
+          this.handleCheckToken();
+        }, re.timerInterval3);
+      }),
+      R(this, 'handleClearTimeoutCheckToken', () => {
+        $t && (clearTimeout($t), ($t = null));
+      }),
+      R(this, 'updatePageStats', t => {
+        const { matomoSetting: i } = re,
+          { pathname: n } = t;
+        Qc({ pathUrl: window.location.href, pathName: this.menuMapping[n] || '' }, i);
+      }),
+      R(this, 'startMatomo', () => {
+        const { history: t } = this.props;
+        t.listen(this.updatePageStats);
+      }),
+      R(this, 'updateDropdownVisible', t => {
+        this.setState(t);
+      }),
+      R(this, 'toggle', () => {
+        const { collapsed: t, onCollapse: i } = this.props;
+        i(!t), this.triggerResizeEvent();
+      }),
+      R(this, 'clickReload', () => {
+        window.location.reload();
+      }),
+      R(this, 'returnBgcColor', () => {
+        const { bodyBgc: t } = this.state;
+        if (t === 'rgb(255, 255, 255)') return 'rgb(255, 255, 255)';
+        if (t === 'rgb(32, 31, 43)') return 'rgb(32, 31, 43)';
+        if (t === 'rgb(25, 50, 90)') return 'rgb(25, 50, 90)';
+      }),
+      R(this, 'returnFontColor', () => {
+        const { bodyBgc: t } = this.state;
+        if (t === 'rgb(255, 255, 255)') return 'rgb(255, 255, 255)';
+        if (t === 'rgb(32, 31, 43)') return '#89cad8';
+        if (t === 'rgb(25, 50, 90)') return 'rgb(25, 50, 90)';
+      }),
+      R(this, 'renderMode', () => {
+        const { isLoginedFlag: t } = this.state,
+          i = t;
+        return p.jsx('span', {
+          style: { marginRight: 20 },
+          onClick: () => {},
+          children: p.jsx(cn, {
+            checked: i,
+            onClick: n => this.handleCheckCapture(n),
+            unCheckedChildren: '仅浏览',
+            checkedChildren: '管理员',
+          }),
+        });
+      }),
+      R(this, 'handleCheckCapture', t => {
+        const { dispatch: i } = this.props;
+        t
+          ? this.setState({ loginVisible: !0 })
+          : (i({ type: 'main/updateState', payload: { token: null, loginFlag: !1 } }),
+            i({ type: 'main/updateLogout', payload: {} }),
+            this.removeTokenFetch(),
+            this.setState({ isLoginedFlag: !1 }));
+      }),
+      R(this, 'handleLogin', t => {
+        if (t) {
+          const { dispatch: i } = this.props;
+          let n = {};
+          (n = { session_id: 1, Command: 'http_update_lock_token', scope: 'part' }),
+            Tt(n, a => {
+              const s = de(a, {});
+              s.code === 0
+                ? t &&
+                  (i({ type: 'main/updateState', payload: { token: s?.data, loginFlag: !0 } }),
+                  this.setState({ isLoginedFlag: !0, msgCount: 0 }),
+                  localStorage.setItem('token', s?.data))
+                : H.error(s.message || '切换失败');
+            });
+        }
+      }),
+      R(this, 'removeTokenFetch', () => {
+        const { isRemoveTokening: t } = this.state,
+          i = {
+            session_id: 1,
+            Command: 'invalidate_lock_token',
+            token: localStorage.getItem('token'),
+          };
+        t ||
+          (this.setState({ isRemoveTokening: !0 }),
+          Tt(i, n => {
+            n.code === 0
+              ? (this.props.dispatch({
+                  type: 'main/updateState',
+                  payload: { hasLogined: n?.data },
+                }),
+                H.success('退出成功'),
+                localStorage.removeItem('token'),
+                localStorage.getItem('reLoginStatus') && localStorage.removeItem('reLoginStatus'),
+                this.setState({ isRemoveTokening: !1 }))
+              : (H.error(n.message), this.setState({ isRemoveTokening: !1 }));
+          }));
+      }),
+      R(this, 'handleClickOutside', t => {
+        this.msgRef.current &&
+          !this.msgRef.current.contains(t.target) &&
+          this.setState({ isList: !1 });
+      }),
+      R(this, 'renderMsg', () => {
+        const { isList: t, warnList: i } = this.state,
+          n = i || [];
+        return p.jsxs('span', {
+          style: { position: 'relative' },
+          children: [
+            p.jsx(Oe, {
+              placement: 'topLeft',
+              title: n?.length === 0 ? '暂无消息' : null,
+              children: p.jsx(La, {
+                count: n?.filter(a => a?.is_read === 0)?.length,
+                onClick: this.toggleVisibility,
+                children: p.jsx('span', {
+                  children: p.jsx(Ie, {
+                    type: 'bell',
+                    style: { color: '#ffffff', fontSize: '22px' },
+                  }),
+                }),
+              }),
+            }),
+            t && n?.length > 0 && this.renderMsgList(),
+          ],
+        });
+      }),
+      R(this, 'toggleVisibility', () => {
+        this.setState(t => ({ isList: !t.isList }));
+      }),
+      R(this, 'allRead', () => {
+        const t = this.state.warnList,
+          i = { Command: 'set_all_carriers_freq_change_info', function_option: 'update' };
+        t?.filter(n => n?.is_read === 0)?.length > 0
+          ? this.freqInfoWs.onSendWsMessage(i)
+          : H.info('当前暂无未读消息！');
+      }),
+      R(this, 'readMsg', t => {
+        if (
+          (!oe.isUndefined(t?.carriers_freq_change_sn) || t?.carriers_freq_change_sn !== '') &&
+          t?.is_read !== 1
+        ) {
+          const i = {};
+          (i.Command = 'set_some_carriers_freq_change_info'),
+            (i.function_option = 'update'),
+            (i.carriers_freq_change_sn_list = [t.carriers_freq_change_sn]),
+            this.freqInfoWs.onSendWsMessage(i);
+        }
+      }),
+      R(this, 'onDel', t => {
+        if (!oe.isUndefined(t?.carriers_freq_change_sn) || t?.carriers_freq_change_sn !== '') {
+          const i = {};
+          (i.Command = 'set_some_carriers_freq_change_info'),
+            (i.function_option = 'del'),
+            (i.carriers_freq_change_sn_list = [t.carriers_freq_change_sn]),
+            this.freqInfoWs.onSendWsMessage(i);
+        }
+      }),
+      R(this, 'renderMsgList', () => {
+        const t = this.state.warnList;
+        return p.jsx('div', {
+          style: { position: 'absolute', top: '28px', left: '-90px', zIndex: '999' },
+          className: 'global_msg_content cancel-tabs',
+          ref: this.msgRef,
+          children: p.jsxs(Pa, {
+            defaultActiveKey: '1',
+            children: [
+              p.jsx(Hr, {}),
+              p.jsxs(
+                Hr,
+                {
+                  tab: p.jsx('div', { style: { color: '#ffffff' }, children: '告警提示' }),
+                  children: [
+                    p.jsx('div', {
+                      className: 'cancel-list',
+                      children: p.jsx(Be, {
+                        style: { height: '400px', overflowY: 'auto', minHeight: '210px' },
+                        dataSource: t,
+                        renderItem: i =>
+                          p.jsx(Be.Item, {
+                            children: p.jsxs('div', {
+                              style: {
+                                width: '200px',
+                                padding: '10px',
+                                borderBottom: '1px solid #ffffff54',
+                              },
+                              children: [
+                                p.jsx('div', {
+                                  style: {
+                                    color: '#ffffff',
+                                    display: 'flex',
+                                    justifyContent: 'flex-end',
+                                    marginBottom: '5px',
+                                  },
+                                  children:
+                                    i?.is_read === 0 && p.jsx('div', { className: 'red-dot' }),
+                                }),
+                                p.jsx('div', {
+                                  className: 'left-warp',
+                                  style: { color: '#ffffff' },
+                                  children: i?.carriers_freq_change_msg,
+                                }),
+                                p.jsxs('div', {
+                                  className: 'flex-sb-center',
+                                  children: [
+                                    p.jsxs('div', {
+                                      style: { color: '#ffffff' },
+                                      children: [Ms(i?.update_time), '前'],
+                                    }),
+                                    p.jsx('div', {
+                                      className: 'flex-sb-center',
+                                      children: p.jsx('div', {
+                                        children: p.jsx(Ie, {
+                                          type: 'message',
+                                          onClick: () => this.readMsg(i),
+                                        }),
+                                      }),
+                                    }),
+                                  ],
+                                }),
+                              ],
+                            }),
+                          }),
+                      }),
+                    }),
+                    p.jsx('div', {
+                      style: {
+                        position: 'fixed',
+                        height: '40px',
+                        lineHeight: '40px',
+                        width: '210px',
+                        paddingRight: '15px',
+                        cursor: 'pointer',
+                      },
+                      className: 'global_msg_content',
+                      children: p.jsx('div', { onClick: this.allRead, children: '一键已读' }),
+                    }),
+                  ],
+                },
+                '1'
+              ),
+              p.jsx(Hr, {}),
+            ],
+          }),
+        });
+      }),
+      R(this, 'handleGetServiceMessage', () => {
+        this.clearTimeoutGetServiceMessage(),
+          Es({}, i => {
+            if ((this.handleTimeoutGetServiceMessage(), !i)) return;
+            const n = de(i, {});
+            if (n?.code === 1) {
+              const s = (n?.message || []).filter(l => !l.active);
+              this.setState({ programAlertNum: s.length });
+            }
+          });
+      }),
+      R(this, 'getNtpMessage', () => {
+        this.clearTimeoutGetNtpMessage();
+        const { dispatch: t } = this.props,
+          i = {};
+        if (this.ntpRequestCount % 30 === 0)
+          Ds(i, n => {
+            if ((this.handleTimeoutGetNtpMessage(), !n)) return;
+            const a = de(n, {});
+            if (a?.code === 1) {
+              const { now_time: s } = a.message;
+              this.setState({ ntpMessageData: a.message || {}, nowTime: s }),
+                t({ type: 'main/updateState', payload: { ntpMessageData: a.message || {} } });
+            }
+          });
+        else {
+          const { ntpMessageData: n, nowTime: a } = this.state,
+            s = Ns(a)
+              .add(1, 'seconds')
+              .format('YYYY-MM-DD HH:mm:ss');
+          this.setState({ nowTime: s, ntpMessageData: { ...n, now_time: n } }),
+            this.handleTimeoutGetNtpMessage();
+        }
+        this.ntpRequestCount += 1;
+      }),
+      R(this, 'handleTimeoutGetNtpMessage', () => {
+        It = setTimeout(() => {
+          this.getNtpMessage();
+        }, re.timerInterval1);
+      }),
+      R(this, 'clearTimeoutGetNtpMessage', () => {
+        It && (clearTimeout(It), (It = null));
+      }),
+      R(this, 'handleTimeoutGetServiceMessage', () => {
+        jt = setTimeout(() => {
+          this.handleGetServiceMessage();
+        }, 5e3);
+      }),
+      R(this, 'clearTimeoutGetServiceMessage', () => {
+        jt && (clearTimeout(jt), (jt = null));
+      }),
+      R(this, 'renderProgramAlert', () => {
+        const { programAlertNum: t } = this.state;
+        return t
+          ? p.jsxs('div', {
+              className: 'globalheader_bell_box',
+              style: { position: 'relative' },
+              children: [
+                p.jsx('div', { className: 'custom_badge', children: t }),
+                p.jsx(Oe, {
+                  title: '程序异常',
+                  children: p.jsx('span', {
+                    children: p.jsx(Ie, {
+                      type: 'bell',
+                      theme: 'fill',
+                      onClick: () => this.handleOpenSystemProgram(),
+                      style: { cursor: 'pointer', color: '#1890ff' },
+                    }),
+                  }),
+                }),
+              ],
+            })
+          : null;
+      }),
+      R(this, 'handleOpenSystemProgram', () => {
+        const { onMenuClick: t } = this.props;
+        t({ key: 'systemStatus' });
+      }),
+      R(this, 'handleLoginVisible', t => {
+        this.setState({ loginVisible: t });
+      }),
+      R(this, 'returnHidden', (t, i) => t?.find(n => n?.key === i)?.hidden === '0'),
+      R(this, 'getAllConfig', t => {
+        Ve(
+          {
+            net_id: 1,
+            session_id: 1,
+            Command: 'get_column_type_params',
+            params: { type: 'all_config_company_data' },
+          },
+          n => {
+            if (n.code === 0) {
+              const a = n?.data?.all_config_company_data || {},
+                s =
+                  a?.mainControl
+                    ?.map(c => ({ ...c, text: c.label, name: c.key }))
+                    ?.filter(c => c.hidden === '0') || [],
+                l = {
+                  allConfigCompanyData: a,
+                  couldChangeRfMod: this.returnHidden(a?.btnList, 'couldChangeRfMod'),
+                  offlineMode: this.returnHidden(a?.btnList, 'offlineMode'),
+                  syncInfo: this.returnHidden(a?.btnList, 'syncInfo'),
+                  EssInfoDisplay: this.returnHidden(a?.btnList, 'EssInfoDisplay'),
+                  haveSpectrumSweep: this.returnHidden(a?.btnList, 'haveSpectrumSweep'),
+                  IPFraInfoDisplay: this.returnHidden(a?.btnList, 'IPFraInfoDisplay'),
+                  frequencyShow: this.returnHidden(a?.btnList, 'frequencyShow'),
+                  adCardShow: this.returnHidden(a?.btnList, 'adCardShow'),
+                  adaptiveShow: this.returnHidden(a?.btnList, 'adaptiveShow'),
+                  netControlDemodulationShow: this.returnHidden(
+                    a?.btnList,
+                    'netControlDemodulationShow'
+                  ),
+                  columnSetting: this.returnHidden(a?.btnList, 'columnSetting'),
+                  vsatInfo: this.returnHidden(a?.btnList, 'vsatInfo'),
+                  higherConfig: this.returnHidden(a?.btnList, 'higherConfig'),
+                  averageDeep: this.returnHidden(a?.btnList, 'averageDeep'),
+                  spreadSpectrumShow: this.returnHidden(a?.btnList, 'spreadSpectrumShow'),
+                };
+              (t || re.isLocal) && (l.userMenu = s.reverse()),
+                this.props.dispatch({ type: 'main/updateLogin', payload: l });
+            } else H.error('获取数据失败');
+          }
+        );
+      }),
+      R(this, 'handleGetShowMenu', t => {
+        this.getAllConfig(t);
+      }),
+      R(this, 'handleSysRestart', () => {
+        Fr({
+          title: '是否重启',
+          okText: '是',
+          cancelText: '否',
+          onOk: () => {
+            ma({}, i => {
+              const n = de(i, {});
+              n?.code === 1 ? H.success('正在重启...') : H.error(n?.message || '重启失败');
+            });
+          },
+        });
+      }),
+      R(this, 'handleSysShutdown', () => {
+        Fr({
+          title: '是否关机',
+          okText: '是',
+          cancelText: '否',
+          onOk: () => {
+            va({}, i => {
+              const n = de(i, {});
+              n?.code === 1 ? H.success('正在关机...') : H.error(n?.message || '关机失败');
+            });
+          },
+        });
+      }),
+      R(this, 'resetNrf', () => {
+        Fr({
+          title: '确定要一键重启nrf系统吗？',
+          okText: '是',
+          cancelText: '否',
+          onOk: () => {
+            ya(null, t => {
+              t.code === 1 && H.success('重启成功！');
+            });
+          },
+        });
+      }),
+      R(this, 'renderMessageCard', () =>
+        p.jsx('span', { onClick: this.openMessageCard, children: this.renderMessageContent() })
+      ),
+      R(this, 'openMessageCard', () => {
+        this.setState({ isMessage: !0 });
+      }),
+      R(this, 'sendMessage', () => {
+        this.setState({ isSend: !0 });
+      }),
+      R(this, 'delMessage', t => {
+        const { messageData: i = [] } = this.state;
+        this.setState({ messageData: i?.filter(n => n.id !== t.id) }),
+          this.saveMesaageFetch(i?.filter(n => n.id !== t.id), 'del');
+      }),
+      R(this, 'saveMesaageFetch', (t, i) => {
+        const n = {
+          net_id: 1,
+          session_id: 1,
+          Command: 'set_column_type_params',
+          params: { type: 'all_message_data', config: JSON.stringify(t) },
+        };
+        Ve(n, a => {
+          const s = de(a, {});
+          s?.code === 0
+            ? (H.success(i ? '删除成功' : '留言成功'),
+              this.setState({ isSend: !1, messageValue: null }, this.getMesaageInter))
+            : H.error(s?.message || '留言失败');
+        });
+      }),
+      R(this, 'getMesaageInter', t => {
+        const { isCompany: i } = this.state;
+        this.enhancedRequestInstance ||
+          (this.enhancedRequestInstance = Gr(this.getMesaageFetch, aa, !0)),
+          i
+            ? this.enhancedRequestInstance.stop()
+            : this.enhancedRequestInstance.start(
+                n => {
+                  const a = n?.data?.all_message_data || [],
+                    s = { messageData: a };
+                  !oe.isEmpty(a) &&
+                    t === 'first' &&
+                    !oe.isEqual(this.state.messageData, a) &&
+                    (s.isMessage = !0),
+                    this.setState(s);
+                },
+                n => {
+                  console.log('外部获取到的请求失败结果:', n);
+                }
+              );
+      }),
+      R(this, 'getMesaageFetch', () =>
+        Ve({
+          net_id: 1,
+          session_id: 1,
+          Command: 'get_column_type_params',
+          params: { type: 'all_message_data' },
+        })
+      ),
+      R(this, 'renderMessageList', () => {
+        const { messageData: t = [], isLoginedFlag: i } = this.state;
+        return p.jsxs(p.Fragment, {
+          children: [
+            p.jsx('div', {
+              className: 'self-list',
+              children: p.jsx(Be, {
+                style: { border: '1px solid #fffefe24', height: '400px', overflowY: 'auto' },
+                dataSource: t,
+                itemLayout: 'horizontal',
+                bordered: !0,
+                renderItem: n =>
+                  p.jsx(Be.Item, {
+                    children: p.jsxs('div', {
+                      style: {
+                        borderBottom: '1px solid #fffefe24',
+                        width: '100%',
+                        paddingLeft: '5px',
+                        paddingRight: '5px',
+                      },
+                      children: [
+                        p.jsx('div', {
+                          style: { fontSize: '15px', color: '#fff7f7' },
+                          children: n.value,
+                        }),
+                        p.jsxs('div', {
+                          style: { color: '#8f989ca1' },
+                          children: [
+                            'ip: ',
+                            n.ip,
+                            p.jsx('span', { style: { marginLeft: '15px' }, children: n.time }),
+                            i
+                              ? p.jsx(Oe, {
+                                  title: '删除该条留言',
+                                  children: p.jsx(ro, {
+                                    title: '确定要删除该条留言吗?',
+                                    onConfirm: () => this.delMessage(n),
+                                    children: p.jsx(mn, {
+                                      style: { marginLeft: '15px', color: '#ff4747ba' },
+                                    }),
+                                  }),
+                                })
+                              : p.jsxs(Oe, {
+                                  title: '请先登录',
+                                  children: [
+                                    '  ',
+                                    p.jsx(mn, {
+                                      style: { marginLeft: '15px', color: '#ff4747ba' },
+                                    }),
+                                  ],
+                                }),
+                          ],
+                        }),
+                      ],
+                    }),
+                  }),
+              }),
+            }),
+            p.jsx('div', {
+              style: { textAlign: 'center' },
+              children: p.jsx(ba, {
+                style: { marginBottom: '10px', marginTop: '10px' },
+                type: 'primary',
+                onClick: this.sendMessage,
+                children: '发布留言',
+              }),
+            }),
+          ],
+        });
+      }),
+      R(this, 'handleSubmitMessage', () => {
+        const { messageValue: t, messageData: i = [] } = this.state,
+          n = this.props.hasLogined?.[0]?.client_ipaddr;
+        if (!t) return H.error('请填写完整');
+        this.saveMesaageFetch([{ ip: n, time: Rs(), value: t, id: no() }, ...i]);
+      }),
+      R(this, 'changeMessage', t => {
+        const i = t.target.value.trim();
+        this.setState({ messageValue: i });
+      }),
+      R(this, 'renderMessageContent', () => {
+        const { messageData: t = [] } = this.state,
+          i = t?.sort((n, a) => n?.time - a?.time);
+        return p.jsx('div', {
+          style: { display: 'flex', alignItems: 'center', paddingLeft: 6, paddingRight: 6 },
+          children: p.jsx('marquee', { scrollamount: '5', children: i?.[0]?.value || '' }),
+        });
+      }),
+      R(this, 'renderNoMessage', () => p.jsx(Oe, { title: '暂无留言， 点击留言' })),
+      (this.state = {
+        isList: !1,
+        isLoginedFlag: !1,
+        msgCount: 0,
+        programName: 'NRFLuxUI',
+        ntpMessageData: {},
+        nowTime: '',
+        loginVisible: !1,
+        messageData: [],
+        delayTime: '0ms',
+        isRemoveTokening: !1,
+        isCompany: this.props.location.pathname === '/companyMode',
+      }),
+      (this.ntpRequestCount = 0),
+      (this.msgRef = se.createRef()),
+      (this.enhancedRequestInstance = Gr(this.getMesaageFetch, aa, !0));
+  }
+  componentDidMount() {}
+  componentWillUnmount() {
+    this.triggerResizeEvent.cancel(),
+      Aa.remove(this),
+      document.removeEventListener('mousedown', this.handleClickOutside),
+      this.freqInfoWs && this.freqInfoWs.onCloseWs(),
+      this.handleClearTimeoutCheckToken(),
+      this.clearTimeoutGetServiceMessage(),
+      this.clearTimeoutGetNtpMessage(),
+      this.handleCleaarDelayTimeTimer(),
+      this.enhancedRequestInstance &&
+        (this.enhancedRequestInstance.stop(), (this.enhancedRequestInstance = null));
+  }
+  updateSize() {
+    const r = { width: window.innerWidth };
+    this.setState(r);
+  }
+  componentWillReceiveProps(r) {
+    const t = {};
+    if (r.location.pathname !== this.props.location.pathname) {
+      const i = r.location.pathname === '/companyMode';
+      this.setState({ isCompany: i }, this.getMesaageInter);
+    }
+    oe.isEmpty(t) || this.setState(t);
+  }
+  isUseSearchMenu() {
+    return re.header.useSearchMenu;
+  }
+  triggerResizeEvent() {
+    const r = document.createEvent('HTMLEvents');
+    r.initEvent('resize', !0, !1), window.dispatchEvent(r);
+  }
+  getUserIcon() {
+    const { settings: r, onMenuClick: t } = this.props,
+      { isLoginedFlag: i } = this.state;
+    return p.jsx(hu, { isLoginedFlag: i, userMenu: r.userMenu, onMenuClick: t });
+  }
+  render() {
+    const r = this.getUserIcon(),
+      { sendNetstationConfig: t } = this.props,
+      {
+        programAlertNum: i,
+        programName: n,
+        ntpMessageData: a,
+        nowTime: s,
+        loginVisible: l,
+        isMessage: c,
+        isSend: o,
+        messageData: h = [],
+        messageValue: g,
+        delayTime: d,
+        isCompany: f,
+        isSpectrumIng: m,
+        freqTipMsg: y,
+        loadFreq: w,
+      } = this.state,
+      C = this.context?.theme?.custom || {},
+      j = C.headerBg || 'linear-gradient(to bottom, #164676, #2c73ba)',
+      S = C.headerBorderBg || 'linear-gradient(to bottom, #0e3f71, #0a3f74,#024378)',
+      u =
+        C.headerBorderImage ||
+        'linear-gradient(to right, #2c8cbd, #2272a3, #4777a0, #3e5e85, #253b60, #0b1b3c) 1 stretch',
+      $ = C.textColor || '#ffffff';
+    let _ = '--',
+      v = '--';
+    if (s) {
+      const x = s.split(' ');
+      (_ = x[0]), (v = x[1]);
+    }
+    let b = '';
+    return (
+      a.b_switch && a.irigb ? (b = 'B码时间') : a.ntp_switch ? (b = 'NTP时间') : (b = '本地时间'),
+      p.jsx(p.Fragment, {
+        children: p.jsxs('div', {
+          className: 'global_header_content',
+          style: { width: '100%', display: 'flex' },
+          children: [
+            p.jsx('div', {
+              style: {
+                textAlign: 'center',
+                fontSize: '24px',
+                fontFamily: 'fantasy',
+                color: 'white',
+                padding: '0px 20px',
+                background: j,
+                backgroundRepeat: 'no-repeat',
+              },
+              children: n,
+            }),
+            p.jsxs('div', {
+              style: {
+                height: 40,
+                flex: 1,
+                display: 'flex',
+                alignItems: 'center',
+                borderBottom: '2px solid',
+                justifyContent: 'space-between',
+                background: S,
+                borderImage: u,
+              },
+              children: [
+                p.jsxs('div', {
+                  style: { display: 'flex', alignItems: 'center', marginLeft: '5%', color: $ },
+                  children: [
+                    p.jsx('div', {
+                      style: {
+                        width: 63,
+                        paddingLeft: 17,
+                        marginRight: 14,
+                        height: 14,
+                        lineHeight: '14px',
+                      },
+                      children: '1PPS',
+                    }),
+                    p.jsx('div', {
+                      style: {
+                        width: 63,
+                        paddingLeft: 17,
+                        marginRight: 14,
+                        height: 14,
+                        lineHeight: '14px',
+                      },
+                      children: '10M',
+                    }),
+                    b,
+                    p.jsxs('span', {
+                      className: 'time_color',
+                      style: { fontSize: 14, marginLeft: 10 },
+                      children: [_, ' ', v],
+                    }),
+                    String(t.isShowSystemDelay) === '1' &&
+                      p.jsx('span', {
+                        style: { fontSize: 14, marginLeft: 5, marginRight: 14 },
+                        children: p.jsxs('span', {
+                          children: [
+                            '系统延时: ',
+                            p.jsx('span', { className: 'time_color', children: d }),
+                          ],
+                        }),
+                      }),
+                  ],
+                }),
+                p.jsxs('div', {
+                  style: { display: 'flex', alignItems: 'center' },
+                  children: [
+                    !f &&
+                      p.jsx('div', {
+                        className: Qr.globalHeaderNotice,
+                        children: h?.length > 0 ? this.renderMessageCard() : this.renderNoMessage(),
+                      }),
+                    !f && this.renderMode(),
+                    !f && this.renderProgramAlert(),
+                    !f && r,
+                    f &&
+                      p.jsxs('div', {
+                        children: [
+                          p.jsx('span', {
+                            style: { color: $, marginRight: 20 },
+                            children: '厂商模式 ',
+                          }),
+                          p.jsx('img', { style: { width: 21, height: 21 }, src: Ll }),
+                        ],
+                      }),
+                  ],
+                }),
+              ],
+            }),
+            l &&
+              p.jsx(su, {
+                programAlertNum: i,
+                handleGetShowMenu: this.handleGetShowMenu,
+                modalVisible: l,
+                handleLogin: this.handleLogin,
+                handleModalVisible: this.handleLoginVisible,
+              }),
+            p.jsx(Pt, {
+              title: '留言板',
+              visible: c,
+              width: 650,
+              maxHeight: 450,
+              onCancel: () => this.setState({ isMessage: !1 }),
+              closable: !0,
+              noFooter: !0,
+              children: this.renderMessageList(),
+            }),
+            p.jsx(Pt, {
+              title: '留言',
+              visible: o,
+              width: 450,
+              maxHeight: 250,
+              onCancel: () => this.setState({ isSend: !1 }),
+              closable: !0,
+              onOk: this.handleSubmitMessage,
+              children: p.jsx(mu, { rows: 10, onChange: this.changeMessage, value: g }),
+            }),
+          ],
+        }),
+      })
+    );
+  }
+}),
+R(zr, 'contextType', rn),
+zr)),
+gu(
+  Fe.prototype,
+  'triggerResizeEvent',
+  [ia],
+  Object.getOwnPropertyDescriptor(Fe.prototype, 'triggerResizeEvent'),
+  Fe.prototype
+),
+Fe);
+function sa(e, r, t) {
+  return (
+    (r = yu(r)) in e
+      ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 })
+      : (e[r] = t),
+    e
+  );
+}
+function yu(e) {
+  var r = bu(e, 'string');
+  return typeof r == 'symbol' ? r : r + '';
+}
+function bu(e, r) {
+  if (typeof e != 'object' || !e) return e;
+  var t = e[Symbol.toPrimitive];
+  if (t !== void 0) {
+    var i = t.call(e, r);
+    if (typeof i != 'object') return i;
+    throw new TypeError('@@toPrimitive must return a primitive value.');
+  }
+  return (r === 'string' ? String : Number)(e);
+}
+class _u extends se.PureComponent {
+  constructor(...r) {
+    super(...r),
+      sa(this, 'state', { component: null }),
+      sa(this, 'checkIsInstantiation', t => (se.isValidElement(t) ? () => t : t));
+  }
+  componentDidMount() {
+    this.setRenderComponent(this.props);
+  }
+  componentWillReceiveProps(r) {
+    this.setRenderComponent(r);
+  }
+  setRenderComponent(r) {
+    const t = this.checkIsInstantiation(r.ok),
+      i = this.checkIsInstantiation(r.error);
+    r.promise
+      .then(() => {
+        this.setState({ component: t });
+      })
+      .catch(() => {
+        this.setState({ component: i });
+      });
+  }
+  render() {
+    const r = this.state.component;
+    return r
+      ? p.jsx(r, { ...this.props })
+      : p.jsx('div', {
+          style: {
+            width: '100%',
+            height: '100%',
+            margin: 'auto',
+            paddingTop: 50,
+            textAlign: 'center',
+          },
+          children: p.jsx(Jr, { size: 'large' }),
+        });
+  }
+}
+function Su(e) {
+  return !!e && (typeof e == 'object' || typeof e == 'function') && typeof e.then == 'function';
+}
+const xu = (e, r, t, i) => {
+    if (!r) return i;
+    if (re.isDesktop || r.indexOf(re.passportRoot) === 0) return t;
+    if (!e) return i;
+    if (typeof e == 'string') return e === r ? t : i;
+    if (Su(e)) return p.jsx(_u, { ok: t, error: i, promise: e });
+    if (typeof e == 'function')
+      try {
+        return e(r) ? t : i;
+      } catch (n) {
+        throw n;
+      }
+    for (const n in e) if (n === r) return t;
+    return i;
+  },
+  wu = (e, r, t) => xu(e, ke.current(), r, t);
+var oa, la;
+let Cu = ((oa = Et.connect(({ main: e }) => ({ settings: e.settings }))),
+oa(
+  (la = class extends se.Component {
+    render() {
+      const { children: r, settings: t, noMatch: i = null } = this.props,
+        n = typeof r > 'u' ? null : r;
+      return wu(t ? t.acls : null, n, i);
+    }
+  })
+) || la);
+class $u extends se.Component {
+  render() {
+    const { component: r, render: t, code: i, ...n } = this.props,
+      a = this.props.redirectPath || re.loginPath;
+    return p.jsx(Cu, {
+      noMatch: p.jsx(At.Route, { ...n, render: () => p.jsx(At.Redirect, { to: { pathname: a } }) }),
+      children: p.jsx(At.Route, { ...n, render: s => (r ? p.jsx(r, { code: i, ...s }) : t(s)) }),
+    });
+  }
+}
+const ju = !1;
+ke.component('dev', 'app_setting');
+ke.component('system', 'system_core_conf');
+const Iu = { m: ke.component('dev', 'stats'), restfulApi: !1, mock: ju };
+async function Au(e, r) {
+  return qs({ url: ke.ops({ op: 'new_device_restart', ...Iu }), method: 'post', body: e }, null, r);
+}
+var ca, ua, Br;
+function He(e, r, t) {
+  return (
+    (r = Pu(r)) in e
+      ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 })
+      : (e[r] = t),
+    e
+  );
+}
+function Pu(e) {
+  var r = Ou(e, 'string');
+  return typeof r == 'symbol' ? r : r + '';
+}
+function Ou(e, r) {
+  if (typeof e != 'object' || !e) return e;
+  var t = e[Symbol.toPrimitive];
+  if (t !== void 0) {
+    var i = t.call(e, r);
+    if (typeof i != 'object') return i;
+    throw new TypeError('@@toPrimitive must return a primitive value.');
+  }
+  return (r === 'string' ? String : Number)(e);
+}
+let Mu = ((ca = Io.create()),
+ca(
+  (ua = ((Br = class extends se.Component {
+    constructor(r) {
+      super(r),
+        He(this, 'setSelectedTheme', t => {
+          this.setState({ selectedTheme: t });
+        }),
+        He(this, 'onOk', () => {
+          const { selectedTheme: t } = this.state,
+            { handleModalVisible: i } = this.props;
+          this.context?.setTheme && t !== this.context.themeName && this.context.setTheme(t), i(!1);
+        }),
+        He(this, 'handleThemeChange', t => {
+          this.setState({ selectedTheme: t.target.value });
+        }),
+        He(this, 'handleRenderContent', () => {
+          const { selectedTheme: t } = this.state,
+            i = [
+              { label: '蓝色深色', value: 'dark' },
+              { label: '白色浅色', value: 'light' },
+              { label: '科技黑', value: 'techBlack' },
+            ];
+          return p.jsxs('div', {
+            className: 'userConfig',
+            style: { padding: '20px 0' },
+            children: [
+              p.jsx('div', {
+                style: { marginBottom: 8, color: 'var(--ant-color-text)' },
+                children: '主题风格',
+              }),
+              p.jsx(Ne.Group, {
+                value: t,
+                onChange: this.handleThemeChange,
+                optionType: 'button',
+                buttonStyle: 'solid',
+                children: i.map(n =>
+                  p.jsx(Ne.Button, { value: n.value, children: n.label }, n.value)
+                ),
+              }),
+            ],
+          });
+        }),
+        (this.state = { selectedTheme: 'dark' }),
+        (this.pageTitle = '偏好设置');
+    }
+    componentDidMount() {
+      this.context?.themeName && this.setState({ selectedTheme: this.context.themeName });
+    }
+    componentDidUpdate(r) {
+      this.props.modalVisible &&
+        !r.modalVisible &&
+        this.context?.themeName &&
+        this.setSelectedTheme(this.context.themeName);
+    }
+    render() {
+      const { modalVisible: r, handleModalVisible: t } = this.props;
+      return p.jsx(Pt, {
+        title: this.pageTitle,
+        visible: r,
+        maxWidth: 400,
+        maxHeight: 200,
+        style: { marginTop: 65 },
+        closable: !0,
+        onOk: this.onOk,
+        onCancel: () => t(!1),
+        children: this.handleRenderContent(),
+      });
+    }
+  }),
+  He(Br, 'contextType', rn),
+  Br))
+) || ua);
+function q(e, r, t) {
+  return (
+    (r = Eu(r)) in e
+      ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 })
+      : (e[r] = t),
+    e
+  );
+}
+function Eu(e) {
+  var r = Du(e, 'string');
+  return typeof r == 'symbol' ? r : r + '';
+}
+function Du(e, r) {
+  if (typeof e != 'object' || !e) return e;
+  var t = e[Symbol.toPrimitive];
+  if (t !== void 0) {
+    var i = t.call(e, r);
+    if (typeof i != 'object') return i;
+    throw new TypeError('@@toPrimitive must return a primitive value.');
+  }
+  return (r === 'string' ? String : Number)(e);
+}
+const { Content: Nu, Header: Ru } = Me,
+  Pe = tn.confirm;
+let da = null;
+const qu = re.modifyOptions,
+  Lu = { interval: 12e4, maxRetries: 20 };
+class os extends se.Component {
+  constructor(r) {
+    super(r),
+      q(this, 'syncConfig', () => {
+        if (!re.layout.changed) return;
+        const t = { ...re.layout },
+          { layout: i } = this.state,
+          n = { ...i };
+        for (const s in t) n[s] !== t[s] && (n[s] = t[s]);
+        this.getContentHeight(n) && ((re.layout.changed = !1), this.setState({ layout: n }));
+      }),
+      q(this, 'getDutiesList', () => {
+        this.props.dispatch({
+          type: 'witData/getDutiesList',
+          callback: t => {
+            t.data && (this.dutyData = t.data.data);
+          },
+        });
+      }),
+      q(this, 'getHwmIsDvbExist', () => {
+        Ts(null, t => {
+          const { code: i, data: n } = t || {};
+          if (i === -1 || !n) return !1;
+          this.props.dispatch({ type: 'main/updateState', payload: { isExist: n.is_exist === 1 } });
+        });
+      }),
+      q(this, 'handleGetInvertConfig', () => {
+        Ve(
+          {
+            net_id: 1,
+            session_id: 1,
+            Command: 'get_column_type_params',
+            params: { type: 'set_invert_count' },
+          },
+          i => {
+            let n = qu;
+            i?.code === 0 && (n = i.data?.set_invert_count || []),
+              this.props.dispatch({ type: 'main/updateState', payload: { invertOptions: n } });
+          }
+        );
+      }),
+      q(this, 'handleGetWorkModeConfig', () => {
+        (da = Gr(this.handleGetWorkModeConfigFetch, Lu, !0)),
+          da.start(
+            t => {
+              const i = de(t, {});
+              if (i?.code === 0) {
+                const n = de(i.data?.all_expert_work_mode_vsat, []);
+                this.props.dispatch({ type: 'main/updateState', payload: { expertNets: n } });
+              }
+            },
+            t => {
+              console.log('外部获取到的请求失败结果:', t);
+            }
+          );
+      }),
+      q(this, 'handleGetWorkModeConfigFetch', () =>
+        Ve({
+          net_id: 1,
+          session_id: 1,
+          Command: 'get_column_type_params',
+          params: { type: 'all_expert_work_mode_vsat' },
+        })
+      ),
+      q(this, 'handleCheckNrStatusInterIval', () => {
+        const { stepsCount: t } = this.state;
+        this.statusTimer = setInterval(() => {
+          ks(null, i => {
+            i.code === -1
+              ? this.props.layoutSpin || (this.setState({ isUpdate: !0 }), this.addServerTag())
+              : i.code === 0
+                ? this.props.layoutSpin &&
+                  t >= 22 &&
+                  (this.props.dispatch({ type: 'main/updateState', payload: { layoutSpin: !1 } }),
+                  this.setState({ isUpdate: !1 }),
+                  localStorage.setItem('serverTag', !1),
+                  window.reload())
+                : oe.isEmpty(i) &&
+                  this.props.layoutSpin &&
+                  (this.props.dispatch({ type: 'main/updateState', payload: { layoutSpin: !1 } }),
+                  this.setState({ isUpdate: !1 }),
+                  localStorage.setItem('serverTag', !1),
+                  window.reload());
+          });
+        }, re.timerInterval5);
+      }),
+      q(this, 'initUserTimer', () => {
+        this.clearUserTimer(),
+          (this.userStatusTimer = setInterval(() => {
+            this.props.dispatch({ type: 'main/getLoginStatus' });
+          }, re.timerInterval5));
+      }),
+      q(this, 'clearUserTimer', () => {
+        this.userStatusTimer && clearInterval(this.userStatusTimer);
+      }),
+      q(this, 'handleDownloadSdk', () => {
+        const t = Ws();
+        window.open(t);
+      }),
+      q(this, 'handleDownloadManual', () => {
+        const t = zs();
+        window.open(t);
+      }),
+      q(this, 'testIsOff', t => {
+        const i = { nrf: '重启nrf系统', off: '关机', restart: '重启' };
+        vn({ session_id: 1, Command: 'get_all_web_config', scope: 'all' }, a => {
+          Object.keys(a).length === 0
+            ? t !== 'off'
+              ? H.success(`${i[t]}成功, 即将重新加载页面`)
+              : H.success(`${i[t]}成功`)
+            : H.error(`${i[t]}失败`);
+        });
+      }),
+      q(this, 'handleSysShutdown', () => {
+        const t = this;
+        Pe({
+          title: '是否关机',
+          okText: '是',
+          cancelText: '否',
+          onOk: () => {
+            va({}, () => {
+              t.addServerTag(!0), H.success('关机成功');
+            });
+          },
+        });
+      }),
+      q(this, 'addServerTag', t => {
+        t ||
+          (this.props.dispatch({ type: 'main/updateState', payload: { layoutSpin: !0 } }),
+          this.getRestartProgress()),
+          localStorage.setItem('serverTag', !0);
+      }),
+      q(this, 'getRestartProgress', () => {
+        const { layoutSpin: t } = this.props;
+        if (!t) {
+          this.setState({ progressWidth: 0, stepItem: null, stepsCount: 0 });
+          return;
+        }
+        Fs({}, i => {
+          const n = i?.recent_restarts?.[0],
+            a = n?.steps[n?.steps?.length - 1],
+            s = n?.overall_status === 'in_progress',
+            l = n?.end_time,
+            c = n?.step_count || 0;
+          if (!s && !this.startUpRef.current) {
+            setTimeout(this.getRestartProgress, 3e3);
+            return;
+          }
+          this.startUpRef.current || (this.startUpRef.current = !0);
+          const o = (100 / 22) * n.step_count;
+          this.setState({
+            progressWidth: o,
+            stepItem: a,
+            stepsCount: c,
+            otherUpdateVersion: n?.version,
+          }),
+            l && c >= 22
+              ? ((this.startUpRef.current = !1), window.location.reload())
+              : setTimeout(this.getRestartProgress, 3e3);
+        });
+      }),
+      q(this, 'handleSysRestart', () => {
+        const t = this;
+        Pe({
+          title: '是否重启',
+          okText: '是',
+          cancelText: '否',
+          onOk: () => {
+            ma({}, () => {
+              t.addServerTag(), t.testIsOff('restart');
+            });
+          },
+        });
+      }),
+      q(this, 'resetNrf', () => {
+        const t = this;
+        Pe({
+          title: '确定要一键重启nrf系统吗？',
+          okText: '是',
+          cancelText: '否',
+          onOk: () => {
+            ya(null, () => {
+              t.addServerTag(), t.testIsOff('nrf');
+            });
+          },
+        });
+      }),
+      q(this, 'getFillData', () => {
+        Hs(null, t => {
+          const i = de(t, {});
+          if (i.code === 0) {
+            const n = de(i.data, []),
+              a = {};
+            for (const s of n) a[s.path_name] = s.path;
+            this.setState({ pathMapping: a });
+          }
+        });
+      }),
+      q(this, 'handleMenuClick', t => {
+        const { dispatch: i, globalNodeType: n } = this.props,
+          a = t.key;
+        if (a.startsWith('download_') && a.endsWith('_file')) {
+          const { pathMapping: s = {} } = this.state;
+          Qe(`http://${window.location.host}${s[a]}`, Xe(20));
+        } else
+          a === 'login'
+            ? this.handleDialogLoginVisible(!0)
+            : a === 'poweroff'
+              ? this.handleSysShutdown()
+              : a === 'reload'
+                ? this.handleSysRestart()
+                : a === 'resetAll'
+                  ? this.handleResetNetControl()
+                  : a === 'resetNrf'
+                    ? this.resetNrf()
+                    : a === 'changePassword'
+                      ? this.handleDialogChangePsswordVisible(!0)
+                      : a === 'logList'
+                        ? this.handleDialogLogListVisible(!0)
+                        : a === 'programZip'
+                          ? Qe(
+                              `http://${window.location.host}/yuantek_assets/sdk/sdk_demo.zip`,
+                              Xe(20)
+                            )
+                          : a === 'VSPClient'
+                            ? Qe('http://172.16.10.26/yuantek_assets/sdk/VSP_Client.zip', Xe(20))
+                            : a === 'userManaual'
+                              ? Qe(
+                                  `http://${
+                                    window.location.host
+                                  }/yuantek_assets/manual/usermanual.zip`,
+                                  Xe(20)
+                                )
+                              : a === 'versionFile'
+                                ? this.handleDialogversionFileVisible(!0)
+                                : a === 'versionManage'
+                                  ? window.open(`${window.location.origin}:5050/#/version`)
+                                  : a === 'inverterConfig'
+                                    ? this.handleDialoginverterConfigVisible(!0)
+                                    : a === 'systemSetting'
+                                      ? this.handleDialogsystemSettingVisible(!0)
+                                      : a === 'version'
+                                        ? this.handleDialogVersionVisible(!0)
+                                        : a === 'companyMode'
+                                          ? this.handleDialogCompanyModeVisible(!0)
+                                          : a === 'systemStatus'
+                                            ? this.handleDialogSystemStatusVisible(!0)
+                                            : a === 'debuggerDetail'
+                                              ? this.handleDialogDebuggerDetailVisible(!0)
+                                              : a === 'slotAllocation'
+                                                ? this.handleDialogSlotAllocationVisible(!0)
+                                                : a === 'password'
+                                                  ? this.handleDialogPasswordVisible(!0)
+                                                  : a === 'authorization_manage'
+                                                    ? this.handleDialogAuthorizationVisible(!0)
+                                                    : a === 'logout'
+                                                      ? i({ type: 'main/logout' })
+                                                      : [
+                                                          'softStart',
+                                                          'reload',
+                                                          'powerOff',
+                                                        ].includes(a)
+                                                        ? this.onSettingMenuClick(a)
+                                                        : a === 'download_operation_manual'
+                                                          ? this.handleDownloadManual()
+                                                          : a === 'download_client'
+                                                            ? this.handleDownloadSdk()
+                                                            : a === 'networkState'
+                                                              ? this.handleDialogNetworkStatus(!0)
+                                                              : a === 'networkComposition'
+                                                                ? this.handleUpdateStateValue(
+                                                                    !0,
+                                                                    'netWorkCompositionModalVisible'
+                                                                  )
+                                                                : a === 'matrixGain'
+                                                                  ? this.handleOpenMatrixGain(!0)
+                                                                  : a === 'setMaster'
+                                                                    ? this.setNodeTypeReq('master')
+                                                                    : a === 'disslove'
+                                                                      ? this.dissloveFn()
+                                                                      : a === 'joinCluster'
+                                                                        ? this.setState({
+                                                                            showNodeTypeSetDialog: !0,
+                                                                          })
+                                                                        : a === 'userConfig'
+                                                                          ? this.handleDialogUserConfigVisible(
+                                                                              !0
+                                                                            )
+                                                                          : this.productFeatures &&
+                                                                            this.productFeatures.handleMenuClick(
+                                                                              a
+                                                                            );
+      }),
+      q(this, 'setNodeTypeReq', t => {
+        Pe({
+          title: '是否设置为主节点',
+          okText: '确认',
+          cancelText: '取消',
+          onOk: () => {
+            Bs({ command: 'set', type: t }, n => {
+              n.code === 0
+                ? (H.success('设置成功'), setTimeout(() => window.location.reload(), 600))
+                : H.error(n.message || '设置节点类型失败');
+            });
+          },
+        });
+      }),
+      q(this, 'dissloveFn', () => {
+        Pe({
+          title: '是否解散集群',
+          okText: '确认',
+          cancelText: '取消',
+          onOk: () => {
+            Vs({ command: 'del_all' }, i => {
+              i.code === 0
+                ? (H.success('解散集群成功'), setTimeout(() => window.location.reload(), 600))
+                : H.error(i.message || '解散集群失败');
+            });
+          },
+        });
+      }),
+      q(this, 'joinClusterMasterFn', t => {
+        const i = { ...t, rf_list: t.rf_list ? t.rf_list?.split(',').map(n => Number(n)) : [] };
+        this.setState({ submitNodeSetLoading: !0 }),
+          Gs(i, n => {
+            const a = { submitNodeSetLoading: !1 };
+            n.code === 0
+              ? (H.success('加入集群成功'),
+                (a.showNodeTypeSetDialog = !1),
+                window.location.reload())
+              : H.error(n.message || '加入集群失败'),
+              this.setState(a);
+          });
+      }),
+      q(this, 'renderNodeSet', () => {
+        const { submitNodeSetLoading: t } = this.state;
+        return p.jsxs(te, {
+          labelCol: { span: 8 },
+          wrapperCol: { span: 12 },
+          onFinish: this.joinClusterMasterFn,
+          style: { marginTop: 24 },
+          initialValues: { slave_ip: re.isLocal ? re.localTestUrl : window.location.host },
+          children: [
+            p.jsx(te.Item, {
+              label: '主节点IP',
+              name: 'master_node_ip',
+              rules: [
+                { required: !0 },
+                { pattern: new RegExp(ipReg), message: '请输正确的IP格式' },
+              ],
+              children: p.jsx(he, {}),
+            }),
+            p.jsx(te.Item, {
+              label: '当前节点IP',
+              name: 'slave_ip',
+              rules: [
+                { required: !0 },
+                { pattern: new RegExp(ipReg), message: '请输正确的IP格式' },
+              ],
+              children: p.jsx(he, { disabled: !0 }),
+            }),
+            p.jsx(te.Item, {
+              label: 'RF',
+              name: 'rf_list',
+              rules: [
+                { pattern: new RegExp(/^(\d+(,\d+)*)?$/), message: '必须以,隔开且不能用空格' },
+              ],
+              children: p.jsx(he, {}),
+            }),
+            p.jsx(te.Item, {
+              label: '用户名',
+              name: 'username',
+              rules: [{ required: !0 }],
+              children: p.jsx(he, {}),
+            }),
+            p.jsx(te.Item, {
+              label: '密码',
+              name: 'password',
+              rules: [{ required: !0 }],
+              children: p.jsx(he.Password, {}),
+            }),
+            p.jsx(te.Item, {
+              wrapperCol: { offset: 12 },
+              children: p.jsx(ba, {
+                loading: t,
+                type: 'primary',
+                htmlType: 'submit',
+                children: '确定',
+              }),
+            }),
+          ],
+        });
+      }),
+      q(this, 'handleOpenMatrixGain', t => {
+        this.setState({ matrixGainVisible: t });
+      }),
+      q(this, 'renderMatrixGain', () => {
+        const { matrixGainVisible: t } = this.state;
+        return t
+          ? p.jsx(MatrixGainControl, { handleVisible: this.handleOpenMatrixGain, visible: t })
+          : null;
+      }),
+      q(this, 'onSettingMenuClick', t => {
+        switch (t) {
+          case 'softStart':
+            this.setSystemSetting('device_new_soft_restart');
+            break;
+          case 'reload':
+            this.setSystemSetting('device_new_restart');
+            break;
+          case 'powerOff':
+            this.setSystemSetting('device_new_poweroff');
+            break;
+        }
+      }),
+      q(this, 'getNetListData', () => {
+        vn({ session_id: 1, Command: 'get_all_web_config', scope: 'all' }, i => {
+          const n = de(i, {});
+          if (n?.code === 0) {
+            const { data: a = [] } = n;
+            this.setState({ netList: a });
+            const s =
+              a.map(l => ({
+                hidden: l.wk_type === 4 ? '1' : '0',
+                config_name: l.config_name,
+                vsat_id: l.vsat_id,
+                wk_type: l.wk_type,
+              })) || [];
+            this.props.dispatch({
+              type: 'main/updateState',
+              payload: { configAllNetList: s, allNetList: a, allAdPort: n.all_ad_port_list || [] },
+            });
+          }
+        });
+      }),
+      q(this, 'handleResetNetControl', () => {
+        const { netList: t = [] } = this.state;
+        if (oe.isEmpty(t)) return H.error('重置失败');
+        const n = {
+          net_id: 1,
+          session_id: 1,
+          Command: 'free_device_resource',
+          function_type: 'del',
+          scope: 'all',
+          params: { vsat_id: t.map(a => Number(a.vsat_id)) },
+        };
+        Pe({
+          title: '是否一键重置所有网控',
+          okText: '是',
+          cancelText: '否',
+          onOk: () => {
+            Us(n, a => {
+              const s = de(a, {});
+              s?.code === 0
+                ? (H.success('重置成功'),
+                  setTimeout(() => {
+                    window.location.reload();
+                  }, re.timerInterval1))
+                : H.error(s?.message || '重置失败');
+            });
+          },
+        });
+      }),
+      q(this, 'setSystemSetting', t => {
+        const i = {
+          device_new_soft_restart: '软启动',
+          device_new_restart: '重启',
+          device_new_poweroff: '关机',
+        };
+        Pe({
+          title: `是否${i[t]}？`,
+          okText: '确定',
+          cancelText: '取消',
+          onOk: () => {
+            H.info(`即将${i[t]}，请稍后`),
+              Au({ type: t }, n => {
+                n && n.success
+                  ? H.success(n.message || `${i[t]}成功`)
+                  : H.error(n && n.message ? n.message : `${i[t]}失败`);
+              });
+          },
+        });
+      }),
+      q(this, 'restart', t => {
+        const { dispatch: i } = this.props,
+          n = t === 'reload' ? '是否重启设备？' : '是否关机？',
+          a = t === 'reload' ? 'device_restart' : 'device_poweroff';
+        Pe({
+          title: n,
+          okText: '确定',
+          cancelText: '取消',
+          onOk() {
+            H.info('即将重启，请稍后'), i({ type: 'main/setDevice', payload: { type: a } });
+          },
+        });
+      }),
+      q(this, 'handleIconClick', t => {
+        t.currentTarget.getAttribute('tag') === 'entry' && this.hideEntryDialog(!0);
+      }),
+      q(this, 'getDialogComponent', (t, i) => {
+        if (!t || !i) return [];
+        let n = [];
+        for (const a in t) {
+          if (a.indexOf(':') === -1 && a === i) return (n = [t[a]]), [t[a]];
+          if (a.indexOf(':') > -1 && i.indexOf(a.split(':')[0]) > -1) {
+            const s = i.split('/');
+            return (n = [t[a], s[s.length - 1]]), [t[a], s[s.length - 1]];
+          }
+        }
+        return n;
+      }),
+      q(this, 'updateSourceData', (t, i) => {
+        const n = oe.cloneDeep(t),
+          a = [],
+          s = re.menuConf.display[i || 'default'] || {},
+          { type: l = 'include', paths: c = [] } = s,
+          o = l === 'include';
+        return (
+          n.forEach(h => {
+            (c.indexOf(h.path) === -1) !== o && a.push(h);
+          }),
+          a
+        );
+      }),
+      q(this, 'handleDialogLoginVisible', t => {
+        this.setState({ dialogLoginVisible: !!t });
+      }),
+      q(this, 'handleDialogPasswordVisible', t => {
+        this.setState({ dialogPasswordVisible: !!t });
+      }),
+      q(this, 'handleDialogCompanyModeVisible', t => {
+        this.setState({ dialogCompanyModeVisible: !!t });
+      }),
+      q(this, 'handleDialogSlotAllocationVisible', t => {
+        this.setState({ slotAllocationVisible: !!t });
+      }),
+      q(this, 'handleDialogSystemStatusVisible', t => {
+        this.setState({ systemStatusVisible: !!t }),
+          t || this.props.dispatch({ type: 'main/updateState', payload: { clusterRow: null } });
+      }),
+      q(this, 'handleDialogDebuggerDetailVisible', t => {
+        this.setState({ debuggerDetailVisible: !!t });
+      }),
+      q(this, 'handleDialoginverterConfigVisible', t => {
+        this.setState({ inverterConfigVisible: !!t });
+      }),
+      q(this, 'handleDialogversionFileVisible', t => {
+        this.setState({ versionFile: !!t });
+      }),
+      q(this, 'handleDialogChangePsswordVisible', t => {
+        this.setState({ changePsswordVisible: !!t });
+      }),
+      q(this, 'handleDialogLogListVisible', t => {
+        this.setState({ logListVisible: !!t });
+      }),
+      q(this, 'handleDialogsystemSettingVisible', t => {
+        this.setState({ systemSettingVisible: !!t });
+      }),
+      q(this, 'handleDialogVersionVisible', t => {
+        this.setState({ versionVisible: !!t });
+      }),
+      q(this, 'handleDialogAuthorizationVisible', t => {
+        this.setState({ authorizationVisible: !!t });
+      }),
+      q(this, 'handleDialogUserConfigVisible', t => {
+        this.setState({ userConfigVisible: !!t });
+      }),
+      q(this, 'switchDataSource', () => {
+        this.productFeatures && this.productFeatures.switchDataSource();
+      }),
+      q(this, 'authorizedRouteCreator', t =>
+        p.jsx(
+          $u,
+          { path: t.path, component: t.component, exact: t.exact, redirectPath: re.loginPath },
+          t.key
+        )
+      ),
+      q(this, 'handleDialogNetworkStatus', t => {
+        this.setState({ networkVisible: !!t });
+      }),
+      q(this, 'handleUpdateStateValue', (t, i) => {
+        this.setState({ [i]: t });
+      }),
+      (this.state = {
+        layout: {},
+        dialogPasswordVisible: !1,
+        authorizationVisible: !1,
+        slotAllocationVisible: !1,
+        systemStatusVisible: !1,
+        debuggerDetailVisible: !1,
+        netList: [],
+        networkVisible: !1,
+        netWorkCompositionModalVisible: !1,
+        matrixGainVisible: !1,
+        showNodeTypeSetDialog: !1,
+        userConfigVisible: !1,
+      }),
+      (this.showlicenceInfo = !0),
+      (this.showHandoverRemind = !0),
+      (this.dutyData = []),
+      (this.startUpRef = se.createRef(null));
+  }
+  removeRootBorder() {
+    if (window.yuantek) return;
+    let r = document.querySelector('.root-border-top');
+    r && (r.style.border = '0px'),
+      (r = document.querySelector('.root-border')),
+      r && (r.style.border = '0px'),
+      (r = document.querySelector('.root-border-bottom')),
+      r && (r.style.border = '0px');
+  }
+  componentDidMount() {}
+  componentWillReceiveProps(r) {
+    !oe.isEqual(this.props.clusterRow, r.clusterRow) &&
+      r.clusterRow &&
+      this.setState({ systemStatusVisible: !0 });
+  }
+  componentDidUpdate(r) {
+    this.props.user?.isLogined !== r.user?.isLogined &&
+      (this.props.user?.isLogined ? this.initUserTimer() : this.clearUserTimer());
+  }
+  componentWillUnmount() {
+    Aa.remove(this), clearInterval(this.timer), this.clearUserTimer();
+  }
+  getContentHeight(r) {
+    const t = io.getBoundingRectById('content-scroll');
+    if (!t) return 0;
+    let i = re.iframeOffset;
+    return (
+      i === 0 && !(r || this.state.layout).noHeader && (i += t.y || t.top || 78),
+      document.body.clientHeight - i
+    );
+  }
+  getLayoutMargin() {
+    if (re.iframeOffset) return '0';
+    const { layout: r } = this.state;
+    if (r) {
+      if (r.margin) return r.margin;
+      if (r.noMargin) return '0';
+      if (r.noFooter) return '10px 8px 0px';
+    }
+    return '8px 8px 8px';
+  }
+  renderContent() {
+    const { routerData: r } = this.props,
+      t = Ls(ke.rootComponent(), r);
+    return p.jsx(At.Switch, { children: t.map(this.authorizedRouteCreator) });
+  }
+  render() {
+    const {
+      location: r,
+      settings: t,
+      dispatch: i,
+      hasLogined: n,
+      clusterRow: a,
+      selectedTheme: s,
+      loginFlag: l,
+      sendNetstationConfig: c,
+    } = this.props;
+    this.handleDialogLoginVisible,
+      this.handleDialogPasswordVisible,
+      this.handleDialogAuthorizationVisible,
+      this.handleDialogSlotAllocationVisible,
+      this.handleDialogCompanyModeVisible,
+      this.handleDialogSystemStatusVisible,
+      this.handleDialogNetworkStatus,
+      this.handleDialogDebuggerDetailVisible,
+      this.handleDialoginverterConfigVisible,
+      this.handleDialogsystemSettingVisible,
+      this.handleDialogChangePsswordVisible,
+      this.handleDialogVersionVisible,
+      this.handleDialogLogListVisible;
+    const { stepItem: o, progressWidth: h, stepsCount: g, otherUpdateVersion: d } = this.state,
+      f = { loginFlag: l, hasLogined: n, settings: t, selectedTheme: s, sendNetstationConfig: c },
+      m = p.jsx(Me, {
+        children: p.jsxs(Me, {
+          children: [
+            p.jsx(Ru, {
+              style: { padding: 0 },
+              ref: y => {
+                this.header = y;
+              },
+              children: p.jsx(vu, {
+                ...f,
+                location: r,
+                onMenuClick: this.handleMenuClick,
+                dispatch: this.props.dispatch,
+              }),
+            }),
+            p.jsx(Nu, { style: { height: 'calc(100vh - 50px)' }, children: this.renderContent() }),
+          ],
+        }),
+      });
+    return p.jsx(Sl, {
+      title: `${t.productName}`,
+      children: p.jsx(ql.ContainerQuery, {
+        query: re.screenMediaList,
+        children: y =>
+          p.jsxs('div', {
+            className: le(y),
+            children: [
+              m,
+              p.jsx(Mu, {
+                isModal: !0,
+                modalVisible: this.state.userConfigVisible,
+                handleModalVisible: this.handleDialogUserConfigVisible,
+              }),
+            ],
+          }),
+      }),
+    });
+  }
+}
+q(os, 'childContextTypes', { location: yn.object, breadcrumbNameMap: yn.object });
+const td = Et.connect(({ main: e }) => ({
+  user: e.user,
+  layoutSpin: e.layoutSpin,
+  settings: e.settings || {},
+  collapsed: e ? e.collapsed : !0,
+  globalNodeType: e.globalNodeType,
+  clusterRow: e.clusterRow,
+  loginFlag: e.loginFlag,
+  hasLogined: e.hasLogined,
+  selectedTheme: e.selectedTheme,
+  sendNetstationConfig: e.sendNetstationConfig || {},
+}))(os);
+export { td as default };

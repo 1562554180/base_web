@@ -1,0 +1,50 @@
+define([
+  'exports',
+  './defined-30a32f90',
+  './Math-fbd31710',
+  './defaultValue-5903a66b',
+  './Cartesian2-06dac25b',
+  './defineProperties-deb3db60',
+], function(e, n, t, i, d, a) {
+  'use strict';
+  function u(e) {
+    (this._ellipsoid = i.defaultValue(e, d.Ellipsoid.WGS84)),
+      (this._semimajorAxis = this._ellipsoid.maximumRadius),
+      (this._oneOverSemimajorAxis = 1 / this._semimajorAxis);
+  }
+  a.defineProperties(u.prototype, {
+    ellipsoid: {
+      get: function() {
+        return this._ellipsoid;
+      },
+    },
+  }),
+    (u.mercatorAngleToGeodeticLatitude = function(e) {
+      return t.BMMath.PI_OVER_TWO - 2 * Math.atan(Math.exp(-e));
+    }),
+    (u.geodeticLatitudeToMercatorAngle = function(e) {
+      u.MaximumLatitude < e
+        ? (e = u.MaximumLatitude)
+        : e < -u.MaximumLatitude && (e = -u.MaximumLatitude);
+      var t = Math.sin(e);
+      return 0.5 * Math.log((1 + t) / (1 - t));
+    }),
+    (u.MaximumLatitude = u.mercatorAngleToGeodeticLatitude(Math.PI)),
+    (u.prototype.project = function(e, t) {
+      var i = this._semimajorAxis,
+        a = e.longitude * i,
+        o = u.geodeticLatitudeToMercatorAngle(e.latitude) * i,
+        r = e.height;
+      return n.defined(t) ? ((t.x = a), (t.y = o), (t.z = r), t) : new d.Cartesian3(a, o, r);
+    }),
+    (u.prototype.unproject = function(e, t) {
+      var i = this._oneOverSemimajorAxis,
+        a = e.x * i,
+        o = u.mercatorAngleToGeodeticLatitude(e.y * i),
+        r = e.z;
+      return n.defined(t)
+        ? ((t.longitude = a), (t.latitude = o), (t.height = r), t)
+        : new d.Cartographic(a, o, r);
+    }),
+    (e.WebMercatorProjection = u);
+});

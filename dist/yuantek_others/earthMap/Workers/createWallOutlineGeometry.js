@@ -1,0 +1,179 @@
+define([
+  './defined-30a32f90',
+  './Math-fbd31710',
+  './freezeObject-4d675126',
+  './defaultValue-5903a66b',
+  './Cartesian2-06dac25b',
+  './defineProperties-deb3db60',
+  './Transforms-62d2509c',
+  './RuntimeError-98ac9e82',
+  './WebGLConstants-deedc028',
+  './ComponentDatatype-30a05127',
+  './GeometryAttribute-b6f01f29',
+  './when-1faa3867',
+  './GeometryAttributes-38e93c79',
+  './IndexDatatype-a3dd2038',
+  './IntersectionTests-dd48299d',
+  './Plane-19a62994',
+  './EllipsoidTangentPlane-3eacb5a3',
+  './EllipsoidRhumbLine-62acd3ce',
+  './PolygonPipeline-3dd0399b',
+  './EllipsoidGeodesic-edb379ae',
+  './PolylinePipeline-93ffdac4',
+  './WallGeometryLibrary-d8bb5331',
+], function(k, G, e, m, L, i, x, t, a, T, V, n, D, I, r, o, s, l, d, u, p, M) {
+  'use strict';
+  var S = new L.Cartesian3(),
+    B = new L.Cartesian3();
+  function f(e) {
+    var i = (e = m.defaultValue(e, m.defaultValue.EMPTY_OBJECT)).positions,
+      t = e.maximumHeights,
+      a = e.minimumHeights,
+      n = m.defaultValue(e.granularity, G.BMMath.RADIANS_PER_DEGREE),
+      r = m.defaultValue(e.ellipsoid, L.Ellipsoid.WGS84);
+    (this._positions = i),
+      (this._minimumHeights = a),
+      (this._maximumHeights = t),
+      (this._granularity = n),
+      (this._ellipsoid = L.Ellipsoid.clone(r)),
+      (this._workerName = 'createWallOutlineGeometry');
+    var o = 1 + i.length * L.Cartesian3.packedLength + 2;
+    k.defined(a) && (o += a.length),
+      k.defined(t) && (o += t.length),
+      (this.packedLength = o + L.Ellipsoid.packedLength + 1);
+  }
+  f.pack = function(e, i, t) {
+    var a;
+    t = m.defaultValue(t, 0);
+    var n = e._positions,
+      r = n.length;
+    for (i[t++] = r, a = 0; a < r; ++a, t += L.Cartesian3.packedLength)
+      L.Cartesian3.pack(n[a], i, t);
+    var o = e._minimumHeights;
+    if (((r = k.defined(o) ? o.length : 0), (i[t++] = r), k.defined(o)))
+      for (a = 0; a < r; ++a) i[t++] = o[a];
+    var s = e._maximumHeights;
+    if (((r = k.defined(s) ? s.length : 0), (i[t++] = r), k.defined(s)))
+      for (a = 0; a < r; ++a) i[t++] = s[a];
+    return (
+      L.Ellipsoid.pack(e._ellipsoid, i, t), (i[(t += L.Ellipsoid.packedLength)] = e._granularity), i
+    );
+  };
+  var h = L.Ellipsoid.clone(L.Ellipsoid.UNIT_SPHERE),
+    c = {
+      positions: void 0,
+      minimumHeights: void 0,
+      maximumHeights: void 0,
+      ellipsoid: h,
+      granularity: void 0,
+    };
+  return (
+    (f.unpack = function(e, i, t) {
+      var a;
+      i = m.defaultValue(i, 0);
+      var n,
+        r,
+        o = e[i++],
+        s = new Array(o);
+      for (a = 0; a < o; ++a, i += L.Cartesian3.packedLength) s[a] = L.Cartesian3.unpack(e, i);
+      if (0 < (o = e[i++])) for (n = new Array(o), a = 0; a < o; ++a) n[a] = e[i++];
+      if (0 < (o = e[i++])) for (r = new Array(o), a = 0; a < o; ++a) r[a] = e[i++];
+      var l = L.Ellipsoid.unpack(e, i, h),
+        d = e[(i += L.Ellipsoid.packedLength)];
+      return k.defined(t)
+        ? ((t._positions = s),
+          (t._minimumHeights = n),
+          (t._maximumHeights = r),
+          (t._ellipsoid = L.Ellipsoid.clone(l, t._ellipsoid)),
+          (t._granularity = d),
+          t)
+        : ((c.positions = s),
+          (c.minimumHeights = n),
+          (c.maximumHeights = r),
+          (c.granularity = d),
+          new f(c));
+    }),
+    (f.fromConstantHeights = function(e) {
+      var i,
+        t,
+        a = (e = m.defaultValue(e, m.defaultValue.EMPTY_OBJECT)).positions,
+        n = e.minimumHeight,
+        r = e.maximumHeight,
+        o = k.defined(n),
+        s = k.defined(r);
+      if (o || s) {
+        var l = a.length;
+        (i = o ? new Array(l) : void 0), (t = s ? new Array(l) : void 0);
+        for (var d = 0; d < l; ++d) o && (i[d] = n), s && (t[d] = r);
+      }
+      return new f({ positions: a, maximumHeights: t, minimumHeights: i, ellipsoid: e.ellipsoid });
+    }),
+    (f.createGeometry = function(e) {
+      var i = e._positions,
+        t = e._minimumHeights,
+        a = e._maximumHeights,
+        n = e._granularity,
+        r = e._ellipsoid,
+        o = M.WallGeometryLibrary.computePositions(r, i, a, t, n, !1);
+      if (k.defined(o)) {
+        var s,
+          l = o.bottomPositions,
+          d = o.topPositions,
+          m = d.length,
+          u = 2 * m,
+          p = new Float64Array(u),
+          f = 0;
+        for (m /= 3, s = 0; s < m; ++s) {
+          var h = 3 * s,
+            c = L.Cartesian3.fromArray(d, h, S),
+            g = L.Cartesian3.fromArray(l, h, B);
+          (p[f++] = g.x),
+            (p[f++] = g.y),
+            (p[f++] = g.z),
+            (p[f++] = c.x),
+            (p[f++] = c.y),
+            (p[f++] = c.z);
+        }
+        var y = new D.GeometryAttributes({
+            position: new V.GeometryAttribute({
+              componentDatatype: T.ComponentDatatype.DOUBLE,
+              componentsPerAttribute: 3,
+              values: p,
+            }),
+          }),
+          v = u / 3;
+        u = 2 * v - 4 + v;
+        var E = I.IndexDatatype.createTypedArray(v, u),
+          _ = 0;
+        for (s = 0; s < v - 2; s += 2) {
+          var b = s,
+            H = s + 2,
+            C = L.Cartesian3.fromArray(p, 3 * b, S),
+            A = L.Cartesian3.fromArray(p, 3 * H, B);
+          if (!L.Cartesian3.equalsEpsilon(C, A, G.BMMath.EPSILON10)) {
+            var P = s + 1,
+              w = s + 3;
+            (E[_++] = P), (E[_++] = b), (E[_++] = P), (E[_++] = w), (E[_++] = b), (E[_++] = H);
+          }
+        }
+        return (
+          (E[_++] = v - 2),
+          (E[_++] = v - 1),
+          new V.Geometry({
+            attributes: y,
+            indices: E,
+            primitiveType: V.PrimitiveType.LINES,
+            boundingSphere: new x.BoundingSphere.fromVertices(p),
+          })
+        );
+      }
+    }),
+    function(e, i) {
+      return (
+        k.defined(i) && (e = f.unpack(e, i)),
+        (e._ellipsoid = L.Ellipsoid.clone(e._ellipsoid)),
+        f.createGeometry(e)
+      );
+    }
+  );
+});

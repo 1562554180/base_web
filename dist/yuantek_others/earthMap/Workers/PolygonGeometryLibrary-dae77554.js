@@ -1,0 +1,390 @@
+define([
+  'exports',
+  './defined-30a32f90',
+  './Math-fbd31710',
+  './defaultValue-5903a66b',
+  './Cartesian2-06dac25b',
+  './defineProperties-deb3db60',
+  './Transforms-62d2509c',
+  './ComponentDatatype-30a05127',
+  './GeometryAttribute-b6f01f29',
+  './GeometryAttributes-38e93c79',
+  './GeometryPipeline-b073abaf',
+  './IndexDatatype-a3dd2038',
+  './arrayRemoveDuplicates-7ced389a',
+  './ArcType-e3f6a1cc',
+  './EllipsoidRhumbLine-62acd3ce',
+  './PolygonPipeline-3dd0399b',
+], function(e, I, M, f, x, t, y, E, P, A, d, _, G, L, v, D) {
+  'use strict';
+  function S() {
+    (this._array = []), (this._offset = 0), (this._length = 0);
+  }
+  t.defineProperties(S.prototype, {
+    length: {
+      get: function() {
+        return this._length;
+      },
+    },
+  }),
+    (S.prototype.enqueue = function(e) {
+      this._array.push(e), this._length++;
+    }),
+    (S.prototype.dequeue = function() {
+      if (0 !== this._length) {
+        var e = this._array,
+          t = this._offset,
+          r = e[t];
+        return (
+          (e[t] = void 0),
+          10 < ++t && 2 * t > e.length && ((this._array = e.slice(t)), (t = 0)),
+          (this._offset = t),
+          this._length--,
+          r
+        );
+      }
+    }),
+    (S.prototype.peek = function() {
+      if (0 !== this._length) return this._array[this._offset];
+    }),
+    (S.prototype.contains = function(e) {
+      return -1 !== this._array.indexOf(e);
+    }),
+    (S.prototype.clear = function() {
+      this._array.length = this._offset = this._length = 0;
+    }),
+    (S.prototype.sort = function(e) {
+      0 < this._offset && ((this._array = this._array.slice(this._offset)), (this._offset = 0)),
+        this._array.sort(e);
+    });
+  var R = {
+      computeHierarchyPackedLength: function(e) {
+        for (var t = 0, r = [e]; 0 < r.length; ) {
+          var i = r.pop();
+          if (I.defined(i)) {
+            t += 2;
+            var a = i.positions,
+              n = i.holes;
+            if ((I.defined(a) && (t += a.length * x.Cartesian3.packedLength), I.defined(n)))
+              for (var o = n.length, s = 0; s < o; ++s) r.push(n[s]);
+          }
+        }
+        return t;
+      },
+      packPolygonHierarchy: function(e, t, r) {
+        for (var i = [e]; 0 < i.length; ) {
+          var a = i.pop();
+          if (I.defined(a)) {
+            var n = a.positions,
+              o = a.holes;
+            if (
+              ((t[r++] = I.defined(n) ? n.length : 0),
+              (t[r++] = I.defined(o) ? o.length : 0),
+              I.defined(n))
+            )
+              for (var s = n.length, u = 0; u < s; ++u, r += 3) x.Cartesian3.pack(n[u], t, r);
+            if (I.defined(o)) for (var l = o.length, h = 0; h < l; ++h) i.push(o[h]);
+          }
+        }
+        return r;
+      },
+      unpackPolygonHierarchy: function(e, t) {
+        for (
+          var r = e[t++], i = e[t++], a = new Array(r), n = 0 < i ? new Array(i) : void 0, o = 0;
+          o < r;
+          ++o, t += x.Cartesian3.packedLength
+        )
+          a[o] = x.Cartesian3.unpack(e, t);
+        for (var s = 0; s < i; ++s)
+          (n[s] = R.unpackPolygonHierarchy(e, t)),
+            (t = n[s].startingIndex),
+            delete n[s].startingIndex;
+        return { positions: a, holes: n, startingIndex: t };
+      },
+    },
+    g = new x.Cartesian3();
+  R.subdivideLineCount = function(e, t, r) {
+    var i = x.Cartesian3.distance(e, t) / r,
+      a = Math.max(0, Math.ceil(M.BMMath.log2(i)));
+    return Math.pow(2, a);
+  };
+  var m = new x.Cartographic(),
+    C = new x.Cartographic(),
+    b = new x.Cartographic(),
+    T = new x.Cartesian3();
+  (R.subdivideRhumbLineCount = function(e, t, r, i) {
+    var a = e.cartesianToCartographic(t, m),
+      n = e.cartesianToCartographic(r, C),
+      o = new v.EllipsoidRhumbLine(a, n, e).surfaceDistance / i,
+      s = Math.max(0, Math.ceil(M.BMMath.log2(o)));
+    return Math.pow(2, s);
+  }),
+    (R.subdivideLine = function(e, t, r, i) {
+      var a = R.subdivideLineCount(e, t, r),
+        n = x.Cartesian3.distance(e, t),
+        o = n / a;
+      I.defined(i) || (i = []);
+      var s = i;
+      s.length = 3 * a;
+      for (var u, l, h, c, f = 0, p = 0; p < a; p++) {
+        var d = ((u = e),
+        (l = t),
+        (h = p * o),
+        (c = n),
+        x.Cartesian3.subtract(l, u, g),
+        x.Cartesian3.multiplyByScalar(g, h / c, g),
+        x.Cartesian3.add(u, g, g),
+        [g.x, g.y, g.z]);
+        (s[f++] = d[0]), (s[f++] = d[1]), (s[f++] = d[2]);
+      }
+      return s;
+    }),
+    (R.subdivideRhumbLine = function(e, t, r, i, a) {
+      var n = e.cartesianToCartographic(t, m),
+        o = e.cartesianToCartographic(r, C),
+        s = new v.EllipsoidRhumbLine(n, o, e),
+        u = s.surfaceDistance / i,
+        l = Math.max(0, Math.ceil(M.BMMath.log2(u))),
+        h = Math.pow(2, l),
+        c = s.surfaceDistance / h;
+      I.defined(a) || (a = []);
+      var f = a;
+      f.length = 3 * h;
+      for (var p = 0, d = 0; d < h; d++) {
+        var y = s.interpolateUsingSurfaceDistance(d * c, b),
+          g = e.cartographicToCartesian(y, T);
+        (f[p++] = g.x), (f[p++] = g.y), (f[p++] = g.z);
+      }
+      return f;
+    });
+  var p = new x.Cartesian3(),
+    w = new x.Cartesian3(),
+    N = new x.Cartesian3(),
+    O = new x.Cartesian3();
+  (R.scaleToGeodeticHeightExtruded = function(e, t, r, i, a) {
+    i = f.defaultValue(i, x.Ellipsoid.WGS84);
+    var n = p,
+      o = w,
+      s = N,
+      u = O;
+    if (I.defined(e) && I.defined(e.attributes) && I.defined(e.attributes.position))
+      for (var l = e.attributes.position.values, h = l.length / 2, c = 0; c < h; c += 3)
+        x.Cartesian3.fromArray(l, c, s),
+          i.geodeticSurfaceNormal(s, n),
+          (u = i.scaleToGeodeticSurface(s, u)),
+          (o = x.Cartesian3.multiplyByScalar(n, r, o)),
+          (o = x.Cartesian3.add(u, o, o)),
+          (l[c + h] = o.x),
+          (l[c + 1 + h] = o.y),
+          (l[c + 2 + h] = o.z),
+          a && (u = x.Cartesian3.clone(s, u)),
+          (o = x.Cartesian3.multiplyByScalar(n, t, o)),
+          (o = x.Cartesian3.add(u, o, o)),
+          (l[c] = o.x),
+          (l[c + 1] = o.y),
+          (l[c + 2] = o.z);
+    return e;
+  }),
+    (R.polygonOutlinesFromHierarchy = function(e, t, r) {
+      var i,
+        a,
+        n,
+        o = [],
+        s = new S();
+      for (s.enqueue(e); 0 !== s.length; ) {
+        var u = s.dequeue(),
+          l = u.positions;
+        if (t) for (n = l.length, i = 0; i < n; i++) r.scaleToGeodeticSurface(l[i], l[i]);
+        if (!((l = G.arrayRemoveDuplicates(l, x.Cartesian3.equalsEpsilon, !0)).length < 3)) {
+          var h = u.holes ? u.holes.length : 0;
+          for (i = 0; i < h; i++) {
+            var c = u.holes[i],
+              f = c.positions;
+            if (t) for (n = f.length, a = 0; a < n; ++a) r.scaleToGeodeticSurface(f[a], f[a]);
+            if (!((f = G.arrayRemoveDuplicates(f, x.Cartesian3.equalsEpsilon, !0)).length < 3)) {
+              o.push(f);
+              var p = 0;
+              for (I.defined(c.holes) && (p = c.holes.length), a = 0; a < p; a++)
+                s.enqueue(c.holes[a]);
+            }
+          }
+          o.push(l);
+        }
+      }
+      return o;
+    }),
+    (R.polygonsFromHierarchy = function(e, t, r, i) {
+      var a = [],
+        n = [],
+        o = new S();
+      for (o.enqueue(e); 0 !== o.length; ) {
+        var s,
+          u,
+          l = o.dequeue(),
+          h = l.positions,
+          c = l.holes;
+        if (r) for (u = h.length, s = 0; s < u; s++) i.scaleToGeodeticSurface(h[s], h[s]);
+        if (!((h = G.arrayRemoveDuplicates(h, x.Cartesian3.equalsEpsilon, !0)).length < 3)) {
+          var f = t(h);
+          if (I.defined(f)) {
+            var p = [],
+              d = D.PolygonPipeline.computeWindingOrder2D(f);
+            d === D.WindingOrder.CLOCKWISE && (f.reverse(), (h = h.slice().reverse()));
+            var y,
+              g = h.slice(),
+              v = I.defined(c) ? c.length : 0,
+              m = [];
+            for (s = 0; s < v; s++) {
+              var C = c[s],
+                b = C.positions;
+              if (r) for (u = b.length, y = 0; y < u; ++y) i.scaleToGeodeticSurface(b[y], b[y]);
+              if (!((b = G.arrayRemoveDuplicates(b, x.Cartesian3.equalsEpsilon, !0)).length < 3)) {
+                var T = t(b);
+                if (I.defined(T)) {
+                  (d = D.PolygonPipeline.computeWindingOrder2D(T)) === D.WindingOrder.CLOCKWISE &&
+                    (T.reverse(), (b = b.slice().reverse())),
+                    m.push(b),
+                    p.push(g.length),
+                    (g = g.concat(b)),
+                    (f = f.concat(T));
+                  var w = 0;
+                  for (I.defined(C.holes) && (w = C.holes.length), y = 0; y < w; y++)
+                    o.enqueue(C.holes[y]);
+                }
+              }
+            }
+            a.push({ outerRing: h, holes: m }), n.push({ positions: g, positions2D: f, holes: p });
+          }
+        }
+      }
+      return { hierarchy: a, polygons: n };
+    });
+  var B = new x.Cartesian2(),
+    q = new x.Cartesian3(),
+    H = new y.Quaternion(),
+    k = new y.Matrix3();
+  (R.computeBoundingRectangle = function(e, t, r, i, a) {
+    for (
+      var n = y.Quaternion.fromAxisAngle(e, i, H),
+        o = y.Matrix3.fromQuaternion(n, k),
+        s = Number.POSITIVE_INFINITY,
+        u = Number.NEGATIVE_INFINITY,
+        l = Number.POSITIVE_INFINITY,
+        h = Number.NEGATIVE_INFINITY,
+        c = r.length,
+        f = 0;
+      f < c;
+      ++f
+    ) {
+      var p = x.Cartesian3.clone(r[f], q);
+      y.Matrix3.multiplyByVector(o, p, p);
+      var d = t(p, B);
+      I.defined(d) &&
+        ((s = Math.min(s, d.x)),
+        (u = Math.max(u, d.x)),
+        (l = Math.min(l, d.y)),
+        (h = Math.max(h, d.y)));
+    }
+    return (a.x = s), (a.y = l), (a.width = u - s), (a.height = h - l), a;
+  }),
+    (R.createGeometryFromPositions = function(e, t, r, i, a, n) {
+      var o = D.PolygonPipeline.triangulate(t.positions2D, t.holes);
+      o.length < 3 && (o = [0, 1, 2]);
+      var s = t.positions;
+      if (i) {
+        for (var u = s.length, l = new Array(3 * u), h = 0, c = 0; c < u; c++) {
+          var f = s[c];
+          (l[h++] = f.x), (l[h++] = f.y), (l[h++] = f.z);
+        }
+        var p = new P.Geometry({
+          attributes: {
+            position: new P.GeometryAttribute({
+              componentDatatype: E.ComponentDatatype.DOUBLE,
+              componentsPerAttribute: 3,
+              values: l,
+            }),
+          },
+          indices: o,
+          primitiveType: P.PrimitiveType.TRIANGLES,
+        });
+        return a.normal ? d.GeometryPipeline.computeNormal(p) : p;
+      }
+      return n === L.ArcType.GEODESIC
+        ? D.PolygonPipeline.computeSubdivision(e, s, o, r)
+        : n === L.ArcType.RHUMB
+          ? D.PolygonPipeline.computeRhumbLineSubdivision(e, s, o, r)
+          : void 0;
+    });
+  var z = [],
+    W = new x.Cartesian3(),
+    F = new x.Cartesian3();
+  (R.computeWallGeometry = function(e, t, r, i, a) {
+    var n,
+      o,
+      s,
+      u,
+      l,
+      h = e.length,
+      c = 0;
+    if (i)
+      for (o = 3 * h * 2, n = new Array(2 * o), s = 0; s < h; s++)
+        (u = e[s]),
+          (l = e[(s + 1) % h]),
+          (n[c] = n[c + o] = u.x),
+          (n[++c] = n[c + o] = u.y),
+          (n[++c] = n[c + o] = u.z),
+          (n[++c] = n[c + o] = l.x),
+          (n[++c] = n[c + o] = l.y),
+          (n[++c] = n[c + o] = l.z),
+          ++c;
+    else {
+      var f = M.BMMath.chordLength(r, t.maximumRadius),
+        p = 0;
+      if (a === L.ArcType.GEODESIC)
+        for (s = 0; s < h; s++) p += R.subdivideLineCount(e[s], e[(s + 1) % h], f);
+      else if (a === L.ArcType.RHUMB)
+        for (s = 0; s < h; s++) p += R.subdivideRhumbLineCount(t, e[s], e[(s + 1) % h], f);
+      for (o = 3 * (p + h), n = new Array(2 * o), s = 0; s < h; s++) {
+        var d;
+        (u = e[s]),
+          (l = e[(s + 1) % h]),
+          a === L.ArcType.GEODESIC
+            ? (d = R.subdivideLine(u, l, f, z))
+            : a === L.ArcType.RHUMB && (d = R.subdivideRhumbLine(t, u, l, f, z));
+        for (var y = d.length, g = 0; g < y; ++g, ++c) (n[c] = d[g]), (n[c + o] = d[g]);
+        (n[c] = l.x),
+          (n[c + o] = l.x),
+          (n[++c] = l.y),
+          (n[c + o] = l.y),
+          (n[++c] = l.z),
+          (n[c + o] = l.z),
+          ++c;
+      }
+    }
+    h = n.length;
+    var v = _.IndexDatatype.createTypedArray(h / 3, h - 6 * e.length),
+      m = 0;
+    for (h /= 6, s = 0; s < h; s++) {
+      var C = s,
+        b = C + 1,
+        T = C + h,
+        w = T + 1;
+      (u = x.Cartesian3.fromArray(n, 3 * C, W)),
+        (l = x.Cartesian3.fromArray(n, 3 * b, F)),
+        x.Cartesian3.equalsEpsilon(u, l, M.BMMath.EPSILON10, M.BMMath.EPSILON10) ||
+          ((v[m++] = C), (v[m++] = T), (v[m++] = b), (v[m++] = b), (v[m++] = T), (v[m++] = w));
+    }
+    return new P.Geometry({
+      attributes: new A.GeometryAttributes({
+        position: new P.GeometryAttribute({
+          componentDatatype: E.ComponentDatatype.DOUBLE,
+          componentsPerAttribute: 3,
+          values: n,
+        }),
+      }),
+      indices: v,
+      primitiveType: P.PrimitiveType.TRIANGLES,
+    });
+  }),
+    (e.PolygonGeometryLibrary = R);
+});

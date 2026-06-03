@@ -1,0 +1,1459 @@
+define([
+  'exports',
+  './defined-30a32f90',
+  './Math-fbd31710',
+  './defaultValue-5903a66b',
+  './Cartesian2-06dac25b',
+  './Transforms-62d2509c',
+  './ComponentDatatype-30a05127',
+  './GeometryAttribute-b6f01f29',
+  './AttributeCompression-4610093c',
+  './EncodedCartesian3-b7dd761a',
+  './IndexDatatype-a3dd2038',
+  './IntersectionTests-dd48299d',
+  './Plane-19a62994',
+], function(e, k, q, M, U, Y, D, B, P, l, w, Z, a) {
+  'use strict';
+  var x = new U.Cartesian3(),
+    S = new U.Cartesian3(),
+    I = new U.Cartesian3();
+  var s = {
+    calculateACMR: function(e) {
+      var t = (e = M.defaultValue(e, M.defaultValue.EMPTY_OBJECT)).indices,
+        r = e.maximumIndex,
+        a = M.defaultValue(e.cacheSize, 24),
+        n = t.length;
+      if (!k.defined(r)) for (var i = (r = 0), s = t[i]; i < n; ) r < s && (r = s), (s = t[++i]);
+      for (var o = [], u = 0; u < r + 1; u++) o[u] = 0;
+      for (var p = a + 1, d = 0; d < n; ++d) p - o[t[d]] > a && ((o[t[d]] = p), ++p);
+      return (p - a + 1) / (n / 3);
+    },
+  };
+  s.tipsify = function(e) {
+    var v,
+      t = (e = M.defaultValue(e, M.defaultValue.EMPTY_OBJECT)).indices,
+      r = e.maximumIndex,
+      a = M.defaultValue(e.cacheSize, 24);
+    function n(e, t, r, a, n, i, s) {
+      for (var o, u = -1, p = -1, d = 0; d < r.length; ) {
+        var l = r[d];
+        a[l].numLiveTriangles &&
+          ((o = 0),
+          n - a[l].timeStamp + 2 * a[l].numLiveTriangles <= t && (o = n - a[l].timeStamp),
+          (p < o || -1 === p) && ((p = o), (u = l))),
+          ++d;
+      }
+      return -1 === u
+        ? (function(e, t, r, a) {
+            for (; 1 <= t.length; ) {
+              var n = t[t.length - 1];
+              if ((t.splice(t.length - 1, 1), 0 < e[n].numLiveTriangles)) return n;
+            }
+            for (; v < a; ) {
+              if (0 < e[v].numLiveTriangles) return ++v - 1;
+              ++v;
+            }
+            return -1;
+          })(a, i, 0, s)
+        : u;
+    }
+    var i = t.length,
+      s = 0,
+      o = 0,
+      u = t[o],
+      p = i;
+    if (k.defined(r)) s = r + 1;
+    else {
+      for (; o < p; ) s < u && (s = u), (u = t[++o]);
+      if (-1 === s) return 0;
+      ++s;
+    }
+    var d,
+      l = [];
+    for (d = 0; d < s; d++) l[d] = { numLiveTriangles: 0, timeStamp: 0, vertexTriangles: [] };
+    for (var y = (o = 0); o < p; )
+      l[t[o]].vertexTriangles.push(y),
+        ++l[t[o]].numLiveTriangles,
+        l[t[o + 1]].vertexTriangles.push(y),
+        ++l[t[o + 1]].numLiveTriangles,
+        l[t[o + 2]].vertexTriangles.push(y),
+        ++l[t[o + 2]].numLiveTriangles,
+        ++y,
+        (o += 3);
+    var f = 0,
+      c = a + 1;
+    v = 1;
+    var m,
+      h,
+      C,
+      b,
+      g = [],
+      A = [],
+      T = 0,
+      x = [],
+      P = i / 3,
+      w = [];
+    for (d = 0; d < P; d++) w[d] = !1;
+    for (; -1 !== f; ) {
+      (g = []), (b = (h = l[f]).vertexTriangles.length);
+      for (var S = 0; S < b; ++S)
+        if (!w[(y = h.vertexTriangles[S])]) {
+          (w[y] = !0), (o = y + y + y);
+          for (var I = 0; I < 3; ++I)
+            (C = t[o]),
+              g.push(C),
+              A.push(C),
+              (x[T] = C),
+              ++T,
+              --(m = l[C]).numLiveTriangles,
+              c - m.timeStamp > a && ((m.timeStamp = c), ++c),
+              ++o;
+        }
+      f = n(0, a, g, l, c, A, s);
+    }
+    return x;
+  };
+  var t = {};
+  function o(e, t, r, a, n) {
+    (e[t++] = r), (e[t++] = a), (e[t++] = a), (e[t++] = n), (e[t++] = n), (e[t] = r);
+  }
+  function f(e) {
+    var t = {};
+    for (var r in e)
+      if (e.hasOwnProperty(r) && k.defined(e[r]) && k.defined(e[r].values)) {
+        var a = e[r];
+        t[r] = new B.GeometryAttribute({
+          componentDatatype: a.componentDatatype,
+          componentsPerAttribute: a.componentsPerAttribute,
+          normalize: a.normalize,
+          values: [],
+        });
+      }
+    return t;
+  }
+  function c(e, t, r) {
+    for (var a in t)
+      if (t.hasOwnProperty(a) && k.defined(t[a]) && k.defined(t[a].values))
+        for (var n = t[a], i = 0; i < n.componentsPerAttribute; ++i)
+          e[a].values.push(n.values[r * n.componentsPerAttribute + i]);
+  }
+  (t.toWireframe = function(e) {
+    var t = e.indices;
+    if (k.defined(t)) {
+      switch (e.primitiveType) {
+        case B.PrimitiveType.TRIANGLES:
+          e.indices = (function(e) {
+            for (
+              var t = e.length,
+                r = (t / 3) * 6,
+                a = w.IndexDatatype.createTypedArray(t, r),
+                n = 0,
+                i = 0;
+              i < t;
+              i += 3, n += 6
+            )
+              o(a, n, e[i], e[i + 1], e[i + 2]);
+            return a;
+          })(t);
+          break;
+        case B.PrimitiveType.TRIANGLE_STRIP:
+          e.indices = (function(e) {
+            var t = e.length;
+            if (3 <= t) {
+              var r = 6 * (t - 2),
+                a = w.IndexDatatype.createTypedArray(t, r);
+              o(a, 0, e[0], e[1], e[2]);
+              for (var n = 6, i = 3; i < t; ++i, n += 6) o(a, n, e[i - 1], e[i], e[i - 2]);
+              return a;
+            }
+            return new Uint16Array();
+          })(t);
+          break;
+        case B.PrimitiveType.TRIANGLE_FAN:
+          e.indices = (function(e) {
+            if (0 < e.length) {
+              for (
+                var t = e.length - 1,
+                  r = 6 * (t - 1),
+                  a = w.IndexDatatype.createTypedArray(t, r),
+                  n = e[0],
+                  i = 0,
+                  s = 1;
+                s < t;
+                ++s, i += 6
+              )
+                o(a, i, n, e[s], e[s + 1]);
+              return a;
+            }
+            return new Uint16Array();
+          })(t);
+      }
+      e.primitiveType = B.PrimitiveType.LINES;
+    }
+    return e;
+  }),
+    (t.createLineSegmentsForVectors = function(e, t, r) {
+      (t = M.defaultValue(t, 'normal')), (r = M.defaultValue(r, 1e4));
+      for (
+        var a,
+          n = e.attributes.position.values,
+          i = e.attributes[t].values,
+          s = n.length,
+          o = new Float64Array(2 * s),
+          u = 0,
+          p = 0;
+        p < s;
+        p += 3
+      )
+        (o[u++] = n[p]),
+          (o[u++] = n[p + 1]),
+          (o[u++] = n[p + 2]),
+          (o[u++] = n[p] + i[p] * r),
+          (o[u++] = n[p + 1] + i[p + 1] * r),
+          (o[u++] = n[p + 2] + i[p + 2] * r);
+      var d = e.boundingSphere;
+      return (
+        k.defined(d) && (a = new Y.BoundingSphere(d.center, d.radius + r)),
+        new B.Geometry({
+          attributes: {
+            position: new B.GeometryAttribute({
+              componentDatatype: D.ComponentDatatype.DOUBLE,
+              componentsPerAttribute: 3,
+              values: o,
+            }),
+          },
+          primitiveType: B.PrimitiveType.LINES,
+          boundingSphere: a,
+        })
+      );
+    }),
+    (t.createAttributeLocations = function(e) {
+      var t,
+        r = [
+          'position',
+          'positionHigh',
+          'positionLow',
+          'position3DHigh',
+          'position3DLow',
+          'position2DHigh',
+          'position2DLow',
+          'pickColor',
+          'normal',
+          'st',
+          'tangent',
+          'bitangent',
+          'extrudeDirection',
+          'compressedAttributes',
+        ],
+        a = e.attributes,
+        n = {},
+        i = 0,
+        s = r.length;
+      for (t = 0; t < s; ++t) {
+        var o = r[t];
+        k.defined(a[o]) && (n[o] = i++);
+      }
+      for (var u in a) a.hasOwnProperty(u) && !k.defined(n[u]) && (n[u] = i++);
+      return n;
+    }),
+    (t.reorderForPreVertexCache = function(e) {
+      var t = B.Geometry.computeNumberOfVertices(e),
+        r = e.indices;
+      if (k.defined(r)) {
+        for (var a = new Int32Array(t), n = 0; n < t; n++) a[n] = -1;
+        for (
+          var i,
+            s = r,
+            o = s.length,
+            u = w.IndexDatatype.createTypedArray(t, o),
+            p = 0,
+            d = 0,
+            l = 0;
+          p < o;
+
+        )
+          -1 !== (i = a[s[p]]) ? (u[d] = i) : ((a[(i = s[p])] = l), (u[d] = l), ++l), ++p, ++d;
+        e.indices = u;
+        var v = e.attributes;
+        for (var y in v)
+          if (v.hasOwnProperty(y) && k.defined(v[y]) && k.defined(v[y].values)) {
+            for (
+              var f = v[y],
+                c = f.values,
+                m = 0,
+                h = f.componentsPerAttribute,
+                C = D.ComponentDatatype.createTypedArray(f.componentDatatype, l * h);
+              m < t;
+
+            ) {
+              var b = a[m];
+              if (-1 !== b) for (var g = 0; g < h; g++) C[h * b + g] = c[h * m + g];
+              ++m;
+            }
+            f.values = C;
+          }
+      }
+      return e;
+    }),
+    (t.reorderForPostVertexCache = function(e, t) {
+      var r = e.indices;
+      if (e.primitiveType === B.PrimitiveType.TRIANGLES && k.defined(r)) {
+        for (var a = r.length, n = 0, i = 0; i < a; i++) r[i] > n && (n = r[i]);
+        e.indices = s.tipsify({ indices: r, maximumIndex: n, cacheSize: t });
+      }
+      return e;
+    }),
+    (t.fitToUnsignedShortIndices = function(e) {
+      var t = [],
+        r = B.Geometry.computeNumberOfVertices(e);
+      if (k.defined(e.indices) && r >= q.BMMath.SIXTY_FOUR_KILOBYTES) {
+        var a,
+          n = [],
+          i = [],
+          s = 0,
+          o = f(e.attributes),
+          u = e.indices,
+          p = u.length;
+        e.primitiveType === B.PrimitiveType.TRIANGLES
+          ? (a = 3)
+          : e.primitiveType === B.PrimitiveType.LINES
+            ? (a = 2)
+            : e.primitiveType === B.PrimitiveType.POINTS && (a = 1);
+        for (var d = 0; d < p; d += a) {
+          for (var l = 0; l < a; ++l) {
+            var v = u[d + l],
+              y = n[v];
+            k.defined(y) || ((y = s++), (n[v] = y), c(o, e.attributes, v)), i.push(y);
+          }
+          s + a >= q.BMMath.SIXTY_FOUR_KILOBYTES &&
+            (t.push(
+              new B.Geometry({
+                attributes: o,
+                indices: i,
+                primitiveType: e.primitiveType,
+                boundingSphere: e.boundingSphere,
+                boundingSphereCV: e.boundingSphereCV,
+              })
+            ),
+            (n = []),
+            (i = []),
+            (s = 0),
+            (o = f(e.attributes)));
+        }
+        0 !== i.length &&
+          t.push(
+            new B.Geometry({
+              attributes: o,
+              indices: i,
+              primitiveType: e.primitiveType,
+              boundingSphere: e.boundingSphere,
+              boundingSphereCV: e.boundingSphereCV,
+            })
+          );
+      } else t.push(e);
+      return t;
+    });
+  var m = new U.Cartesian3(),
+    h = new U.Cartographic();
+  t.projectTo2D = function(e, t, r, a, n) {
+    for (
+      var i = e.attributes[t],
+        s = (n = k.defined(n) ? n : new Y.GeographicProjection()).ellipsoid,
+        o = i.values,
+        u = new Float64Array(o.length),
+        p = 0,
+        d = 0;
+      d < o.length;
+      d += 3
+    ) {
+      var l = U.Cartesian3.fromArray(o, d, m),
+        v = s.cartesianToCartographic(l, h),
+        y = n.project(v, m);
+      (u[p++] = y.x), (u[p++] = y.y), (u[p++] = y.z);
+    }
+    return (
+      (e.attributes[r] = i),
+      (e.attributes[a] = new B.GeometryAttribute({
+        componentDatatype: D.ComponentDatatype.DOUBLE,
+        componentsPerAttribute: 3,
+        values: u,
+      })),
+      delete e.attributes[t],
+      e
+    );
+  };
+  var v = { high: 0, low: 0 };
+  t.encodeAttribute = function(e, t, r, a) {
+    for (
+      var n = e.attributes[t],
+        i = n.values,
+        s = i.length,
+        o = new Float32Array(s),
+        u = new Float32Array(s),
+        p = 0;
+      p < s;
+      ++p
+    )
+      l.EncodedCartesian3.encode(i[p], v), (o[p] = v.high), (u[p] = v.low);
+    var d = n.componentsPerAttribute;
+    return (
+      (e.attributes[r] = new B.GeometryAttribute({
+        componentDatatype: D.ComponentDatatype.FLOAT,
+        componentsPerAttribute: d,
+        values: o,
+      })),
+      (e.attributes[a] = new B.GeometryAttribute({
+        componentDatatype: D.ComponentDatatype.FLOAT,
+        componentsPerAttribute: d,
+        values: u,
+      })),
+      delete e.attributes[t],
+      e
+    );
+  };
+  var i = new U.Cartesian3();
+  function n(e, t) {
+    if (k.defined(t))
+      for (var r = t.values, a = r.length, n = 0; n < a; n += 3)
+        U.Cartesian3.unpack(r, n, i),
+          Y.Matrix4.multiplyByPoint(e, i, i),
+          U.Cartesian3.pack(i, r, n);
+  }
+  function u(e, t) {
+    if (k.defined(t))
+      for (var r = t.values, a = r.length, n = 0; n < a; n += 3)
+        U.Cartesian3.unpack(r, n, i),
+          Y.Matrix3.multiplyByVector(e, i, i),
+          (i = U.Cartesian3.normalize(i, i)),
+          U.Cartesian3.pack(i, r, n);
+  }
+  var p = new Y.Matrix4(),
+    d = new Y.Matrix3();
+  t.transformToWorldCoordinates = function(e) {
+    var t = e.modelMatrix;
+    if (Y.Matrix4.equals(t, Y.Matrix4.IDENTITY)) return e;
+    var r = e.geometry.attributes;
+    n(t, r.position),
+      n(t, r.prevPosition),
+      n(t, r.nextPosition),
+      (k.defined(r.normal) || k.defined(r.tangent) || k.defined(r.bitangent)) &&
+        (Y.Matrix4.inverse(t, p),
+        Y.Matrix4.transpose(p, p),
+        Y.Matrix4.getMatrix3(p, d),
+        u(d, r.normal),
+        u(d, r.tangent),
+        u(d, r.bitangent));
+    var a = e.geometry.boundingSphere;
+    return (
+      k.defined(a) && (e.geometry.boundingSphere = Y.BoundingSphere.transform(a, t, a)),
+      (e.modelMatrix = Y.Matrix4.clone(Y.Matrix4.IDENTITY)),
+      e
+    );
+  };
+  var O = new U.Cartesian3();
+  function y(e, t) {
+    var r,
+      a,
+      n,
+      i,
+      s,
+      o,
+      u,
+      p,
+      d = e.length,
+      l = (e[0].modelMatrix, k.defined(e[0][t].indices)),
+      v = e[0][t].primitiveType,
+      y = (function(e, t) {
+        var r,
+          a = e.length,
+          n = {},
+          i = e[0][t].attributes;
+        for (r in i)
+          if (i.hasOwnProperty(r) && k.defined(i[r]) && k.defined(i[r].values)) {
+            for (var s = i[r], o = s.values.length, u = !0, p = 1; p < a; ++p) {
+              var d = e[p][t].attributes[r];
+              if (
+                !k.defined(d) ||
+                s.componentDatatype !== d.componentDatatype ||
+                s.componentsPerAttribute !== d.componentsPerAttribute ||
+                s.normalize !== d.normalize
+              ) {
+                u = !1;
+                break;
+              }
+              o += d.values.length;
+            }
+            u &&
+              (n[r] = new B.GeometryAttribute({
+                componentDatatype: s.componentDatatype,
+                componentsPerAttribute: s.componentsPerAttribute,
+                normalize: s.normalize,
+                values: D.ComponentDatatype.createTypedArray(s.componentDatatype, o),
+              }));
+          }
+        return n;
+      })(e, t);
+    for (r in y)
+      if (y.hasOwnProperty(r))
+        for (s = y[r].values, a = i = 0; a < d; ++a)
+          for (u = (o = e[a][t].attributes[r].values).length, n = 0; n < u; ++n) s[i++] = o[n];
+    if (l) {
+      var f = 0;
+      for (a = 0; a < d; ++a) f += e[a][t].indices.length;
+      var c = B.Geometry.computeNumberOfVertices(
+          new B.Geometry({ attributes: y, primitiveType: B.PrimitiveType.POINTS })
+        ),
+        m = w.IndexDatatype.createTypedArray(c, f),
+        h = 0,
+        C = 0;
+      for (a = 0; a < d; ++a) {
+        var b = e[a][t].indices,
+          g = b.length;
+        for (i = 0; i < g; ++i) m[h++] = C + b[i];
+        C += B.Geometry.computeNumberOfVertices(e[a][t]);
+      }
+      p = m;
+    }
+    var A,
+      T = new U.Cartesian3(),
+      x = 0;
+    for (a = 0; a < d; ++a) {
+      if (((A = e[a][t].boundingSphere), !k.defined(A))) {
+        T = void 0;
+        break;
+      }
+      U.Cartesian3.add(A.center, T, T);
+    }
+    if (k.defined(T))
+      for (U.Cartesian3.divideByScalar(T, d, T), a = 0; a < d; ++a) {
+        A = e[a][t].boundingSphere;
+        var P = U.Cartesian3.magnitude(U.Cartesian3.subtract(A.center, T, O)) + A.radius;
+        x < P && (x = P);
+      }
+    return new B.Geometry({
+      attributes: y,
+      indices: p,
+      primitiveType: v,
+      boundingSphere: k.defined(T) ? new Y.BoundingSphere(T, x) : void 0,
+    });
+  }
+  t.combineInstances = function(e) {
+    for (var t = [], r = [], a = e.length, n = 0; n < a; ++n) {
+      var i = e[n];
+      k.defined(i.geometry)
+        ? t.push(i)
+        : k.defined(i.westHemisphereGeometry) && k.defined(i.eastHemisphereGeometry) && r.push(i);
+    }
+    var s = [];
+    return (
+      0 < t.length && s.push(y(t, 'geometry')),
+      0 < r.length &&
+        (s.push(y(r, 'westHemisphereGeometry')), s.push(y(r, 'eastHemisphereGeometry'))),
+      s
+    );
+  };
+  var T = new U.Cartesian3(),
+    E = new U.Cartesian3(),
+    N = new U.Cartesian3(),
+    L = new U.Cartesian3();
+  t.computeNormal = function(e) {
+    var t,
+      r = e.indices,
+      a = e.attributes,
+      n = a.position.values,
+      i = a.position.values.length / 3,
+      s = r.length,
+      o = new Array(i),
+      u = new Array(s / 3),
+      p = new Array(s);
+    for (t = 0; t < i; t++) o[t] = { indexOffset: 0, count: 0, currentCount: 0 };
+    var d = 0;
+    for (t = 0; t < s; t += 3) {
+      var l = r[t],
+        v = r[t + 1],
+        y = r[t + 2],
+        f = 3 * l,
+        c = 3 * v,
+        m = 3 * y;
+      (E.x = n[f]),
+        (E.y = n[1 + f]),
+        (E.z = n[2 + f]),
+        (N.x = n[c]),
+        (N.y = n[1 + c]),
+        (N.z = n[2 + c]),
+        (L.x = n[m]),
+        (L.y = n[1 + m]),
+        (L.z = n[2 + m]),
+        o[l].count++,
+        o[v].count++,
+        o[y].count++,
+        U.Cartesian3.subtract(N, E, N),
+        U.Cartesian3.subtract(L, E, L),
+        (u[d] = U.Cartesian3.cross(N, L, new U.Cartesian3())),
+        d++;
+    }
+    var h,
+      C = 0;
+    for (t = 0; t < i; t++) (o[t].indexOffset += C), (C += o[t].count);
+    for (t = d = 0; t < s; t += 3) {
+      var b = (h = o[r[t]]).indexOffset + h.currentCount;
+      (p[b] = d),
+        h.currentCount++,
+        (p[(b = (h = o[r[t + 1]]).indexOffset + h.currentCount)] = d),
+        h.currentCount++,
+        (p[(b = (h = o[r[t + 2]]).indexOffset + h.currentCount)] = d),
+        h.currentCount++,
+        d++;
+    }
+    var g = new Float32Array(3 * i);
+    for (t = 0; t < i; t++) {
+      var A = 3 * t;
+      if (((h = o[t]), U.Cartesian3.clone(U.Cartesian3.ZERO, T), 0 < h.count)) {
+        for (d = 0; d < h.count; d++) U.Cartesian3.add(T, u[p[h.indexOffset + d]], T);
+        U.Cartesian3.equalsEpsilon(U.Cartesian3.ZERO, T, q.BMMath.EPSILON10) &&
+          U.Cartesian3.clone(u[p[h.indexOffset]], T);
+      }
+      U.Cartesian3.equalsEpsilon(U.Cartesian3.ZERO, T, q.BMMath.EPSILON10) && (T.z = 1),
+        U.Cartesian3.normalize(T, T),
+        (g[A] = T.x),
+        (g[1 + A] = T.y),
+        (g[2 + A] = T.z);
+    }
+    return (
+      (e.attributes.normal = new B.GeometryAttribute({
+        componentDatatype: D.ComponentDatatype.FLOAT,
+        componentsPerAttribute: 3,
+        values: g,
+      })),
+      e
+    );
+  };
+  var G = new U.Cartesian3(),
+    V = new U.Cartesian3(),
+    R = new U.Cartesian3();
+  t.computeTangentAndBitangent = function(e) {
+    e.attributes;
+    var t,
+      r,
+      a,
+      n,
+      i = e.indices,
+      s = e.attributes.position.values,
+      o = e.attributes.normal.values,
+      u = e.attributes.st.values,
+      p = e.attributes.position.values.length / 3,
+      d = i.length,
+      l = new Array(3 * p);
+    for (t = 0; t < l.length; t++) l[t] = 0;
+    for (t = 0; t < d; t += 3) {
+      var v = i[t],
+        y = i[t + 1],
+        f = i[t + 2];
+      (a = 3 * y), (n = 3 * f);
+      var c = 2 * v,
+        m = 2 * y,
+        h = 2 * f,
+        C = s[(r = 3 * v)],
+        b = s[r + 1],
+        g = s[r + 2],
+        A = u[c],
+        T = u[1 + c],
+        x = u[1 + m] - T,
+        P = u[1 + h] - T,
+        w = 1 / ((u[m] - A) * P - (u[h] - A) * x),
+        S = (P * (s[a] - C) - x * (s[n] - C)) * w,
+        I = (P * (s[a + 1] - b) - x * (s[n + 1] - b)) * w,
+        M = (P * (s[a + 2] - g) - x * (s[n + 2] - g)) * w;
+      (l[r] += S),
+        (l[r + 1] += I),
+        (l[r + 2] += M),
+        (l[a] += S),
+        (l[a + 1] += I),
+        (l[a + 2] += M),
+        (l[n] += S),
+        (l[n + 1] += I),
+        (l[n + 2] += M);
+    }
+    var O = new Float32Array(3 * p),
+      E = new Float32Array(3 * p);
+    for (t = 0; t < p; t++) {
+      (a = (r = 3 * t) + 1), (n = r + 2);
+      var N = U.Cartesian3.fromArray(o, r, G),
+        L = U.Cartesian3.fromArray(l, r, R),
+        z = U.Cartesian3.dot(N, L);
+      U.Cartesian3.multiplyByScalar(N, z, V),
+        U.Cartesian3.normalize(U.Cartesian3.subtract(L, V, L), L),
+        (O[r] = L.x),
+        (O[a] = L.y),
+        (O[n] = L.z),
+        U.Cartesian3.normalize(U.Cartesian3.cross(N, L, L), L),
+        (E[r] = L.x),
+        (E[a] = L.y),
+        (E[n] = L.z);
+    }
+    return (
+      (e.attributes.tangent = new B.GeometryAttribute({
+        componentDatatype: D.ComponentDatatype.FLOAT,
+        componentsPerAttribute: 3,
+        values: O,
+      })),
+      (e.attributes.bitangent = new B.GeometryAttribute({
+        componentDatatype: D.ComponentDatatype.FLOAT,
+        componentsPerAttribute: 3,
+        values: E,
+      })),
+      e
+    );
+  };
+  var z = new U.Cartesian2(),
+    F = new U.Cartesian3(),
+    _ = new U.Cartesian3(),
+    H = new U.Cartesian3(),
+    W = new U.Cartesian2();
+  function C(e) {
+    switch (e.primitiveType) {
+      case B.PrimitiveType.TRIANGLE_FAN:
+        return (function(e) {
+          var t = B.Geometry.computeNumberOfVertices(e),
+            r = w.IndexDatatype.createTypedArray(t, 3 * (t - 2));
+          (r[0] = 1), (r[1] = 0), (r[2] = 2);
+          for (var a = 3, n = 3; n < t; ++n) (r[a++] = n - 1), (r[a++] = 0), (r[a++] = n);
+          return (e.indices = r), (e.primitiveType = B.PrimitiveType.TRIANGLES), e;
+        })(e);
+      case B.PrimitiveType.TRIANGLE_STRIP:
+        return (function(e) {
+          var t = B.Geometry.computeNumberOfVertices(e),
+            r = w.IndexDatatype.createTypedArray(t, 3 * (t - 2));
+          (r[0] = 0), (r[1] = 1), (r[2] = 2), 3 < t && ((r[3] = 0), (r[4] = 2), (r[5] = 3));
+          for (var a = 6, n = 3; n < t - 1; n += 2)
+            (r[a++] = n),
+              (r[a++] = n - 1),
+              (r[a++] = n + 1),
+              n + 2 < t && ((r[a++] = n), (r[a++] = n + 1), (r[a++] = n + 2));
+          return (e.indices = r), (e.primitiveType = B.PrimitiveType.TRIANGLES), e;
+        })(e);
+      case B.PrimitiveType.TRIANGLES:
+        return (function(e) {
+          if (k.defined(e.indices)) return e;
+          for (
+            var t = B.Geometry.computeNumberOfVertices(e),
+              r = w.IndexDatatype.createTypedArray(t, t),
+              a = 0;
+            a < t;
+            ++a
+          )
+            r[a] = a;
+          return (e.indices = r), e;
+        })(e);
+      case B.PrimitiveType.LINE_STRIP:
+        return (function(e) {
+          var t = B.Geometry.computeNumberOfVertices(e),
+            r = w.IndexDatatype.createTypedArray(t, 2 * (t - 1));
+          (r[0] = 0), (r[1] = 1);
+          for (var a = 2, n = 2; n < t; ++n) (r[a++] = n - 1), (r[a++] = n);
+          return (e.indices = r), (e.primitiveType = B.PrimitiveType.LINES), e;
+        })(e);
+      case B.PrimitiveType.LINE_LOOP:
+        return (function(e) {
+          var t = B.Geometry.computeNumberOfVertices(e),
+            r = w.IndexDatatype.createTypedArray(t, 2 * t);
+          (r[0] = 0), (r[1] = 1);
+          for (var a = 2, n = 2; n < t; ++n) (r[a++] = n - 1), (r[a++] = n);
+          return (
+            (r[a++] = t - 1),
+            (r[a] = 0),
+            (e.indices = r),
+            (e.primitiveType = B.PrimitiveType.LINES),
+            e
+          );
+        })(e);
+      case B.PrimitiveType.LINES:
+        return (function(e) {
+          if (k.defined(e.indices)) return e;
+          for (
+            var t = B.Geometry.computeNumberOfVertices(e),
+              r = w.IndexDatatype.createTypedArray(t, t),
+              a = 0;
+            a < t;
+            ++a
+          )
+            r[a] = a;
+          return (e.indices = r), e;
+        })(e);
+    }
+    return e;
+  }
+  function b(e, t) {
+    Math.abs(e.y) < q.BMMath.EPSILON6 && (e.y = t ? -q.BMMath.EPSILON6 : q.BMMath.EPSILON6);
+  }
+  t.compressVertices = function(e) {
+    var t,
+      r,
+      a = e.attributes.extrudeDirection;
+    if (k.defined(a)) {
+      var n = a.values;
+      r = n.length / 3;
+      var i = new Float32Array(2 * r),
+        s = 0;
+      for (t = 0; t < r; ++t)
+        U.Cartesian3.fromArray(n, 3 * t, F),
+          U.Cartesian3.equals(F, U.Cartesian3.ZERO)
+            ? (s += 2)
+            : ((W = P.AttributeCompression.octEncodeInRange(F, 65535, W)),
+              (i[s++] = W.x),
+              (i[s++] = W.y));
+      return (
+        (e.attributes.compressedAttributes = new B.GeometryAttribute({
+          componentDatatype: D.ComponentDatatype.FLOAT,
+          componentsPerAttribute: 2,
+          values: i,
+        })),
+        delete e.attributes.extrudeDirection,
+        e
+      );
+    }
+    var o = e.attributes.normal,
+      u = e.attributes.st,
+      p = k.defined(o),
+      d = k.defined(u);
+    if (!p && !d) return e;
+    var l,
+      v,
+      y,
+      f,
+      c = e.attributes.tangent,
+      m = e.attributes.bitangent,
+      h = k.defined(c),
+      C = k.defined(m);
+    p && (l = o.values), d && (v = u.values), h && (y = c.values), C && (f = m.values);
+    var b = (r = (p ? l.length : v.length) / (p ? 3 : 2)),
+      g = d && p ? 2 : 1;
+    g += h || C ? 1 : 0;
+    var A = new Float32Array((b *= g)),
+      T = 0;
+    for (t = 0; t < r; ++t) {
+      d &&
+        (U.Cartesian2.fromArray(v, 2 * t, z),
+        (A[T++] = P.AttributeCompression.compressTextureCoordinates(z)));
+      var x = 3 * t;
+      p && k.defined(y) && k.defined(f)
+        ? (U.Cartesian3.fromArray(l, x, F),
+          U.Cartesian3.fromArray(y, x, _),
+          U.Cartesian3.fromArray(f, x, H),
+          P.AttributeCompression.octPack(F, _, H, z),
+          (A[T++] = z.x),
+          (A[T++] = z.y))
+        : (p &&
+            (U.Cartesian3.fromArray(l, x, F), (A[T++] = P.AttributeCompression.octEncodeFloat(F))),
+          h &&
+            (U.Cartesian3.fromArray(y, x, F), (A[T++] = P.AttributeCompression.octEncodeFloat(F))),
+          C &&
+            (U.Cartesian3.fromArray(f, x, F), (A[T++] = P.AttributeCompression.octEncodeFloat(F))));
+    }
+    return (
+      (e.attributes.compressedAttributes = new B.GeometryAttribute({
+        componentDatatype: D.ComponentDatatype.FLOAT,
+        componentsPerAttribute: g,
+        values: A,
+      })),
+      p && delete e.attributes.normal,
+      d && delete e.attributes.st,
+      C && delete e.attributes.bitangent,
+      h && delete e.attributes.tangent,
+      e
+    );
+  };
+  var g = new U.Cartesian3();
+  function A(e, t, r, a) {
+    U.Cartesian3.add(
+      e,
+      U.Cartesian3.multiplyByScalar(U.Cartesian3.subtract(t, e, g), e.y / (e.y - t.y), g),
+      r
+    ),
+      U.Cartesian3.clone(r, a),
+      b(r, !0),
+      b(a, !1);
+  }
+  var X = new U.Cartesian3(),
+    j = new U.Cartesian3(),
+    J = new U.Cartesian3(),
+    K = new U.Cartesian3(),
+    Q = { positions: new Array(7), indices: new Array(9) };
+  function $(e, t, r) {
+    if (!(0 <= e.x || 0 <= t.x || 0 <= r.x)) {
+      !(function(e, t, r) {
+        if (0 !== e.y && 0 !== t.y && 0 !== r.y) return b(e, e.y < 0), b(t, t.y < 0), b(r, r.y < 0);
+        var a = Math.abs(e.y),
+          n = Math.abs(t.y),
+          i = Math.abs(r.y),
+          s =
+            (n < a
+              ? i < a
+                ? q.BMMath.sign(e.y)
+                : q.BMMath.sign(r.y)
+              : i < n
+                ? q.BMMath.sign(t.y)
+                : q.BMMath.sign(r.y)) < 0;
+        b(e, s), b(t, s), b(r, s);
+      })(e, t, r);
+      var a = e.y < 0,
+        n = t.y < 0,
+        i = r.y < 0,
+        s = 0;
+      (s += a ? 1 : 0), (s += n ? 1 : 0), (s += i ? 1 : 0);
+      var o = Q.indices;
+      1 == s
+        ? ((o[1] = 3),
+          (o[2] = 4),
+          (o[5] = 6),
+          (o[7] = 6),
+          (o[8] = 5),
+          a
+            ? (A(e, t, X, J), A(e, r, j, K), (o[0] = 0), (o[3] = 1), (o[4] = 2), (o[6] = 1))
+            : n
+              ? (A(t, r, X, J), A(t, e, j, K), (o[0] = 1), (o[3] = 2), (o[4] = 0), (o[6] = 2))
+              : i && (A(r, e, X, J), A(r, t, j, K), (o[0] = 2), (o[3] = 0), (o[4] = 1), (o[6] = 0)))
+        : 2 == s &&
+          ((o[2] = 4),
+          (o[4] = 4),
+          (o[5] = 3),
+          (o[7] = 5),
+          (o[8] = 6),
+          a
+            ? n
+              ? i || (A(r, e, X, J), A(r, t, j, K), (o[0] = 0), (o[1] = 1), (o[3] = 0), (o[6] = 2))
+              : (A(t, r, X, J), A(t, e, j, K), (o[0] = 2), (o[1] = 0), (o[3] = 2), (o[6] = 1))
+            : (A(e, t, X, J), A(e, r, j, K), (o[0] = 1), (o[1] = 2), (o[3] = 1), (o[6] = 0)));
+      var u = Q.positions;
+      return (
+        (u[0] = e),
+        (u[1] = t),
+        (u[2] = r),
+        (u.length = 3),
+        (1 != s && 2 != s) || ((u[3] = X), (u[4] = j), (u[5] = J), (u[6] = K), (u.length = 7)),
+        Q
+      );
+    }
+  }
+  function ee(e, t) {
+    var r = e.attributes;
+    if (0 !== r.position.values.length) {
+      for (var a in r)
+        if (r.hasOwnProperty(a) && k.defined(r[a]) && k.defined(r[a].values)) {
+          var n = r[a];
+          n.values = D.ComponentDatatype.createTypedArray(n.componentDatatype, n.values);
+        }
+      var i = B.Geometry.computeNumberOfVertices(e);
+      return (
+        (e.indices = w.IndexDatatype.createTypedArray(i, e.indices)),
+        t && (e.boundingSphere = Y.BoundingSphere.fromVertices(r.position.values)),
+        e
+      );
+    }
+  }
+  function te(e) {
+    var t = e.attributes,
+      r = {};
+    for (var a in t)
+      if (t.hasOwnProperty(a) && k.defined(t[a]) && k.defined(t[a].values)) {
+        var n = t[a];
+        r[a] = new B.GeometryAttribute({
+          componentDatatype: n.componentDatatype,
+          componentsPerAttribute: n.componentsPerAttribute,
+          normalize: n.normalize,
+          values: [],
+        });
+      }
+    return new B.Geometry({ attributes: r, indices: [], primitiveType: e.primitiveType });
+  }
+  function re(e, t, r) {
+    var a = k.defined(e.geometry.boundingSphere);
+    (t = ee(t, a)),
+      (r = ee(r, a)),
+      k.defined(r) && !k.defined(t)
+        ? (e.geometry = r)
+        : !k.defined(r) && k.defined(t)
+          ? (e.geometry = t)
+          : ((e.westHemisphereGeometry = t), (e.eastHemisphereGeometry = r), (e.geometry = void 0));
+  }
+  function r(v, y) {
+    var f = new v(),
+      c = new v(),
+      m = new v();
+    return function(e, t, r, a, n, i, s, o) {
+      var u = v.fromArray(n, e * y, f),
+        p = v.fromArray(n, t * y, c),
+        d = v.fromArray(n, r * y, m);
+      v.multiplyByScalar(u, a.x, u), v.multiplyByScalar(p, a.y, p), v.multiplyByScalar(d, a.z, d);
+      var l = v.add(u, p, u);
+      v.add(l, d, l), o && v.normalize(l, l), v.pack(l, i, s * y);
+    };
+  }
+  var ae = r(Y.Cartesian4, 4),
+    ne = r(U.Cartesian3, 3),
+    ie = r(U.Cartesian2, 2),
+    se = function(e, t, r, a, n, i, s) {
+      var o = n[e] * a.x,
+        u = n[t] * a.y,
+        p = n[r] * a.z;
+      i[s] = o + u + p > q.BMMath.EPSILON6 ? 1 : 0;
+    },
+    oe = new U.Cartesian3(),
+    ue = new U.Cartesian3(),
+    pe = new U.Cartesian3(),
+    de = new U.Cartesian3();
+  function le(e, t, r, a, n, i, s, o, u, p, d, l, v, y, f, c) {
+    if (k.defined(i) || k.defined(s) || k.defined(o) || k.defined(u) || k.defined(p) || 0 !== y) {
+      var m = (function(e, t, r, a, n) {
+        var i, s, o, u, p, d, l, v;
+        if ((k.defined(n) || (n = new U.Cartesian3()), k.defined(t.z))) {
+          if (U.Cartesian3.equalsEpsilon(e, t, q.BMMath.EPSILON14))
+            return U.Cartesian3.clone(U.Cartesian3.UNIT_X, n);
+          if (U.Cartesian3.equalsEpsilon(e, r, q.BMMath.EPSILON14))
+            return U.Cartesian3.clone(U.Cartesian3.UNIT_Y, n);
+          if (U.Cartesian3.equalsEpsilon(e, a, q.BMMath.EPSILON14))
+            return U.Cartesian3.clone(U.Cartesian3.UNIT_Z, n);
+          (i = U.Cartesian3.subtract(r, t, x)),
+            (s = U.Cartesian3.subtract(a, t, S)),
+            (o = U.Cartesian3.subtract(e, t, I)),
+            (u = U.Cartesian3.dot(i, i)),
+            (p = U.Cartesian3.dot(i, s)),
+            (d = U.Cartesian3.dot(i, o)),
+            (l = U.Cartesian3.dot(s, s)),
+            (v = U.Cartesian3.dot(s, o));
+        } else {
+          if (U.Cartesian2.equalsEpsilon(e, t, q.BMMath.EPSILON14))
+            return U.Cartesian3.clone(U.Cartesian3.UNIT_X, n);
+          if (U.Cartesian2.equalsEpsilon(e, r, q.BMMath.EPSILON14))
+            return U.Cartesian3.clone(U.Cartesian3.UNIT_Y, n);
+          if (U.Cartesian2.equalsEpsilon(e, a, q.BMMath.EPSILON14))
+            return U.Cartesian3.clone(U.Cartesian3.UNIT_Z, n);
+          (i = U.Cartesian2.subtract(r, t, x)),
+            (s = U.Cartesian2.subtract(a, t, S)),
+            (o = U.Cartesian2.subtract(e, t, I)),
+            (u = U.Cartesian2.dot(i, i)),
+            (p = U.Cartesian2.dot(i, s)),
+            (d = U.Cartesian2.dot(i, o)),
+            (l = U.Cartesian2.dot(s, s)),
+            (v = U.Cartesian2.dot(s, o));
+        }
+        (n.y = l * d - p * v), (n.z = u * v - p * d);
+        var y = u * l - p * p;
+        return 0 !== n.y && (n.y /= y), 0 !== n.z && (n.z /= y), (n.x = 1 - n.y - n.z), n;
+      })(
+        a,
+        U.Cartesian3.fromArray(n, 3 * e, oe),
+        U.Cartesian3.fromArray(n, 3 * t, ue),
+        U.Cartesian3.fromArray(n, 3 * r, pe),
+        de
+      );
+      if ((k.defined(i) && ne(e, t, r, m, i, l.normal.values, c, !0), k.defined(p))) {
+        var h,
+          C = U.Cartesian3.fromArray(p, 3 * e, oe),
+          b = U.Cartesian3.fromArray(p, 3 * t, ue),
+          g = U.Cartesian3.fromArray(p, 3 * r, pe);
+        U.Cartesian3.multiplyByScalar(C, m.x, C),
+          U.Cartesian3.multiplyByScalar(b, m.y, b),
+          U.Cartesian3.multiplyByScalar(g, m.z, g),
+          U.Cartesian3.equals(C, U.Cartesian3.ZERO) &&
+          U.Cartesian3.equals(b, U.Cartesian3.ZERO) &&
+          U.Cartesian3.equals(g, U.Cartesian3.ZERO)
+            ? (((h = oe).x = 0), (h.y = 0), (h.z = 0))
+            : ((h = U.Cartesian3.add(C, b, C)),
+              U.Cartesian3.add(h, g, h),
+              U.Cartesian3.normalize(h, h)),
+          U.Cartesian3.pack(h, l.extrudeDirection.values, 3 * c);
+      }
+      if (
+        (k.defined(d) && se(e, t, r, m, d, l.applyOffset.values, c),
+        k.defined(s) && ne(e, t, r, m, s, l.tangent.values, c, !0),
+        k.defined(o) && ne(e, t, r, m, o, l.bitangent.values, c, !0),
+        k.defined(u) && ie(e, t, r, m, u, l.st.values, c),
+        0 < y)
+      )
+        for (var A = 0; A < y; A++) {
+          var T = v[A];
+          ve(e, t, r, m, c, f[T], l[T]);
+        }
+    }
+  }
+  function ve(e, t, r, a, n, i, s) {
+    var o = i.componentsPerAttribute,
+      u = i.values,
+      p = s.values;
+    switch (o) {
+      case 4:
+        ae(e, t, r, a, u, p, n, !1);
+        break;
+      case 3:
+        ne(e, t, r, a, u, p, n, !1);
+        break;
+      case 2:
+        ie(e, t, r, a, u, p, n, !1);
+        break;
+      default:
+        p[n] = u[e] * a.x + u[t] * a.y + u[r] * a.z;
+    }
+  }
+  function ye(e, t, r, a, n, i) {
+    var s = e.position.values.length / 3;
+    if (-1 === n) return e.position.values.push(i.x, i.y, i.z), t.push(s), s;
+    var o = a[n],
+      u = r[o];
+    return -1 === u
+      ? ((r[o] = s), e.position.values.push(i.x, i.y, i.z), t.push(s), s)
+      : (t.push(u), u);
+  }
+  var fe = {
+    position: !0,
+    normal: !0,
+    bitangent: !0,
+    tangent: !0,
+    st: !0,
+    extrudeDirection: !0,
+    applyOffset: !0,
+  };
+  function ce(e) {
+    var t = e.geometry,
+      r = t.attributes,
+      a = r.position.values,
+      n = k.defined(r.normal) ? r.normal.values : void 0,
+      i = k.defined(r.bitangent) ? r.bitangent.values : void 0,
+      s = k.defined(r.tangent) ? r.tangent.values : void 0,
+      o = k.defined(r.st) ? r.st.values : void 0,
+      u = k.defined(r.extrudeDirection) ? r.extrudeDirection.values : void 0,
+      p = k.defined(r.applyOffset) ? r.applyOffset.values : void 0,
+      d = t.indices,
+      l = [];
+    for (var v in r) r.hasOwnProperty(v) && !fe[v] && k.defined(r[v]) && l.push(v);
+    var y,
+      f,
+      c,
+      m,
+      h = l.length,
+      C = te(t),
+      b = te(t),
+      g = [];
+    g.length = a.length / 3;
+    var A = [];
+    for (A.length = a.length / 3, m = 0; m < g.length; ++m) (g[m] = -1), (A[m] = -1);
+    var T = d.length;
+    for (m = 0; m < T; m += 3) {
+      var x = d[m],
+        P = d[m + 1],
+        w = d[m + 2],
+        S = U.Cartesian3.fromArray(a, 3 * x),
+        I = U.Cartesian3.fromArray(a, 3 * P),
+        M = U.Cartesian3.fromArray(a, 3 * w),
+        O = $(S, I, M);
+      if (k.defined(O) && 3 < O.positions.length)
+        for (var E = O.positions, N = O.indices, L = N.length, z = 0; z < L; ++z) {
+          var D = N[z],
+            B = E[D];
+          (c =
+            B.y < 0
+              ? ((y = b.attributes), (f = b.indices), g)
+              : ((y = C.attributes), (f = C.indices), A)),
+            le(x, P, w, B, a, n, s, i, o, u, p, y, l, h, r, ye(y, f, c, d, D < 3 ? m + D : -1, B));
+        }
+      else
+        k.defined(O) && ((S = O.positions[0]), (I = O.positions[1]), (M = O.positions[2])),
+          (c =
+            S.y < 0
+              ? ((y = b.attributes), (f = b.indices), g)
+              : ((y = C.attributes), (f = C.indices), A)),
+          le(x, P, w, S, a, n, s, i, o, u, p, y, l, h, r, ye(y, f, c, d, m, S)),
+          le(x, P, w, I, a, n, s, i, o, u, p, y, l, h, r, ye(y, f, c, d, m + 1, I)),
+          le(x, P, w, M, a, n, s, i, o, u, p, y, l, h, r, ye(y, f, c, d, m + 2, M));
+    }
+    re(e, b, C);
+  }
+  var me = a.Plane.fromPointNormal(U.Cartesian3.ZERO, U.Cartesian3.UNIT_Y),
+    he = new U.Cartesian3(),
+    Ce = new U.Cartesian3();
+  function be(e, t, r, a, n, i, s) {
+    if (k.defined(s)) {
+      var o = U.Cartesian3.fromArray(a, 3 * e, oe);
+      U.Cartesian3.equalsEpsilon(o, r, q.BMMath.EPSILON10)
+        ? (i.applyOffset.values[n] = s[e])
+        : (i.applyOffset.values[n] = s[t]);
+    }
+  }
+  function ge(e) {
+    var t,
+      r = e.geometry,
+      a = r.attributes,
+      n = a.position.values,
+      i = k.defined(a.applyOffset) ? a.applyOffset.values : void 0,
+      s = r.indices,
+      o = te(r),
+      u = te(r),
+      p = s.length,
+      d = [];
+    d.length = n.length / 3;
+    var l = [];
+    for (l.length = n.length / 3, t = 0; t < d.length; ++t) (d[t] = -1), (l[t] = -1);
+    for (t = 0; t < p; t += 2) {
+      var v = s[t],
+        y = s[t + 1],
+        f = U.Cartesian3.fromArray(n, 3 * v, oe),
+        c = U.Cartesian3.fromArray(n, 3 * y, ue);
+      Math.abs(f.y) < q.BMMath.EPSILON6 &&
+        (f.y < 0 ? (f.y = -q.BMMath.EPSILON6) : (f.y = q.BMMath.EPSILON6)),
+        Math.abs(c.y) < q.BMMath.EPSILON6 &&
+          (c.y < 0 ? (c.y = -q.BMMath.EPSILON6) : (c.y = q.BMMath.EPSILON6));
+      var m = o.attributes,
+        h = o.indices,
+        C = l,
+        b = u.attributes,
+        g = u.indices,
+        A = d,
+        T = Z.IntersectionTests.lineSegmentPlane(f, c, me, pe);
+      if (k.defined(T)) {
+        var x = U.Cartesian3.multiplyByScalar(U.Cartesian3.UNIT_Y, 5 * q.BMMath.EPSILON9, he);
+        f.y < 0 &&
+          (U.Cartesian3.negate(x, x),
+          (m = u.attributes),
+          (h = u.indices),
+          (C = d),
+          (b = o.attributes),
+          (g = o.indices),
+          (A = l));
+        var P = U.Cartesian3.add(T, x, Ce);
+        be(v, y, f, n, ye(m, h, C, s, t, f), m, i),
+          be(v, y, P, n, ye(m, h, C, s, -1, P), m, i),
+          U.Cartesian3.negate(x, x),
+          U.Cartesian3.add(T, x, P),
+          be(v, y, P, n, ye(b, g, A, s, -1, P), b, i),
+          be(v, y, c, n, ye(b, g, A, s, t + 1, c), b, i);
+      } else {
+        var w, S, I;
+        (I =
+          f.y < 0
+            ? ((w = u.attributes), (S = u.indices), d)
+            : ((w = o.attributes), (S = o.indices), l)),
+          be(v, y, f, n, ye(w, S, I, s, t, f), w, i),
+          be(v, y, c, n, ye(w, S, I, s, t + 1, c), w, i);
+      }
+    }
+    re(e, u, o);
+  }
+  var Ae = new U.Cartesian2(),
+    Te = new U.Cartesian2(),
+    xe = new U.Cartesian3(),
+    Pe = new U.Cartesian3(),
+    we = new U.Cartesian3(),
+    Se = new U.Cartesian3(),
+    Ie = new U.Cartesian3(),
+    Me = new U.Cartesian3(),
+    Oe = new Y.Cartesian4();
+  function Ee(e) {
+    for (
+      var t = e.attributes,
+        r = t.position.values,
+        a = t.prevPosition.values,
+        n = t.nextPosition.values,
+        i = r.length,
+        s = 0;
+      s < i;
+      s += 3
+    ) {
+      var o = U.Cartesian3.unpack(r, s, xe);
+      if (!(0 < o.x)) {
+        var u = U.Cartesian3.unpack(a, s, Pe);
+        ((o.y < 0 && 0 < u.y) || (0 < o.y && u.y < 0)) &&
+          (0 < s - 3
+            ? ((a[s] = r[s - 3]), (a[s + 1] = r[s - 2]), (a[s + 2] = r[s - 1]))
+            : U.Cartesian3.pack(o, a, s));
+        var p = U.Cartesian3.unpack(n, s, we);
+        ((o.y < 0 && 0 < p.y) || (0 < o.y && p.y < 0)) &&
+          (s + 3 < i
+            ? ((n[s] = r[s + 3]), (n[s + 1] = r[s + 4]), (n[s + 2] = r[s + 5]))
+            : U.Cartesian3.pack(o, n, s));
+      }
+    }
+  }
+  var Ne = 5 * q.BMMath.EPSILON9,
+    Le = q.BMMath.EPSILON6;
+  (t.splitLongitude = function(e) {
+    var t = e.geometry,
+      r = t.boundingSphere;
+    if (
+      k.defined(r) &&
+      (0 < r.center.x - r.radius ||
+        Y.BoundingSphere.intersectPlane(r, a.Plane.ORIGIN_ZX_PLANE) !== Y.Intersect.INTERSECTING)
+    )
+      return e;
+    if (t.geometryType !== B.GeometryType.NONE)
+      switch (t.geometryType) {
+        case B.GeometryType.POLYLINES:
+          !(function(e) {
+            var t,
+              r,
+              a,
+              n = e.geometry,
+              i = n.attributes,
+              s = i.position.values,
+              o = i.prevPosition.values,
+              u = i.nextPosition.values,
+              p = i.expandAndWidth.values,
+              d = k.defined(i.st) ? i.st.values : void 0,
+              l = k.defined(i.color) ? i.color.values : void 0,
+              v = te(n),
+              y = te(n),
+              f = !1,
+              c = s.length / 3;
+            for (t = 0; t < c; t += 4) {
+              var m = t,
+                h = t + 2,
+                C = U.Cartesian3.fromArray(s, 3 * m, xe),
+                b = U.Cartesian3.fromArray(s, 3 * h, Pe);
+              if (Math.abs(C.y) < Le)
+                for (
+                  C.y = Le * (b.y < 0 ? -1 : 1),
+                    s[3 * t + 1] = C.y,
+                    s[3 * (t + 1) + 1] = C.y,
+                    r = 3 * m;
+                  r < 3 * m + 12;
+                  r += 3
+                )
+                  (o[r] = s[3 * t]), (o[r + 1] = s[3 * t + 1]), (o[r + 2] = s[3 * t + 2]);
+              if (Math.abs(b.y) < Le)
+                for (
+                  b.y = Le * (C.y < 0 ? -1 : 1),
+                    s[3 * (t + 2) + 1] = b.y,
+                    s[3 * (t + 3) + 1] = b.y,
+                    r = 3 * m;
+                  r < 3 * m + 12;
+                  r += 3
+                )
+                  (u[r] = s[3 * (t + 2)]),
+                    (u[r + 1] = s[3 * (t + 2) + 1]),
+                    (u[r + 2] = s[3 * (t + 2) + 2]);
+              var g = v.attributes,
+                A = v.indices,
+                T = y.attributes,
+                x = y.indices,
+                P = Z.IntersectionTests.lineSegmentPlane(C, b, me, Se);
+              if (k.defined(P)) {
+                f = !0;
+                var w = U.Cartesian3.multiplyByScalar(U.Cartesian3.UNIT_Y, Ne, Ie);
+                C.y < 0 &&
+                  (U.Cartesian3.negate(w, w),
+                  (g = y.attributes),
+                  (A = y.indices),
+                  (T = v.attributes),
+                  (x = v.indices));
+                var S = U.Cartesian3.add(P, w, Me);
+                g.position.values.push(C.x, C.y, C.z, C.x, C.y, C.z),
+                  g.position.values.push(S.x, S.y, S.z),
+                  g.position.values.push(S.x, S.y, S.z),
+                  g.prevPosition.values.push(o[3 * m], o[3 * m + 1], o[3 * m + 2]),
+                  g.prevPosition.values.push(o[3 * m + 3], o[3 * m + 4], o[3 * m + 5]),
+                  g.prevPosition.values.push(C.x, C.y, C.z, C.x, C.y, C.z),
+                  g.nextPosition.values.push(S.x, S.y, S.z),
+                  g.nextPosition.values.push(S.x, S.y, S.z),
+                  g.nextPosition.values.push(S.x, S.y, S.z),
+                  g.nextPosition.values.push(S.x, S.y, S.z),
+                  U.Cartesian3.negate(w, w),
+                  U.Cartesian3.add(P, w, S),
+                  T.position.values.push(S.x, S.y, S.z),
+                  T.position.values.push(S.x, S.y, S.z),
+                  T.position.values.push(b.x, b.y, b.z, b.x, b.y, b.z),
+                  T.prevPosition.values.push(S.x, S.y, S.z),
+                  T.prevPosition.values.push(S.x, S.y, S.z),
+                  T.prevPosition.values.push(S.x, S.y, S.z),
+                  T.prevPosition.values.push(S.x, S.y, S.z),
+                  T.nextPosition.values.push(b.x, b.y, b.z, b.x, b.y, b.z),
+                  T.nextPosition.values.push(u[3 * h], u[3 * h + 1], u[3 * h + 2]),
+                  T.nextPosition.values.push(u[3 * h + 3], u[3 * h + 4], u[3 * h + 5]);
+                var I = U.Cartesian2.fromArray(p, 2 * m, Ae),
+                  M = Math.abs(I.y);
+                g.expandAndWidth.values.push(-1, M, 1, M),
+                  g.expandAndWidth.values.push(-1, -M, 1, -M),
+                  T.expandAndWidth.values.push(-1, M, 1, M),
+                  T.expandAndWidth.values.push(-1, -M, 1, -M);
+                var O = U.Cartesian3.magnitudeSquared(U.Cartesian3.subtract(P, C, we));
+                if (
+                  ((O /= U.Cartesian3.magnitudeSquared(U.Cartesian3.subtract(b, C, we))),
+                  k.defined(l))
+                ) {
+                  var E = Y.Cartesian4.fromArray(l, 4 * m, Oe),
+                    N = Y.Cartesian4.fromArray(l, 4 * h, Oe),
+                    L = q.BMMath.lerp(E.x, N.x, O),
+                    z = q.BMMath.lerp(E.y, N.y, O),
+                    D = q.BMMath.lerp(E.z, N.z, O),
+                    B = q.BMMath.lerp(E.w, N.w, O);
+                  for (r = 4 * m; r < 4 * m + 8; ++r) g.color.values.push(l[r]);
+                  for (
+                    g.color.values.push(L, z, D, B),
+                      g.color.values.push(L, z, D, B),
+                      T.color.values.push(L, z, D, B),
+                      T.color.values.push(L, z, D, B),
+                      r = 4 * h;
+                    r < 4 * h + 8;
+                    ++r
+                  )
+                    T.color.values.push(l[r]);
+                }
+                if (k.defined(d)) {
+                  var G = U.Cartesian2.fromArray(d, 2 * m, Ae),
+                    V = U.Cartesian2.fromArray(d, 2 * (t + 3), Te),
+                    R = q.BMMath.lerp(G.x, V.x, O);
+                  for (r = 2 * m; r < 2 * m + 4; ++r) g.st.values.push(d[r]);
+                  for (
+                    g.st.values.push(R, G.y),
+                      g.st.values.push(R, V.y),
+                      T.st.values.push(R, G.y),
+                      T.st.values.push(R, V.y),
+                      r = 2 * h;
+                    r < 2 * h + 4;
+                    ++r
+                  )
+                    T.st.values.push(d[r]);
+                }
+                (a = g.position.values.length / 3 - 4),
+                  A.push(a, a + 2, a + 1),
+                  A.push(a + 1, a + 2, a + 3),
+                  (a = T.position.values.length / 3 - 4),
+                  x.push(a, a + 2, a + 1),
+                  x.push(a + 1, a + 2, a + 3);
+              } else {
+                var F, _;
+                for (
+                  _ = C.y < 0 ? ((F = y.attributes), y.indices) : ((F = v.attributes), v.indices),
+                    F.position.values.push(C.x, C.y, C.z),
+                    F.position.values.push(C.x, C.y, C.z),
+                    F.position.values.push(b.x, b.y, b.z),
+                    F.position.values.push(b.x, b.y, b.z),
+                    r = 3 * t;
+                  r < 3 * t + 12;
+                  ++r
+                )
+                  F.prevPosition.values.push(o[r]), F.nextPosition.values.push(u[r]);
+                for (r = 2 * t; r < 2 * t + 8; ++r)
+                  F.expandAndWidth.values.push(p[r]), k.defined(d) && F.st.values.push(d[r]);
+                if (k.defined(l)) for (r = 4 * t; r < 4 * t + 16; ++r) F.color.values.push(l[r]);
+                (a = F.position.values.length / 3 - 4),
+                  _.push(a, a + 2, a + 1),
+                  _.push(a + 1, a + 2, a + 3);
+              }
+            }
+            f && (Ee(y), Ee(v)), re(e, y, v);
+          })(e);
+          break;
+        case B.GeometryType.TRIANGLES:
+          ce(e);
+          break;
+        case B.GeometryType.LINES:
+          ge(e);
+      }
+    else
+      C(t),
+        t.primitiveType === B.PrimitiveType.TRIANGLES
+          ? ce(e)
+          : t.primitiveType === B.PrimitiveType.LINES && ge(e);
+    return e;
+  }),
+    (e.GeometryPipeline = t);
+});

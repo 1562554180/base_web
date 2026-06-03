@@ -1,0 +1,376 @@
+define([
+  'exports',
+  './defined-30a32f90',
+  './Math-fbd31710',
+  './freezeObject-4d675126',
+  './defaultValue-5903a66b',
+  './Cartesian2-06dac25b',
+  './defineProperties-deb3db60',
+  './Transforms-62d2509c',
+  './ComponentDatatype-30a05127',
+  './AttributeCompression-4610093c',
+], function(t, y, f, e, b, M, i, v, s, x) {
+  'use strict';
+  function r(t, e) {
+    (this._ellipsoid = t),
+      (this._cameraPosition = new M.Cartesian3()),
+      (this._cameraPositionInScaledSpace = new M.Cartesian3()),
+      (this._distanceToLimbInScaledSpaceSquared = 0),
+      y.defined(e) && (this.cameraPosition = e);
+  }
+  i.defineProperties(r.prototype, {
+    ellipsoid: {
+      get: function() {
+        return this._ellipsoid;
+      },
+    },
+    cameraPosition: {
+      get: function() {
+        return this._cameraPosition;
+      },
+      set: function(t) {
+        var e = this._ellipsoid.transformPositionToScaledSpace(
+            t,
+            this._cameraPositionInScaledSpace
+          ),
+          i = M.Cartesian3.magnitudeSquared(e) - 1;
+        M.Cartesian3.clone(t, this._cameraPosition),
+          (this._cameraPositionInScaledSpace = e),
+          (this._distanceToLimbInScaledSpaceSquared = i);
+      },
+    },
+  });
+  var m = new M.Cartesian3();
+  (r.prototype.isPointVisible = function(t) {
+    return h(
+      this._ellipsoid.transformPositionToScaledSpace(t, m),
+      this._cameraPositionInScaledSpace,
+      this._distanceToLimbInScaledSpaceSquared
+    );
+  }),
+    (r.prototype.isScaledSpacePointVisible = function(t) {
+      return h(t, this._cameraPositionInScaledSpace, this._distanceToLimbInScaledSpaceSquared);
+    });
+  var n = new M.Cartesian3();
+  (r.prototype.isScaledSpacePointVisiblePossiblyUnderEllipsoid = function(t, e) {
+    var i,
+      r,
+      a = this._ellipsoid;
+    return (
+      (i =
+        y.defined(e) && e < 0 && a.minimumRadius > -e
+          ? (((r = n).x = this._cameraPosition.x / (a.radii.x + e)),
+            (r.y = this._cameraPosition.y / (a.radii.y + e)),
+            (r.z = this._cameraPosition.z / (a.radii.z + e)),
+            r.x * r.x + r.y * r.y + r.z * r.z - 1)
+          : ((r = this._cameraPositionInScaledSpace), this._distanceToLimbInScaledSpaceSquared)),
+      h(t, r, i)
+    );
+  }),
+    (r.prototype.computeHorizonCullingPoint = function(t, e, i) {
+      return d(this._ellipsoid, t, e, i);
+    });
+  var o = M.Ellipsoid.clone(M.Ellipsoid.UNIT_SPHERE);
+  (r.prototype.computeHorizonCullingPointPossiblyUnderEllipsoid = function(t, e, i, r) {
+    return d(u(this._ellipsoid, i, o), t, e, r);
+  }),
+    (r.prototype.computeHorizonCullingPointFromVertices = function(t, e, i, r, a) {
+      return p(this._ellipsoid, t, e, i, r, a);
+    }),
+    (r.prototype.computeHorizonCullingPointFromVerticesPossiblyUnderEllipsoid = function(
+      t,
+      e,
+      i,
+      r,
+      a,
+      n
+    ) {
+      return p(u(this._ellipsoid, a, o), t, e, i, r, n);
+    });
+  var c = [];
+  r.prototype.computeHorizonCullingPointFromRectangle = function(t, e, i) {
+    var r = M.Rectangle.subsample(t, e, 0, c),
+      a = v.BoundingSphere.fromPoints(r);
+    if (!(M.Cartesian3.magnitude(a.center) < 0.1 * e.minimumRadius))
+      return this.computeHorizonCullingPoint(a.center, r, i);
+  };
+  var a = new M.Cartesian3();
+  function u(t, e, i) {
+    if (y.defined(e) && e < 0 && t.minimumRadius > -e) {
+      var r = M.Cartesian3.fromElements(t.radii.x + e, t.radii.y + e, t.radii.z + e, a);
+      t = M.Ellipsoid.fromCartesian3(r, i);
+    }
+    return t;
+  }
+  function d(t, e, i, r) {
+    y.defined(r) || (r = new M.Cartesian3());
+    for (var a = z(t, e), n = 0, o = 0, s = i.length; o < s; ++o) {
+      var m = g(t, i[o], a);
+      if (m < 0) return;
+      n = Math.max(n, m);
+    }
+    return T(a, n, r);
+  }
+  var l = new M.Cartesian3();
+  function p(t, e, i, r, a, n) {
+    y.defined(n) || (n = new M.Cartesian3()),
+      (r = b.defaultValue(r, 3)),
+      (a = b.defaultValue(a, M.Cartesian3.ZERO));
+    for (var o = z(t, e), s = 0, m = 0, c = i.length; m < c; m += r) {
+      (l.x = i[m] + a.x), (l.y = i[m + 1] + a.y), (l.z = i[m + 2] + a.z);
+      var u = g(t, l, o);
+      if (u < 0) return;
+      s = Math.max(s, u);
+    }
+    return T(o, s, n);
+  }
+  function h(t, e, i) {
+    var r = e,
+      a = i,
+      n = M.Cartesian3.subtract(t, r, m),
+      o = -M.Cartesian3.dot(n, r);
+    return !(a < 0 ? 0 < o : a < o && (o * o) / M.Cartesian3.magnitudeSquared(n) > a);
+  }
+  var C = new M.Cartesian3(),
+    S = new M.Cartesian3();
+  function g(t, e, i) {
+    var r = t.transformPositionToScaledSpace(e, C),
+      a = M.Cartesian3.magnitudeSquared(r),
+      n = Math.sqrt(a),
+      o = M.Cartesian3.divideByScalar(r, n, S);
+    a = Math.max(1, a);
+    var s = 1 / (n = Math.max(1, n));
+    return (
+      1 /
+      (M.Cartesian3.dot(o, i) * s -
+        M.Cartesian3.magnitude(M.Cartesian3.cross(o, i, o)) * (Math.sqrt(a - 1) * s))
+    );
+  }
+  function T(t, e, i) {
+    if (!(e <= 0 || e === 1 / 0 || e != e)) return M.Cartesian3.multiplyByScalar(t, e, i);
+  }
+  var P = new M.Cartesian3();
+  function z(t, e) {
+    return M.Cartesian3.equals(e, M.Cartesian3.ZERO)
+      ? e
+      : (t.transformPositionToScaledSpace(e, P), M.Cartesian3.normalize(P, P));
+  }
+  var E = e.freezeObject({ NONE: 0, BITS12: 1 }),
+    B = new M.Cartesian3(),
+    N = new M.Cartesian3(),
+    I = new M.Cartesian2(),
+    _ = new v.Matrix4(),
+    w = new v.Matrix4(),
+    A = Math.pow(2, 12);
+  function q(t, e, i, r, a, n) {
+    var o,
+      s,
+      m,
+      c = E.NONE;
+    if (y.defined(t) && y.defined(e) && y.defined(i) && y.defined(r)) {
+      var u = t.minimum,
+        d = t.maximum,
+        l = M.Cartesian3.subtract(d, u, N),
+        p = i - e;
+      (c = Math.max(M.Cartesian3.maximumComponent(l), p) < A - 1 ? E.BITS12 : E.NONE),
+        (o = t.center),
+        (s = v.Matrix4.inverseTransformation(r, new v.Matrix4()));
+      var h = M.Cartesian3.negate(u, B);
+      v.Matrix4.multiply(v.Matrix4.fromTranslation(h, _), s, s);
+      var f = B;
+      (f.x = 1 / l.x),
+        (f.y = 1 / l.y),
+        (f.z = 1 / l.z),
+        v.Matrix4.multiply(v.Matrix4.fromScale(f, _), s, s),
+        (m = v.Matrix4.clone(r)),
+        v.Matrix4.setTranslation(m, M.Cartesian3.ZERO, m),
+        (r = v.Matrix4.clone(r, new v.Matrix4()));
+      var x = v.Matrix4.fromTranslation(u, _),
+        C = v.Matrix4.fromScale(l, w),
+        S = v.Matrix4.multiply(x, C, _);
+      v.Matrix4.multiply(r, S, r), v.Matrix4.multiply(m, S, m);
+    }
+    (this.quantization = c),
+      (this.minimumHeight = e),
+      (this.maximumHeight = i),
+      (this.center = o),
+      (this.toScaledENU = s),
+      (this.fromScaledENU = r),
+      (this.matrix = m),
+      (this.hasVertexNormals = a),
+      (this.hasWebMercatorT = b.defaultValue(n, !1));
+  }
+  (q.prototype.encode = function(t, e, i, r, a, n, o) {
+    var s = r.x,
+      m = r.y;
+    if (this.quantization === E.BITS12) {
+      ((i = v.Matrix4.multiplyByPoint(this.toScaledENU, i, B)).x = f.BMMath.clamp(i.x, 0, 1)),
+        (i.y = f.BMMath.clamp(i.y, 0, 1)),
+        (i.z = f.BMMath.clamp(i.z, 0, 1));
+      var c = this.maximumHeight - this.minimumHeight,
+        u = f.BMMath.clamp((a - this.minimumHeight) / c, 0, 1);
+      M.Cartesian2.fromElements(i.x, i.y, I);
+      var d = x.AttributeCompression.compressTextureCoordinates(I);
+      M.Cartesian2.fromElements(i.z, u, I);
+      var l = x.AttributeCompression.compressTextureCoordinates(I);
+      M.Cartesian2.fromElements(s, m, I);
+      var p = x.AttributeCompression.compressTextureCoordinates(I);
+      if (((t[e++] = d), (t[e++] = l), (t[e++] = p), this.hasWebMercatorT)) {
+        M.Cartesian2.fromElements(o, 0, I);
+        var h = x.AttributeCompression.compressTextureCoordinates(I);
+        t[e++] = h;
+      }
+    } else
+      M.Cartesian3.subtract(i, this.center, B),
+        (t[e++] = B.x),
+        (t[e++] = B.y),
+        (t[e++] = B.z),
+        (t[e++] = a),
+        (t[e++] = s),
+        (t[e++] = m),
+        this.hasWebMercatorT && (t[e++] = o);
+    return this.hasVertexNormals && (t[e++] = x.AttributeCompression.octPackFloat(n)), e;
+  }),
+    (q.prototype.decodePosition = function(t, e, i) {
+      if (
+        (y.defined(i) || (i = new M.Cartesian3()),
+        (e *= this.getStride()),
+        this.quantization !== E.BITS12)
+      )
+        return (
+          (i.x = t[e]), (i.y = t[e + 1]), (i.z = t[e + 2]), M.Cartesian3.add(i, this.center, i)
+        );
+      var r = x.AttributeCompression.decompressTextureCoordinates(t[e], I);
+      (i.x = r.x), (i.y = r.y);
+      var a = x.AttributeCompression.decompressTextureCoordinates(t[e + 1], I);
+      return (i.z = a.x), v.Matrix4.multiplyByPoint(this.fromScaledENU, i, i);
+    }),
+    (q.prototype.decodeTextureCoordinates = function(t, e, i) {
+      return (
+        y.defined(i) || (i = new M.Cartesian2()),
+        (e *= this.getStride()),
+        this.quantization === E.BITS12
+          ? x.AttributeCompression.decompressTextureCoordinates(t[e + 2], i)
+          : M.Cartesian2.fromElements(t[e + 4], t[e + 5], i)
+      );
+    }),
+    (q.prototype.decodeHeight = function(t, e) {
+      return (
+        (e *= this.getStride()),
+        this.quantization !== E.BITS12
+          ? t[e + 3]
+          : x.AttributeCompression.decompressTextureCoordinates(t[e + 1], I).y *
+              (this.maximumHeight - this.minimumHeight) +
+            this.minimumHeight
+      );
+    }),
+    (q.prototype.decodeWebMercatorT = function(t, e) {
+      return (
+        (e *= this.getStride()),
+        this.quantization === E.BITS12
+          ? x.AttributeCompression.decompressTextureCoordinates(t[e + 3], I).x
+          : t[e + 6]
+      );
+    }),
+    (q.prototype.getOctEncodedNormal = function(t, e, i) {
+      var r = t[(e = (e + 1) * this.getStride() - 1)] / 256,
+        a = Math.floor(r),
+        n = 256 * (r - a);
+      return M.Cartesian2.fromElements(a, n, i);
+    }),
+    (q.prototype.getStride = function() {
+      var t;
+      switch (this.quantization) {
+        case E.BITS12:
+          t = 3;
+          break;
+        default:
+          t = 6;
+      }
+      return this.hasWebMercatorT && ++t, this.hasVertexNormals && ++t, t;
+    });
+  var H = { position3DAndHeight: 0, textureCoordAndEncodedNormals: 1 },
+    V = { compressed0: 0, compressed1: 1 };
+  (q.prototype.getAttributes = function(t) {
+    var e,
+      i = s.ComponentDatatype.FLOAT,
+      r = s.ComponentDatatype.getSizeInBytes(i);
+    if (this.quantization === E.NONE) {
+      var a = 2;
+      return (
+        this.hasWebMercatorT && ++a,
+        this.hasVertexNormals && ++a,
+        [
+          {
+            index: H.position3DAndHeight,
+            vertexBuffer: t,
+            componentDatatype: i,
+            componentsPerAttribute: 4,
+            offsetInBytes: 0,
+            strideInBytes: (e = (4 + a) * r),
+          },
+          {
+            index: H.textureCoordAndEncodedNormals,
+            vertexBuffer: t,
+            componentDatatype: i,
+            componentsPerAttribute: a,
+            offsetInBytes: 4 * r,
+            strideInBytes: e,
+          },
+        ]
+      );
+    }
+    var n = 3,
+      o = 0;
+    return (
+      (this.hasWebMercatorT || this.hasVertexNormals) && ++n,
+      this.hasWebMercatorT && this.hasVertexNormals
+        ? [
+            {
+              index: V.compressed0,
+              vertexBuffer: t,
+              componentDatatype: i,
+              componentsPerAttribute: n,
+              offsetInBytes: 0,
+              strideInBytes: (e = (n + ++o) * r),
+            },
+            {
+              index: V.compressed1,
+              vertexBuffer: t,
+              componentDatatype: i,
+              componentsPerAttribute: o,
+              offsetInBytes: n * r,
+              strideInBytes: e,
+            },
+          ]
+        : [
+            {
+              index: V.compressed0,
+              vertexBuffer: t,
+              componentDatatype: i,
+              componentsPerAttribute: n,
+            },
+          ]
+    );
+  }),
+    (q.prototype.getAttributeLocations = function() {
+      return this.quantization === E.NONE ? H : V;
+    }),
+    (q.clone = function(t, e) {
+      return (
+        y.defined(e) || (e = new q()),
+        (e.quantization = t.quantization),
+        (e.minimumHeight = t.minimumHeight),
+        (e.maximumHeight = t.maximumHeight),
+        (e.center = M.Cartesian3.clone(t.center)),
+        (e.toScaledENU = v.Matrix4.clone(t.toScaledENU)),
+        (e.fromScaledENU = v.Matrix4.clone(t.fromScaledENU)),
+        (e.matrix = v.Matrix4.clone(t.matrix)),
+        (e.hasVertexNormals = t.hasVertexNormals),
+        (e.hasWebMercatorT = t.hasWebMercatorT),
+        e
+      );
+    }),
+    (t.EllipsoidalOccluder = r),
+    (t.TerrainEncoding = q);
+});
