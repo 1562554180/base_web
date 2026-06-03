@@ -4,15 +4,33 @@ import styles from './DeviceTimeSync.less';
 const STATUS_MAP = {
   enabled: { dotClass: 'enabled', text: '已启用' },
   disabled: { dotClass: 'disabled', text: '未启用' },
-  error: { dotClass: 'error', text: '异常' }
+  error: { dotClass: 'error', text: '异常' },
 };
 
 export default function DeviceTimeSync({ deviceData, timeSyncData }) {
-  const syncItems = React.useMemo(() => [
-    { key: 'pps', label: '1pps', ...STATUS_MAP[timeSyncData?.pps?.status ?? 'disabled'], error: timeSyncData?.pps?.error },
-    { key: '10mhz', label: '10MHz', ...STATUS_MAP[timeSyncData?.clock10mhz?.status ?? 'disabled'], error: timeSyncData?.clock10mhz?.error },
-    { key: 'ntp', label: 'NTP', ...STATUS_MAP[timeSyncData?.ntp?.status ?? 'disabled'], error: timeSyncData?.ntp?.error }
-  ], [timeSyncData]);
+  const syncItems = React.useMemo(
+    () => [
+      {
+        key: 'pps',
+        label: '1pps',
+        ...STATUS_MAP[timeSyncData?.pps?.status ?? 'disabled'],
+        error: timeSyncData?.pps?.error,
+      },
+      {
+        key: '10mhz',
+        label: '10MHz',
+        ...STATUS_MAP[timeSyncData?.clock10mhz?.status ?? 'disabled'],
+        error: timeSyncData?.clock10mhz?.error,
+      },
+      {
+        key: 'ntp',
+        label: 'NTP',
+        ...STATUS_MAP[timeSyncData?.ntp?.status ?? 'disabled'],
+        error: timeSyncData?.ntp?.error,
+      },
+    ],
+    [timeSyncData]
+  );
 
   return (
     <section className={`module-section ${styles.deviceTimesyncSection}`}>
@@ -34,7 +52,7 @@ export default function DeviceTimeSync({ deviceData, timeSyncData }) {
           </table>
         </div>
 
-        <div className={styles.subDivider}></div>
+        <div className={styles.subDivider} />
 
         <div className={styles.subCard}>
           <div className={styles.subHeader}>时间同步</div>
@@ -44,12 +62,12 @@ export default function DeviceTimeSync({ deviceData, timeSyncData }) {
                 <tr key={item.key}>
                   <th>{item.label}</th>
                   <td>
-                    <span className={styles.statusIndicator}>
-                      <span className={`${styles.statusDot} ${styles[item.dotClass]}`}></span>
+                    <span className="status-indicator">
+                      <span className={`status-dot ${styles[item.dotClass]}`} />
                       {item.text}
                       {item.error && (
-                        <span className={styles.errorBadge}>!
-                          <span className={styles.errorTip}>{item.error}</span>
+                        <span className={styles.errorBadge}>
+                          !<span className={styles.errorTip}>{item.error}</span>
                         </span>
                       )}
                     </span>
@@ -58,7 +76,9 @@ export default function DeviceTimeSync({ deviceData, timeSyncData }) {
               ))}
               <tr>
                 <th>当前时间</th>
-                <td className="value-normal" style={{ fontFamily: 'var(--font-mono)' }}>{timeSyncData?.currentTime}</td>
+                <td className="value-normal" style={{ fontFamily: 'var(--font-mono)' }}>
+                  {timeSyncData?.currentTime}
+                </td>
               </tr>
             </tbody>
           </table>

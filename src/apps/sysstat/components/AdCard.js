@@ -22,7 +22,10 @@ export default function AdCard({ data }) {
         <div className={styles.adCardList}>
           {(data?.items || []).map((card, index) => (
             <div key={index} className={styles.adCardItem}>
-              <div className={styles.adCardTitle}>AD-{card.id}</div>
+              <div className={styles.adCardTitle}>
+                AD-
+                {card.id}
+              </div>
               <div className={styles.adCardGrid}>
                 <span className={styles.adStat}>
                   <span className={styles.adLabel}>版本</span>
@@ -38,37 +41,51 @@ export default function AdCard({ data }) {
                 </span>
                 <span className={styles.adStat}>
                   <span className={styles.adLabel}>通道</span>
-                  <span className={styles.adValue}>{card.channels?.used}/{card.channels?.total}</span>
+                  <span className={styles.adValue}>
+                    {card.channels?.used}/{card.channels?.total}
+                  </span>
                 </span>
                 <span className={styles.adStat}>
                   <span className={styles.adLabel}>符号率</span>
-                  <span className={styles.adValue}>{card.symbolRate?.used}/{card.symbolRate?.total}</span>
+                  <span className={styles.adValue}>
+                    {card.symbolRate?.used}/{card.symbolRate?.total}
+                  </span>
                 </span>
                 <span className={styles.adStat}>
                   <span className={styles.adLabel}>数据</span>
-                  <span className={styles.statusIndicator}>
-                    <span className={`${styles.statusDot} ${styles[card.dataStatus]}`}></span>
+                  <span className="status-indicator">
+                    <span className={`status-dot ${styles[card.dataStatus]}`} />
                   </span>
                 </span>
                 <span className={styles.adStat}>
                   <span className={styles.adLabel}>菊花链</span>
-                  <span className={styles.statusIndicator}>
-                    <span className={`${styles.statusDot} ${card.daisyChain === 'synchronized' ? styles.normal : styles.warning}`}></span>
+                  <span className="status-indicator">
+                    <span
+                      className={`status-dot ${
+                        card.daisyChain === 'synchronized' ? 'normal' : 'warning'
+                      }`}
+                    />
                   </span>
                 </span>
                 <span className={styles.adStat}>
                   <span className={styles.adLabel}>戳丢失</span>
-                  <span className={styles.statusIndicator}>
-                    <span className={`${styles.statusDot} ${card.sampleStampLoss ? styles.error : styles.normal}`}></span>
+                  <span className="status-indicator">
+                    <span className={`status-dot ${card.sampleStampLoss ? 'error' : 'normal'}`} />
                   </span>
                 </span>
                 <span className={`${styles.adStat} ${getTempClass(card.temperature)}`}>
                   <span className={styles.adLabel}>温度</span>
-                  <span className={styles.adValue}>{card.temperature}°C</span>
+                  <span className={styles.adValue}>
+                    {card.temperature}
+                    °C
+                  </span>
                 </span>
                 <span className={`${styles.adStat} ${getLevelClass(card.level)}`}>
                   <span className={styles.adLabel}>电平</span>
-                  <span className={styles.adValue}>{card.level}dBm</span>
+                  <span className={styles.adValue}>
+                    {card.level}
+                    dBm
+                  </span>
                 </span>
               </div>
             </div>
