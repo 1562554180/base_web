@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './TopologyGraph.less';
-import TopologyGV from './TopologyGV';
+import TopologyX6 from './TopologyX6';
 
 export default function TopologyGraph({ data, onViewModeChange }) {
   const [viewMode, setViewMode] = React.useState('table');
@@ -309,7 +309,7 @@ export default function TopologyGraph({ data, onViewModeChange }) {
 
         {viewMode === 'rack' && (
           <div className={styles['mermaidWrapper']}>
-            <TopologyGV
+            <TopologyX6
               chains={signalChains}
               rfPorts={rfPorts}
               matrixItems={matrixItems}
