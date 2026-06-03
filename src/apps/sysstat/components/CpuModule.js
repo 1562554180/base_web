@@ -70,7 +70,15 @@ export default function CpuModule({ title, data }) {
             <strong className={getUsageClass(data.systemUsage)}>{data.systemUsage}%</strong>
             <span className={styles['mini-bar']}>
               <span
-                className={`${styles['mini-bar-fill']} ${getBarClass(data.systemUsage)}`}
+                className={`${styles['miniBarFill']} ${
+                  styles[
+                    'miniBarFill' +
+                      getBarClass(data.systemUsage)
+                        .charAt(0)
+                        .toUpperCase() +
+                      getBarClass(data.systemUsage).slice(1)
+                  ]
+                }`}
                 style={{ width: `${data.systemUsage}%` }}
               />
             </span>

@@ -43,8 +43,6 @@
 /* 基础重置 */
 .sysstat-page,
 .sysstat-page * {
-  margin: 0;
-  padding: 0;
   box-sizing: border-box;
 }
 
@@ -129,6 +127,7 @@
   background-color: var(--bg-card);
   border: 1px solid var(--border-color);
   border-radius: 4px;
+  overflow: hidden;
 }
 
 .sysstat-page .module-header {
@@ -387,6 +386,7 @@
 }
 
 .sysstat-page .progress-bar-fill {
+  display: block;
   height: 100%;
   border-radius: 3px;
   transition: width 0.3s ease;

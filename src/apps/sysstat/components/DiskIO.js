@@ -31,7 +31,9 @@ export default function DiskIO({ data }) {
             {(data?.mounts || []).map((mount, index) => (
               <div key={index} className={styles.mountItem}>
                 <span className={styles.mountName}>{mount.path}</span>
-                <span className={styles.mountSize}>{mount.used} / {mount.total} GB</span>
+                <span className={styles.mountSize}>
+                  {mount.used} / {mount.total} GB
+                </span>
                 <span className={`${styles.mountPercent} ${getUsageClass(mount.usage)}`}>
                   {mount.usage?.toFixed(1)}%
                 </span>
@@ -40,7 +42,7 @@ export default function DiskIO({ data }) {
           </div>
         </div>
 
-        <div className={styles.subDivider}></div>
+        <div className={styles.subDivider} />
 
         <div className={styles.subCard}>
           <div className={styles.subHeader}>IO 速率</div>
@@ -52,6 +54,7 @@ export default function DiskIO({ data }) {
               </span>
               <span className={`${styles.ioValue} value-good`}>
                 {ioRead.value}
+                &nbsp;&nbsp;
                 <span className={styles.ioUnit}>{ioRead.unit}</span>
               </span>
             </div>
@@ -62,6 +65,7 @@ export default function DiskIO({ data }) {
               </span>
               <span className={`${styles.ioValue} value-warning`}>
                 {ioWrite.value}
+                &nbsp;&nbsp;
                 <span className={styles.ioUnit}>{ioWrite.unit}</span>
               </span>
             </div>

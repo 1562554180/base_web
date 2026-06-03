@@ -154,23 +154,22 @@ export default function TopologyGraph({ data, onViewModeChange }) {
   const colSpanEmpty = 5 + (hasMatrix ? 2 : 0) + (hasConverter ? 2 : 0);
 
   return (
-    <section className={styles['topology-section']}>
-      <div
-        style={{ display: 'flex', justifyContent: 'space-between' }}
-        className="module-header"
-      >
+    <section className={styles['topologySection']}>
+      <div style={{ display: 'flex', justifyContent: 'space-between' }} className="module-header">
         <span>系统拓扑图</span>
-        <div className={styles['view-toggle']}>
+        <div className={styles['viewToggle']}>
           <button
             style={{ padding: '2px 10px' }}
-            className={`${styles['view-btn']} ${viewMode === 'table' ? styles['active'] : ''}`}
+            className={`${styles['viewBtn']} ${
+              viewMode === 'table' ? styles['viewBtnActive'] : ''
+            }`}
             onClick={() => switchView('table')}
           >
             表格
           </button>
           <button
             style={{ padding: '2px 10px' }}
-            className={`${styles['view-btn']} ${viewMode === 'rack' ? styles['active'] : ''}`}
+            className={`${styles['viewBtn']} ${viewMode === 'rack' ? styles['viewBtnActive'] : ''}`}
             onClick={() => switchView('rack')}
           >
             图形
@@ -181,57 +180,55 @@ export default function TopologyGraph({ data, onViewModeChange }) {
       <div style={{ display: 'flex', flex: 1 }} className="module-content">
         {viewMode === 'table' && (
           <div className="table-scroll">
-            <table className={styles['chain-table']} aria-label="信号链路拓扑">
+            <table className={styles['chainTable']} aria-label="信号链路拓扑">
               <thead>
                 <tr>
-                  <th className={styles['col-idx']}>#</th>
-                  <th className={styles['col-src']}>射频口</th>
+                  <th className={styles['colIdx']}>#</th>
+                  <th className={styles['colSrc']}>射频口</th>
                   {hasMatrix && (
                     <>
-                      <th className={styles['col-arrow']} />
-                      <th className={styles['col-matrix']}>矩阵</th>
+                      <th className={styles['colArrow']} />
+                      <th className={styles['colMatrix']}>矩阵</th>
                     </>
                   )}
                   {hasConverter && (
                     <>
-                      <th className={styles['col-arrow']} />
-                      <th className={styles['col-conv']}>变频器</th>
+                      <th className={styles['colArrow']} />
+                      <th className={styles['colConv']}>变频器</th>
                     </>
                   )}
-                  <th className={styles['col-arrow']} />
-                  <th className={styles['col-out']}>输出端口</th>
-                  <th className={styles['col-status']} />
+                  <th className={styles['colArrow']} />
+                  <th className={styles['colOut']}>输出端口</th>
+                  <th className={styles['colStatus']} />
                 </tr>
               </thead>
               <tbody>
                 {signalChains.map((chain, idx) => (
-                  <tr key={idx} className={!chain.active ? styles['chain-inactive'] : undefined}>
-                    <td className={styles['col-idx']}>{idx + 1}</td>
-                    <td className={styles['col-src']}>
+                  <tr key={idx} className={!chain.active ? styles['chainInactive'] : undefined}>
+                    <td className={styles['colIdx']}>{idx + 1}</td>
+                    <td className={styles['colSrc']}>
                       {chain.rf !== null ? (
-                        <span className={`${styles['node-tag']} ${styles['rf-tag']}`}>
+                        <span className={`${styles['nodeTag']} ${styles['rfTag']}`}>
                           <span>
                             RF-
                             {chain.rf}
                           </span>
-                          <span className={styles['tag-detail']}>{getRfLevel(chain.rf)}</span>
+                          <span className={styles['tagDetail']}>{getRfLevel(chain.rf)}</span>
                         </span>
                       ) : (
-                        <span className={styles['empty-tag']}>--</span>
+                        <span className={styles['emptyTag']}>--</span>
                       )}
                     </td>
                     {hasMatrix && (
                       <>
-                        <td className={styles['col-arrow']}>
-                          {chain.rf !== null && (
-                            <span className={styles['arrow-sep']}>&#8594;</span>
-                          )}
+                        <td className={styles['colArrow']}>
+                          {chain.rf !== null && <span className={styles['arrowSep']}>&#8594;</span>}
                         </td>
-                        <td className={styles['col-matrix']}>
+                        <td className={styles['colMatrix']}>
                           {chain.matrix ? (
-                            <span className={`${styles['node-tag']} ${styles['matrix-tag']}`}>
+                            <span className={`${styles['nodeTag']} ${styles['matrixTag']}`}>
                               <span>{chain.matrix.id}</span>
-                              <span className={styles['tag-detail']}>
+                              <span className={styles['tagDetail']}>
                                 IN
                                 {chain.matrixInPort}
                                 &#8594;OUT
@@ -239,60 +236,60 @@ export default function TopologyGraph({ data, onViewModeChange }) {
                               </span>
                             </span>
                           ) : (
-                            <span className={styles['empty-tag']}>--</span>
+                            <span className={styles['emptyTag']}>--</span>
                           )}
                         </td>
                       </>
                     )}
                     {hasConverter && (
                       <>
-                        <td className={styles['col-arrow']}>
+                        <td className={styles['colArrow']}>
                           {(hasMatrix ? chain.matrix : chain.rf !== null) && (
-                            <span className={styles['arrow-sep']}>&#8594;</span>
+                            <span className={styles['arrowSep']}>&#8594;</span>
                           )}
                         </td>
-                        <td className={styles['col-conv']}>
+                        <td className={styles['colConv']}>
                           {chain.converter !== null ? (
-                            <span className={`${styles['node-tag']} ${styles['conv-tag']}`}>
+                            <span className={`${styles['nodeTag']} ${styles['convTag']}`}>
                               <span>
                                 CV-
                                 {chain.converter}
                               </span>
-                              <span className={styles['tag-detail']}>
+                              <span className={styles['tagDetail']}>
                                 {getConvFreq(chain.converter) ?? '--'}
                               </span>
                             </span>
                           ) : (
-                            <span className={styles['empty-tag']}>--</span>
+                            <span className={styles['emptyTag']}>--</span>
                           )}
                         </td>
                       </>
                     )}
-                    <td className={styles['col-arrow']}>
-                      {chain.active && <span className={styles['arrow-sep']}>&#8594;</span>}
+                    <td className={styles['colArrow']}>
+                      {chain.active && <span className={styles['arrowSep']}>&#8594;</span>}
                     </td>
-                    <td className={styles['col-out']}>
+                    <td className={styles['colOut']}>
                       {chain.output ? (
                         <span
-                          className={`${styles['node-tag']} ${
-                            chain.outType === 'AD' ? styles['ad-tag'] : styles['dvb-tag']
+                          className={`${styles['nodeTag']} ${
+                            chain.outType === 'AD' ? styles['adTag'] : styles['dvbTag']
                           }`}
                         >
                           <span>{chain.output}</span>
                           {chain.inputPort != null && (
-                            <span className={styles['tag-detail']}>
+                            <span className={styles['tagDetail']}>
                               IN
                               {chain.inputPort}
                             </span>
                           )}
                         </span>
                       ) : (
-                        <span className={styles['empty-tag']}>--</span>
+                        <span className={styles['emptyTag']}>--</span>
                       )}
                     </td>
-                    <td className={styles['col-status']}>
+                    <td className={styles['colStatus']}>
                       <span
-                        className={`status-dot ${chain.active ? 'normal' : 'offline'}`}
+                        className={`status-dot ${chain.active ? 'active' : 'empty'}`}
                         title={chain.active ? '已连接' : '未连接'}
                       />
                     </td>
@@ -300,7 +297,7 @@ export default function TopologyGraph({ data, onViewModeChange }) {
                 ))}
                 {signalChains.length === 0 && (
                   <tr>
-                    <td colSpan={colSpanEmpty} className={styles['empty-row']}>
+                    <td colSpan={colSpanEmpty} className={styles['emptyRow']}>
                       暂无信号链路数据
                     </td>
                   </tr>
@@ -311,7 +308,7 @@ export default function TopologyGraph({ data, onViewModeChange }) {
         )}
 
         {viewMode === 'rack' && (
-          <div className={styles['mermaid-wrapper']}>
+          <div className={styles['mermaidWrapper']}>
             <TopologyGV
               chains={signalChains}
               rfPorts={rfPorts}
@@ -324,45 +321,42 @@ export default function TopologyGraph({ data, onViewModeChange }) {
         )}
 
         {viewMode === 'table' && (
-          <div className={styles['topology-legend']}>
-            <span className={styles['legend-item']}>
-              <span className={styles['legend-color']} style={{ background: 'var(--device-rf)' }} />{' '}
+          <div className={styles['topologyLegend']}>
+            <span className={styles['legendItem']}>
+              <span className={styles['legendColor']} style={{ background: 'var(--device-rf)' }} />{' '}
               射频
             </span>
             {hasMatrix && (
-              <span className={styles['legend-item']}>
+              <span className={styles['legendItem']}>
                 <span
-                  className={styles['legend-color']}
+                  className={styles['legendColor']}
                   style={{ background: 'var(--device-matrix)' }}
                 />{' '}
                 矩阵
               </span>
             )}
             {hasConverter && (
-              <span className={styles['legend-item']}>
+              <span className={styles['legendItem']}>
                 <span
-                  className={styles['legend-color']}
+                  className={styles['legendColor']}
                   style={{ background: 'var(--device-converter)' }}
                 />{' '}
                 变频器
               </span>
             )}
-            <span className={styles['legend-item']}>
-              <span className={styles['legend-color']} style={{ background: 'var(--device-ad)' }} />{' '}
+            <span className={styles['legendItem']}>
+              <span className={styles['legendColor']} style={{ background: 'var(--device-ad)' }} />{' '}
               AD
             </span>
-            <span className={styles['legend-item']}>
-              <span
-                className={styles['legend-color']}
-                style={{ background: 'var(--device-dvb)' }}
-              />{' '}
+            <span className={styles['legendItem']}>
+              <span className={styles['legendColor']} style={{ background: 'var(--device-dvb)' }} />{' '}
               DVB
             </span>
-            <span className={styles['legend-item']}>
-              <span className={`status-dot ${styles['legend-dot']} ${styles['active']}`} /> 已连接
+            <span className={styles['legendItem']}>
+              <span className={`status-dot ${styles['legendDot']} normal`} /> 已连接
             </span>
-            <span className={styles['legend-item']}>
-              <span className={`status-dot ${styles['legend-dot']} offline`} /> 未连接
+            <span className={styles['legendItem']}>
+              <span className={`status-dot ${styles['legendDot']} offline`} /> 未连接
             </span>
           </div>
         )}

@@ -102,7 +102,7 @@ export default function SystemResource({ data, cpuModules }) {
       <div className="module-content">
         {/* 总体概览：CPU + 内存 */}
         <div className={styles['resource-overview']}>
-          <div className={styles['overview-block']}>
+          <div style={{ width: 'calc(50% - 6px)' }} className={styles['overview-block']}>
             <div className={styles['overview-header']}>
               <span className={`${styles['overview-icon']} ${styles['cpu-icon']}`}>CPU</span>
               <span className={styles['overview-stat']}>
@@ -119,7 +119,15 @@ export default function SystemResource({ data, cpuModules }) {
               </span>
               <span className="progress-bar">
                 <span
-                  className={`progress-bar-fill ${getCpuProgressClass(cpuData.systemUsage)}`}
+                  className={`progress-bar-fill ${
+                    styles[
+                      'progressBarFill' +
+                        getCpuProgressClass(cpuData.systemUsage)
+                          .charAt(0)
+                          .toUpperCase() +
+                        getCpuProgressClass(cpuData.systemUsage).slice(1)
+                    ]
+                  }`}
                   style={{ width: `${cpuData.systemUsage}%` }}
                 />
               </span>
@@ -128,7 +136,7 @@ export default function SystemResource({ data, cpuModules }) {
 
           <div className={styles['overview-divider']} />
 
-          <div className={styles['overview-block']}>
+          <div style={{ width: 'calc(50% - 6px)' }} className={styles['overview-block']}>
             <div className={styles['overview-header']}>
               <span className={`${styles['overview-icon']} ${styles['mem-icon']}`}>MEM</span>
               <span className={styles['overview-stat']}>
@@ -143,7 +151,15 @@ export default function SystemResource({ data, cpuModules }) {
               </span>
               <span className="progress-bar">
                 <span
-                  className={`progress-bar-fill ${getMemProgressClass(memPercentage)}`}
+                  className={`progress-bar-fill ${
+                    styles[
+                      'progressBarFill' +
+                        getMemProgressClass(memPercentage)
+                          .charAt(0)
+                          .toUpperCase() +
+                        getMemProgressClass(memPercentage).slice(1)
+                    ]
+                  }`}
                   style={{ width: `${memPercentage}%` }}
                 />
               </span>
@@ -167,9 +183,15 @@ export default function SystemResource({ data, cpuModules }) {
                     <span className={styles['metric-label']}>CPU</span>
                     <span className={styles['metric-bar-track']}>
                       <span
-                        className={`${styles['metric-bar-fill']} ${
-                          styles['cpu-fill']
-                        } ${getCpuProgressClass(comp.cpuUsage)}`}
+                        className={`${styles['metricBarFill']} ${styles['cpuFill']} ${
+                          styles[
+                            'metricBarFill' +
+                              getCpuProgressClass(comp.cpuUsage)
+                                .charAt(0)
+                                .toUpperCase() +
+                              getCpuProgressClass(comp.cpuUsage).slice(1)
+                          ]
+                        }`}
                         style={{ width: `${comp.cpuUsage}%` }}
                       />
                     </span>
@@ -183,9 +205,15 @@ export default function SystemResource({ data, cpuModules }) {
                     <span className={styles['metric-label']}>MEM</span>
                     <span className={styles['metric-bar-track']}>
                       <span
-                        className={`${styles['metric-bar-fill']} ${
-                          styles['mem-fill']
-                        } ${getMemProgressClass(compMemPercent)}`}
+                        className={`${styles['metricBarFill']} ${styles['memFill']} ${
+                          styles[
+                            'metricBarFill' +
+                              getMemProgressClass(compMemPercent)
+                                .charAt(0)
+                                .toUpperCase() +
+                              getMemProgressClass(compMemPercent).slice(1)
+                          ]
+                        }`}
                         style={{ width: `${compMemPercent}%` }}
                       />
                     </span>

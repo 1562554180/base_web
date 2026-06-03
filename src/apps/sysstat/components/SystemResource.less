@@ -1,7 +1,6 @@
 /* 总体概览 */
 .resource-overview {
   display: flex;
-  gap: var(--spacing-md);
   margin-bottom: 4px;
   padding-bottom: 4px;
   border-bottom: 1px solid var(--border-color);
@@ -81,7 +80,7 @@
 .overview-divider {
   width: 1px;
   background: var(--border-color);
-  margin: 0 2px;
+  margin: 0 5px;
 }
 
 /* 8组件网格 */
@@ -139,17 +138,18 @@
   min-width: 0;
 }
 
-.metric-bar-fill {
+.metricBarFill {
+  display: block;
   height: 100%;
   border-radius: 2px;
   transition: width 0.3s ease;
 }
 
-.metric-bar-fill.cpu-fill {
+.cpuFill {
   background-color: #60a5fa;
 }
 
-.metric-bar-fill.mem-fill {
+.memFill {
   background-color: #4ade80;
 }
 
@@ -163,13 +163,13 @@
 }
 
 /* 覆盖全局进度条颜色 */
-.metric-bar-fill.low {
+.metricBarFillLow {
   opacity: 1;
 }
-.metric-bar-fill.medium {
+.metricBarFillMedium {
   opacity: 1;
 }
-.metric-bar-fill.high {
+.metricBarFillHigh {
   opacity: 1;
 }
 
@@ -203,20 +203,21 @@
 }
 
 .progress-bar-fill {
+  display: block;
   height: 100%;
   border-radius: 3px;
   transition: width 0.3s ease;
 }
 
-.progress-bar-fill.low {
+.progressBarFillLow {
   background-color: var(--status-normal);
 }
 
-.progress-bar-fill.medium {
+.progressBarFillMedium {
   background-color: var(--status-warning);
 }
 
-.progress-bar-fill.high {
+.progressBarFillHigh {
   background-color: var(--status-error);
 }
 
@@ -252,7 +253,6 @@
 @media (max-width: 600px) {
   .resource-overview {
     flex-direction: column;
-    gap: var(--spacing-sm);
   }
   .overview-divider {
     display: none;

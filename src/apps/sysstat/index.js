@@ -367,6 +367,7 @@ export default function SysStat() {
 
               <div className={styles.topologyContainer}>
                 <div
+                  style={{ flex: topoGraphMode === 'rack' ? 1 : '0 0 auto' }}
                   className={`${styles.topologyGraphWrapper} ${
                     topoGraphMode === 'rack' ? styles.graphRack : ''
                   }`}
