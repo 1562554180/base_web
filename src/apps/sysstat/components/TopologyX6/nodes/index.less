@@ -1,0 +1,78 @@
+.nodeWrapper {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.nodeBody {
+  width: 100%;
+  height: 100%;
+  border-radius: 4px;
+  background: #0f172a;
+  border: 1px solid;
+  display: flex;
+  flex-direction: column;
+  padding: 4px 6px;
+  box-sizing: border-box;
+}
+
+.nodeTitle {
+  font-size: 12px;
+  font-weight: 600;
+  color: white;
+  font-family: 'Consolas', monospace;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.nodeDetail {
+  font-size: 10px;
+  color: #94a3b8;
+  font-family: 'Consolas', monospace;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-top: 2px;
+}
+
+.nodePorts {
+  display: flex;
+  gap: 4px;
+  margin-top: 4px;
+}
+
+.portDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #1e293b;
+  border: 1px solid #475569;
+}
+
+.portDotActive {
+  background: currentColor;
+  border-color: currentColor;
+  box-shadow: 0 0 3px currentColor;
+}
+
+// Node type colors
+.rfNode .nodeBody {
+  border-color: var(--device-rf, #3b82f6);
+}
+
+.matrixNode .nodeBody {
+  border-color: var(--device-matrix, #06b6d4);
+}
+
+.converterNode .nodeBody {
+  border-color: var(--device-converter, #8b5cf6);
+}
+
+.adNode .nodeBody {
+  border-color: var(--device-ad, #f97316);
+}
+
+.dvbNode .nodeBody {
+  border-color: var(--device-dvb, #22c55e);
+}
