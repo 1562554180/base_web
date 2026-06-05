@@ -1,7 +1,7 @@
 import React from 'react';
 import { Graph } from '@antv/x6';
 import styles from './index.less';
-import { registerTopologyNodes } from './registerNodes';
+import { registerTopologyNodes, unmountAllNodes } from './registerNodes';
 import { buildGraphData } from './buildGraphData';
 import { applyDagreLayout, loadLayout, clearLayout } from './layout';
 import TopoToolbar from './TopoToolbar';
@@ -19,11 +19,21 @@ export default function TopologyX6({
 }) {
   const containerRef = React.useRef(null);
   const graphRef = React.useRef(null);
+  const [, forceUpdate] = React.useReducer(x => x + 1, 0);
 
   // Initialize graph
   React.useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
+
+    // Inject style to fix foreignObject overflow during drag
+    const styleId = 'topology-x6-fix';
+    if (!document.getElementById(styleId)) {
+      const style = document.createElement('style');
+      style.id = styleId;
+      style.textContent = '.x6-node foreignObject { overflow: visible !important; }';
+      document.head.appendChild(style);
+    }
 
     const graph = new Graph({
       container,
@@ -54,9 +64,14 @@ export default function TopologyX6({
         edgeMovable: false,
         edgeLabelMovable: false,
       },
+      translating: {
+        snap: false,
+      },
+      // No explicit connectionPoint - edges connect directly to port positions
     });
 
     graphRef.current = graph;
+    forceUpdate();
 
     // Handle resize
     const resizeObserver = new ResizeObserver(() => {
@@ -66,6 +81,7 @@ export default function TopologyX6({
 
     return () => {
       resizeObserver.disconnect();
+      unmountAllNodes(graph);
       graph.dispose();
       graphRef.current = null;
     };
@@ -87,6 +103,7 @@ export default function TopologyX6({
       });
 
       // Clear and rebuild
+      unmountAllNodes(graph);
       graph.clearCells();
 
       // Add nodes
@@ -102,7 +119,7 @@ export default function TopologyX6({
         });
       });
 
-      // Add edges
+      // Add edges - source/target specify port for anchor-based connections
       edges.forEach(edgeConfig => {
         graph.addEdge({
           source: edgeConfig.source,
@@ -111,25 +128,17 @@ export default function TopologyX6({
             line: {
               stroke: '#00ff88',
               strokeWidth: 1,
+              opacity: 0.25,
               targetMarker: {
-                name: 'block',
-                width: 6,
-                height: 4,
+                name: 'classic',
+                size: 6,
                 fill: '#00ff88',
+                stroke: '#00ff88',
               },
             },
           },
-          router: {
-            name: 'manhattan',
-            args: {
-              padding: 10,
-            },
-          },
           connector: {
-            name: 'rounded',
-            args: {
-              radius: 8,
-            },
+            name: 'smooth',
           },
         });
       });

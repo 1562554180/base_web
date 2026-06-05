@@ -1,4 +1,6 @@
-import { register } from '@antv/x6-react-shape';
+import ReactDOM from 'react-dom';
+import React from 'react';
+import { Graph, Point } from '@antv/x6';
 import RfNode from './nodes/RfNode';
 import MatrixNode from './nodes/MatrixNode';
 import ConverterNode from './nodes/ConverterNode';
@@ -21,40 +23,73 @@ const NODE_HEIGHT = {
   dvb: 80,
 };
 
+// Map shape names to React components
+const NODE_COMPONENTS = {
+  'rf-node': RfNode,
+  'matrix-node': MatrixNode,
+  'converter-node': ConverterNode,
+  'ad-node': AdNode,
+  'dvb-node': DvbNode,
+};
+
+// Track mounted React roots for cleanup
+const mountedRoots = new WeakMap();
+
+// Custom anchors for Matrix node ports
+// Position matches MatrixNode HTML rendering:
+//   sidePorts container: top:0, bottom:0, justifyContent:center, gap:6px
+//   portRow height: 10px
+//   dot center offset within row: rowH/2 = 5px
+function matrixPortY(nodeView, args) {
+  const node = nodeView.cell;
+  const data = node.getData() || {};
+  const bbox = node.getBBox();
+  const count = args.side === 'left' ? data.inPorts || 4 : data.outPorts || 4;
+  const idx = args.portIndex ?? 0;
+  const rowH = 10;
+  const gap = 6;
+  const total = count * rowH + Math.max(0, count - 1) * gap;
+  const startY = (bbox.height - total) / 2;
+  return new Point(
+    args.side === 'left' ? bbox.x : bbox.x + bbox.width,
+    bbox.y + startY + idx * (rowH + gap) + rowH / 2
+  );
+}
+
+Graph.registerAnchor('matrix-in', (nodeView, magnet, ref, args) => {
+  return matrixPortY(nodeView, { ...args, side: 'left' });
+});
+
+Graph.registerAnchor('matrix-out', (nodeView, magnet, ref, args) => {
+  return matrixPortY(nodeView, { ...args, side: 'right' });
+});
+
 export function registerTopologyNodes() {
-  register({
-    shape: 'rf-node',
-    width: NODE_WIDTH.rf,
-    height: NODE_HEIGHT.rf,
-    component: RfNode,
-  });
+  // Register each node type as an html shape component
+  Object.keys(NODE_COMPONENTS).forEach(shape => {
+    Graph.registerHTMLComponent(shape, node => {
+      const el = document.createElement('div');
+      el.style.width = '100%';
+      el.style.height = '100%';
+      el.style.overflow = 'visible';
+      el.style.borderRadius = '4px';
 
-  register({
-    shape: 'matrix-node',
-    width: NODE_WIDTH.matrix,
-    height: NODE_HEIGHT.matrix,
-    component: MatrixNode,
+      const Component = NODE_COMPONENTS[shape];
+      ReactDOM.render(React.createElement(Component, { node }), el);
+      mountedRoots.set(node, el);
+      return el;
+    });
   });
+}
 
-  register({
-    shape: 'converter-node',
-    width: NODE_WIDTH.converter,
-    height: NODE_HEIGHT.converter,
-    component: ConverterNode,
-  });
-
-  register({
-    shape: 'ad-node',
-    width: NODE_WIDTH.ad,
-    height: NODE_HEIGHT.ad,
-    component: AdNode,
-  });
-
-  register({
-    shape: 'dvb-node',
-    width: NODE_WIDTH.dvb,
-    height: NODE_HEIGHT.dvb,
-    component: DvbNode,
+export function unmountAllNodes(graph) {
+  if (!graph) return;
+  graph.getNodes().forEach(node => {
+    const el = mountedRoots.get(node);
+    if (el) {
+      ReactDOM.unmountComponentAtNode(el);
+      mountedRoots.delete(node);
+    }
   });
 }
 

@@ -2,6 +2,7 @@
   width: 100%;
   height: 100%;
   position: relative;
+  overflow: visible;
 }
 
 .nodeBody {
@@ -14,6 +15,20 @@
   flex-direction: column;
   padding: 4px 6px;
   box-sizing: border-box;
+  // Prevent border from being clipped during drag
+  overflow: hidden;
+  position: relative;
+}
+
+.nodeHeaderGlow {
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  right: 4px;
+  height: 3px;
+  border-radius: 2px;
+  opacity: 0.08;
+  pointer-events: none;
 }
 
 .nodeTitle {
@@ -51,6 +66,41 @@
 }
 
 .portDotActive {
+  background: currentColor;
+  border-color: currentColor;
+  box-shadow: 0 0 3px currentColor;
+}
+
+// Side ports (anchors on left/right borders)
+.sidePorts {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 6px;
+  pointer-events: none;
+}
+
+.sidePortsLeft {
+  left: -4px;
+}
+
+.sidePortsRight {
+  right: -4px;
+}
+
+.sidePortDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #1e293b;
+  border: 1px solid #475569;
+  flex-shrink: 0;
+}
+
+.sidePortDotActive {
   background: currentColor;
   border-color: currentColor;
   box-shadow: 0 0 3px currentColor;

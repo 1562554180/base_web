@@ -1,6 +1,16 @@
+import { NODE_WIDTH, NODE_HEIGHT } from './registerNodes';
+
 function formatFreqKhz(khz) {
   if (khz == null) return '--';
   return (khz / 1e3).toFixed(0) + 'MHz';
+}
+
+function getNodeSize(htmlType) {
+  const type = htmlType.replace('-node', '');
+  return {
+    width: NODE_WIDTH[type] || 100,
+    height: NODE_HEIGHT[type] || 60,
+  };
 }
 
 export function buildGraphData({ chains, rfPorts, matrixItems, converters, dvbCards, adCards }) {
@@ -20,7 +30,9 @@ export function buildGraphData({ chains, rfPorts, matrixItems, converters, dvbCa
     const id = `RF-${rf.port}`;
     nodes.push({
       id,
-      shape: 'rf-node',
+      shape: 'html',
+      html: 'rf-node',
+      ...getNodeSize('rf-node'),
       data: {
         label: `RF-${rf.port}`,
         level: rf?.level != null ? rf.level + 'dBm' : '--',
@@ -56,13 +68,17 @@ export function buildGraphData({ chains, rfPorts, matrixItems, converters, dvbCa
   Object.entries(matrixConnections).forEach(([mxId, conn]) => {
     const id = `MATRIX-${mxId}`;
     const mx = matrixItemsArr.find(m => m.deviceId === Number(mxId));
+    const inPorts = Math.max(mx?.inputPorts || 4, conn.inPorts);
+    const outPorts = Math.max(mx?.outputPorts || 4, conn.outPorts);
     nodes.push({
       id,
-      shape: 'matrix-node',
+      shape: 'html',
+      html: 'matrix-node',
+      ...getNodeSize('matrix-node'),
       data: {
         label: `矩阵-${mxId}`,
-        inPorts: Math.max(mx?.inputPorts || 4, conn.inPorts),
-        outPorts: Math.max(mx?.outputPorts || 4, conn.outPorts),
+        inPorts,
+        outPorts,
         connections: conn.connections,
       },
     });
@@ -81,7 +97,9 @@ export function buildGraphData({ chains, rfPorts, matrixItems, converters, dvbCa
     const cv = convertersArr.find(c => c.id === cvId);
     nodes.push({
       id,
-      shape: 'converter-node',
+      shape: 'html',
+      html: 'converter-node',
+      ...getNodeSize('converter-node'),
       data: {
         label: `变频器-${cvId}`,
         freq: formatFreqKhz(cv?.freq),
@@ -93,9 +111,12 @@ export function buildGraphData({ chains, rfPorts, matrixItems, converters, dvbCa
   // Add AD/DVB nodes
   const addOutputNode = (card, isDvb) => {
     const id = `${isDvb ? 'DVB' : 'AD'}-${card.id}`;
+    const htmlType = isDvb ? 'dvb-node' : 'ad-node';
     nodes.push({
       id,
-      shape: isDvb ? 'dvb-node' : 'ad-node',
+      shape: 'html',
+      html: htmlType,
+      ...getNodeSize(htmlType),
       data: {
         label: `${isDvb ? 'DVB' : 'AD'}-${card.id}`,
         dna: card.dna || '--',
@@ -112,6 +133,9 @@ export function buildGraphData({ chains, rfPorts, matrixItems, converters, dvbCa
   dvbCardsArr.forEach(card => addOutputNode(card, true));
 
   // Build edges from active chains
+  // Use anchor config instead of ports for reliable edge routing:
+  //   sourceAnchor: 'right'  -> edge starts from right side of source node
+  //   targetAnchor: 'left'   -> edge ends at left side of target node
   chainsArr.forEach(c => {
     if (!c.active) return;
 
@@ -120,21 +144,62 @@ export function buildGraphData({ chains, rfPorts, matrixItems, converters, dvbCa
 
     if (c.matrix) {
       const mxId = `MATRIX-${c.matrix.deviceId ?? c.matrix.id}`;
-      edges.push({ source: rfId, target: mxId });
+      // RF -> Matrix (connect to specific input port)
+      edges.push({
+        source: { cell: rfId, anchor: { name: 'right' } },
+        target: {
+          cell: mxId,
+          anchor: { name: 'matrix-in', args: { portIndex: c.matrixInPort ?? 0 } },
+        },
+      });
 
       if (c.converter != null) {
         const cvId = `CV-${c.converter}`;
-        edges.push({ source: mxId, target: cvId });
-        if (outputId) edges.push({ source: cvId, target: outputId });
+        // Matrix -> Converter (connect from specific output port)
+        edges.push({
+          source: {
+            cell: mxId,
+            anchor: { name: 'matrix-out', args: { portIndex: c.matrixOutPort ?? 0 } },
+          },
+          target: { cell: cvId, anchor: { name: 'left' } },
+        });
+        // Converter -> Output
+        if (outputId) {
+          edges.push({
+            source: { cell: cvId, anchor: { name: 'right' } },
+            target: { cell: outputId, anchor: { name: 'left' } },
+          });
+        }
       } else if (outputId) {
-        edges.push({ source: mxId, target: outputId });
+        // Matrix -> Output (connect from specific output port)
+        edges.push({
+          source: {
+            cell: mxId,
+            anchor: { name: 'matrix-out', args: { portIndex: c.matrixOutPort ?? 0 } },
+          },
+          target: { cell: outputId, anchor: { name: 'left' } },
+        });
       }
     } else if (c.converter != null) {
       const cvId = `CV-${c.converter}`;
-      edges.push({ source: rfId, target: cvId });
-      if (outputId) edges.push({ source: cvId, target: outputId });
+      // RF -> Converter
+      edges.push({
+        source: { cell: rfId, anchor: { name: 'right' } },
+        target: { cell: cvId, anchor: { name: 'left' } },
+      });
+      // Converter -> Output
+      if (outputId) {
+        edges.push({
+          source: { cell: cvId, anchor: { name: 'right' } },
+          target: { cell: outputId, anchor: { name: 'left' } },
+        });
+      }
     } else if (outputId) {
-      edges.push({ source: rfId, target: outputId });
+      // RF -> Output directly
+      edges.push({
+        source: { cell: rfId, anchor: { name: 'right' } },
+        target: { cell: outputId, anchor: { name: 'left' } },
+      });
     }
   });
 
