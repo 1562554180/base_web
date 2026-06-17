@@ -2,8 +2,10 @@ import React from 'react';
 import styles from './TopologyGraph.less';
 import TopologyX6 from './TopologyX6';
 
-export default function TopologyGraph({ data, onViewModeChange }) {
-  const [viewMode, setViewMode] = React.useState('table');
+export default function TopologyGraph({ data, viewMode: viewModeProp, onViewModeChange }) {
+  // Controlled component: viewMode is owned by the parent page so the
+  // selected view (table / rack) survives tab switches.
+  const viewMode = viewModeProp === 'rack' ? 'rack' : 'table';
 
   const rfPorts = React.useMemo(() => data?.rfPorts?.connections || [], [data]);
   const matrixItems = React.useMemo(() => data?.matrix?.items || [], [data]);
@@ -145,7 +147,6 @@ export default function TopologyGraph({ data, onViewModeChange }) {
   ]);
 
   function switchView(mode) {
-    setViewMode(mode);
     if (typeof onViewModeChange === 'function') {
       onViewModeChange(mode);
     }

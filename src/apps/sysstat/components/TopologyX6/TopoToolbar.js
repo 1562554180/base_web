@@ -77,7 +77,7 @@ export default function TopoToolbar({ graph, onAutoLayout, onResetLayout }) {
         </svg>
       </button>
       <div className={styles.toolSep} />
-      <button type="button" className={styles.toolBtn} onClick={handleFit} title="适应视图">
+      {/* <button type="button" className={styles.toolBtn} onClick={handleFit} title="适应视图">
         <svg
           width="12"
           height="12"
@@ -91,7 +91,7 @@ export default function TopoToolbar({ graph, onAutoLayout, onResetLayout }) {
           <rect x="2" y="9" width="5" height="5" rx="0.5" />
           <rect x="9" y="9" width="5" height="5" rx="0.5" />
         </svg>
-      </button>
+      </button> */}
       <button type="button" className={styles.toolBtn} onClick={onAutoLayout} title="自动布局">
         <svg
           width="12"
@@ -105,7 +105,7 @@ export default function TopoToolbar({ graph, onAutoLayout, onResetLayout }) {
         </svg>
       </button>
       <div className={styles.toolSep} />
-      <button
+      {/* <button
         type="button"
         className={`${styles.toolBtn} ${justSaved ? styles.saved : ''}`}
         onClick={handleSave}
@@ -123,8 +123,8 @@ export default function TopoToolbar({ graph, onAutoLayout, onResetLayout }) {
           <rect x="5" y="1" width="5" height="4" rx="0.5" />
           <rect x="4.5" y="9" width="7" height="4" rx="0.5" />
         </svg>
-      </button>
-      <button type="button" className={styles.toolBtn} onClick={onResetLayout} title="重置布局">
+      </button> */}
+      {/* <button type="button" className={styles.toolBtn} onClick={onResetLayout} title="重置布局">
         <svg
           width="12"
           height="12"
@@ -137,7 +137,7 @@ export default function TopoToolbar({ graph, onAutoLayout, onResetLayout }) {
           <path d="M1 1l3 3" />
           <path d="M1 8a7 7 0 1 0 1.5-4" />
         </svg>
-      </button>
+      </button> */}
     </div>
   );
 }

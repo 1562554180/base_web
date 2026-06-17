@@ -1,5 +1,5 @@
 import dagre from 'dagre';
-import { NODE_WIDTH, NODE_HEIGHT } from './registerNodes';
+import { NODE_WIDTH, NODE_HEIGHT, computeNodeHeight } from './registerNodes';
 
 const LAYOUT_KEY = 'topo-x6-layout-v1';
 
@@ -18,9 +18,20 @@ export function applyDagreLayout(graph) {
   const edges = graph.getEdges();
 
   nodes.forEach(node => {
-    const shape = node.shape;
-    const w = NODE_WIDTH[shape.replace('-node', '')] || 100;
-    const h = NODE_HEIGHT[shape.replace('-node', '')] || 60;
+    const htmlType = node.getHTML();
+    const typeKey = typeof htmlType === 'string' ? htmlType.replace('-node', '') : '';
+    const w = NODE_WIDTH[typeKey] || 100;
+    const baseH = NODE_HEIGHT[typeKey] || 60;
+    // Read current node size (already accounts for dynamic port count).
+    // Fall back to computeNodeHeight if size isn't settled yet.
+    const size = node.getSize();
+    const data = node.getData() || {};
+    const h =
+      size && size.height
+        ? size.height
+        : baseH === NODE_HEIGHT[typeKey]
+          ? computeNodeHeight(typeKey, data, baseH)
+          : baseH;
     g.setNode(node.id, { width: w, height: h });
   });
 

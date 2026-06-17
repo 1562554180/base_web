@@ -372,7 +372,11 @@ export default function SysStat() {
                     topoGraphMode === 'rack' ? styles.graphRack : ''
                   }`}
                 >
-                  <TopologyGraph data={topologyData} onViewModeChange={setTopoGraphMode} />
+                  <TopologyGraph
+                    data={topologyData}
+                    viewMode={topoGraphMode}
+                    onViewModeChange={setTopoGraphMode}
+                  />
                 </div>
                 <div className={styles.topologyGrid}>
                   {topologyData.rfPorts && (

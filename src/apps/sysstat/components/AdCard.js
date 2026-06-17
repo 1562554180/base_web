@@ -53,13 +53,13 @@ export default function AdCard({ data }) {
                 </span>
                 <span className={styles.adStat}>
                   <span className={styles.adLabel}>数据</span>
-                  <span className="status-indicator">
+                  <span style={{ marginTop: 4 }} className="status-indicator">
                     <span className={`status-dot ${styles[card.dataStatus]}`} />
                   </span>
                 </span>
                 <span className={styles.adStat}>
                   <span className={styles.adLabel}>菊花链</span>
-                  <span className="status-indicator">
+                  <span style={{ marginTop: 4 }} className="status-indicator">
                     <span
                       className={`status-dot ${
                         card.daisyChain === 'synchronized' ? 'normal' : 'warning'
@@ -69,7 +69,7 @@ export default function AdCard({ data }) {
                 </span>
                 <span className={styles.adStat}>
                   <span className={styles.adLabel}>戳丢失</span>
-                  <span className="status-indicator">
+                  <span style={{ marginTop: 4 }} className="status-indicator">
                     <span className={`status-dot ${card.sampleStampLoss ? 'error' : 'normal'}`} />
                   </span>
                 </span>

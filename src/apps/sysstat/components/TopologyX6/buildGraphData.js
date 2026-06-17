@@ -1,16 +1,22 @@
-import { NODE_WIDTH, NODE_HEIGHT } from './registerNodes';
+import { NODE_WIDTH, NODE_HEIGHT, computeNodeHeight } from './registerNodes';
 
 function formatFreqKhz(khz) {
   if (khz == null) return '--';
   return (khz / 1e3).toFixed(0) + 'MHz';
 }
 
-function getNodeSize(htmlType) {
+function getNodeSize(htmlType, data) {
   const type = htmlType.replace('-node', '');
-  return {
-    width: NODE_WIDTH[type] || 100,
-    height: NODE_HEIGHT[type] || 60,
-  };
+  const baseHeight = NODE_HEIGHT[type] || 60;
+  const width = NODE_WIDTH[type] || 100;
+  // AD/DVB/Matrix height grows with port count so the side port rows fit.
+  if (type === 'ad' || type === 'dvb' || type === 'matrix') {
+    return {
+      width,
+      height: computeNodeHeight(type, data, baseHeight),
+    };
+  }
+  return { width, height: baseHeight };
 }
 
 export function buildGraphData({ chains, rfPorts, matrixItems, converters, dvbCards, adCards }) {
@@ -70,17 +76,18 @@ export function buildGraphData({ chains, rfPorts, matrixItems, converters, dvbCa
     const mx = matrixItemsArr.find(m => m.deviceId === Number(mxId));
     const inPorts = Math.max(mx?.inputPorts || 4, conn.inPorts);
     const outPorts = Math.max(mx?.outputPorts || 4, conn.outPorts);
+    const data = {
+      label: `矩阵-${mxId}`,
+      inPorts,
+      outPorts,
+      connections: conn.connections,
+    };
     nodes.push({
       id,
       shape: 'html',
       html: 'matrix-node',
-      ...getNodeSize('matrix-node'),
-      data: {
-        label: `矩阵-${mxId}`,
-        inPorts,
-        outPorts,
-        connections: conn.connections,
-      },
+      ...getNodeSize('matrix-node', data),
+      data,
     });
     nodeMap.set(id, true);
   });
@@ -108,23 +115,52 @@ export function buildGraphData({ chains, rfPorts, matrixItems, converters, dvbCa
     nodeMap.set(id, true);
   });
 
+  // Infer per-card input port count from chains (matches Vue TopologyGV logic)
+  //   adMaxPorts[cardId] / dvbMaxPorts[cardId] = max(inputPort + 1) across all chains
+  const adMaxPorts = {};
+  const dvbMaxPorts = {};
+  const adActivePorts = {}; // cardId -> Set of active port indices
+  const dvbActivePorts = {};
+  chainsArr.forEach(c => {
+    const outId = typeof c.output === 'string' ? c.output : null;
+    if (!outId) return;
+    const port = c.inputPort ?? 0;
+    if (c.outType === 'AD' || outId.startsWith('AD-')) {
+      const cardId = parseInt(outId.split('-')[1], 10);
+      adMaxPorts[cardId] = Math.max(adMaxPorts[cardId] || 0, port + 1);
+      if (!adActivePorts[cardId]) adActivePorts[cardId] = new Set();
+      adActivePorts[cardId].add(port);
+    } else if (c.outType === 'DVB' || outId.startsWith('DVB-')) {
+      const cardId = parseInt(outId.split('-')[1], 10);
+      dvbMaxPorts[cardId] = Math.max(dvbMaxPorts[cardId] || 0, port + 1);
+      if (!dvbActivePorts[cardId]) dvbActivePorts[cardId] = new Set();
+      dvbActivePorts[cardId].add(port);
+    }
+  });
+
   // Add AD/DVB nodes
   const addOutputNode = (card, isDvb) => {
     const id = `${isDvb ? 'DVB' : 'AD'}-${card.id}`;
     const htmlType = isDvb ? 'dvb-node' : 'ad-node';
+    const maxMap = isDvb ? dvbMaxPorts : adMaxPorts;
+    const activeMap = isDvb ? dvbActivePorts : adActivePorts;
+    const inPorts = Math.max(card.inputPorts || 1, maxMap[card.id] || 1);
+    const data = {
+      label: `${isDvb ? 'DVB' : 'AD'}-${card.id}`,
+      dna: card.dna || '--',
+      channels: {
+        used: card.channels?.used ?? '-',
+        total: card.channels?.total ?? '-',
+      },
+      inPorts,
+      activeInPorts: activeMap[card.id] ? Array.from(activeMap[card.id]) : [],
+    };
     nodes.push({
       id,
       shape: 'html',
       html: htmlType,
-      ...getNodeSize(htmlType),
-      data: {
-        label: `${isDvb ? 'DVB' : 'AD'}-${card.id}`,
-        dna: card.dna || '--',
-        channels: {
-          used: card.channels?.used ?? '-',
-          total: card.channels?.total ?? '-',
-        },
-      },
+      ...getNodeSize(htmlType, data),
+      data,
     });
     nodeMap.set(id, true);
   };
@@ -141,6 +177,19 @@ export function buildGraphData({ chains, rfPorts, matrixItems, converters, dvbCa
 
     const rfId = `RF-${c.rf}`;
     const outputId = typeof c.output === 'string' ? c.output : null;
+
+    // Output node target anchor: AD/DVB use port-specific anchors, others use 'left'
+    const outputTargetAnchor = (() => {
+      if (!outputId) return null;
+      const portIdx = c.inputPort ?? 0;
+      if (outputId.startsWith('AD-')) {
+        return { name: 'ad-in', args: { portIndex: portIdx } };
+      }
+      if (outputId.startsWith('DVB-')) {
+        return { name: 'dvb-in', args: { portIndex: portIdx } };
+      }
+      return { name: 'left' };
+    })();
 
     if (c.matrix) {
       const mxId = `MATRIX-${c.matrix.deviceId ?? c.matrix.id}`;
@@ -167,7 +216,7 @@ export function buildGraphData({ chains, rfPorts, matrixItems, converters, dvbCa
         if (outputId) {
           edges.push({
             source: { cell: cvId, anchor: { name: 'right' } },
-            target: { cell: outputId, anchor: { name: 'left' } },
+            target: { cell: outputId, anchor: outputTargetAnchor },
           });
         }
       } else if (outputId) {
@@ -177,7 +226,7 @@ export function buildGraphData({ chains, rfPorts, matrixItems, converters, dvbCa
             cell: mxId,
             anchor: { name: 'matrix-out', args: { portIndex: c.matrixOutPort ?? 0 } },
           },
-          target: { cell: outputId, anchor: { name: 'left' } },
+          target: { cell: outputId, anchor: outputTargetAnchor },
         });
       }
     } else if (c.converter != null) {
@@ -191,14 +240,14 @@ export function buildGraphData({ chains, rfPorts, matrixItems, converters, dvbCa
       if (outputId) {
         edges.push({
           source: { cell: cvId, anchor: { name: 'right' } },
-          target: { cell: outputId, anchor: { name: 'left' } },
+          target: { cell: outputId, anchor: outputTargetAnchor },
         });
       }
     } else if (outputId) {
       // RF -> Output directly
       edges.push({
         source: { cell: rfId, anchor: { name: 'right' } },
-        target: { cell: outputId, anchor: { name: 'left' } },
+        target: { cell: outputId, anchor: outputTargetAnchor },
       });
     }
   });

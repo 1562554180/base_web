@@ -31,7 +31,7 @@ export default function Converter({ data }) {
               <div className={styles.convCardTitle}>
                 CONV-
                 {item.id}
-                <span className="status-indicator">
+                <span className="status-indicator" style={{ marginLeft: '12px' }}>
                   <span
                     className={`status-dot ${item.onlineStatus === 'on' ? 'normal' : 'error'}`}
                   />
